@@ -1,0 +1,9 @@
+*.pyc
+CMakeLists.txt.user
+
+build*/
+.vscode/
+.idea
+cmake-build-release/
+
+tags
