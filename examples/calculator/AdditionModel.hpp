@@ -16,9 +16,9 @@ public:
     ~AdditionModel() = default;
 
 public:
-    QString caption() const override { return QStringLiteral("Addition"); }
+    QString caption() const override { return QStringLiteral("Addition Number"); }
 
-    QString name() const override { return QStringLiteral("Addition"); }
+    QString name() const override { return QStringLiteral("AdditionNumber:数字加运算"); }
 
 private:
     void compute() override

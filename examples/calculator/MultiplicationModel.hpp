@@ -17,9 +17,9 @@ public:
     virtual ~MultiplicationModel() {}
 
 public:
-    QString caption() const override { return QStringLiteral("Multiplication"); }
+    QString caption() const override { return QStringLiteral("Multiplication Number"); }
 
-    QString name() const override { return QStringLiteral("Multiplication"); }
+    QString name() const override { return QStringLiteral("MultiplicationNumber:数字乘法运算"); }
 
 private:
     void compute() override

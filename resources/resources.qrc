@@ -2,4 +2,22 @@
     <qresource>
         <file>DefaultStyle.json</file>
     </qresource>
+    <qresource prefix="icons">
+        <file>shy.png</file>
+        <file>error.png</file>
+        <file>cool.png</file>
+        <file>inquire.png</file>
+        <file>lock.png</file>
+        <file>unlock.png</file>
+        <file>new.png</file>
+        <file>save.png</file>
+        <file>open.png</file>
+        <file>withdraw.png</file>
+        <file>right.png</file>
+        <file>left.png</file>
+        <file>del.png</file>
+        <file>fullscreen.png</file>
+        <file>start.png</file>
+        <file>stop.png</file>
+    </qresource>
 </RCC>

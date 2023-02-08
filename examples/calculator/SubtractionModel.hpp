@@ -17,7 +17,7 @@ public:
     virtual ~SubtractionModel() {}
 
 public:
-    QString caption() const override { return QStringLiteral("Subtraction"); }
+    QString caption() const override { return QStringLiteral("Subtraction Number"); }
 
     virtual bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
@@ -46,7 +46,7 @@ public:
         return QString();
     }
 
-    QString name() const override { return QStringLiteral("Subtraction"); }
+    QString name() const override { return QStringLiteral("SubtractionNumber:数字减运算"); }
 
 private:
     void compute() override

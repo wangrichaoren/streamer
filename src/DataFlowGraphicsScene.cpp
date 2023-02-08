@@ -6,6 +6,7 @@
 #include "NodeGraphicsObject.hpp"
 #include "UndoCommands.hpp"
 
+#include <QVBoxLayout>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGraphicsSceneMoveEvent>
 #include <QtWidgets/QHeaderView>
@@ -60,10 +61,9 @@ std::vector<NodeId> DataFlowGraphicsScene::selectedNodes() const
 QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 {
     QMenu *modelMenu = new QMenu();
-
     // Add filterbox to the context menu
     auto *txtBox = new QLineEdit(modelMenu);
-    txtBox->setPlaceholderText(QStringLiteral("Filter"));
+    txtBox->setPlaceholderText(QStringLiteral("Filter:分组过滤器"));
     txtBox->setClearButtonEnabled(true);
 
     auto *txtBoxAction = new QWidgetAction(modelMenu);
@@ -101,6 +101,9 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
     }
 
     treeView->expandAll();
+    // 给treeView加水平滚动条
+    treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    treeView->header()->setStretchLastSection(false);
 
     connect(treeView,
             &QTreeWidget::itemClicked,

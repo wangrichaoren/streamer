@@ -28,11 +28,11 @@ public:
     ~NumberDisplayDataModel() = default;
 
 public:
-    QString caption() const override { return QStringLiteral("Result"); }
+    QString caption() const override { return QStringLiteral("Number Result"); }
 
     bool captionVisible() const override { return false; }
 
-    QString name() const override { return QStringLiteral("Result"); }
+    QString name() const override { return QStringLiteral("NumberResult:数字结果"); }
 
 public:
     unsigned int nPorts(PortType portType) const override;

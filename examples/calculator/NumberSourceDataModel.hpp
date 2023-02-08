@@ -32,7 +32,7 @@ public:
 
     bool captionVisible() const override { return false; }
 
-    QString name() const override { return QStringLiteral("NumberSource"); }
+    QString name() const override { return QStringLiteral("NumberSource:数字源"); }
 
 public:
     QJsonObject save() const override;

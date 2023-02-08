@@ -16,7 +16,7 @@ public:
     virtual ~DivisionModel() {}
 
 public:
-    QString caption() const override { return QStringLiteral("Division"); }
+    QString caption() const override { return QStringLiteral("Division Number"); }
 
     bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
@@ -45,7 +45,7 @@ public:
         return QString();
     }
 
-    QString name() const override { return QStringLiteral("Division"); }
+    QString name() const override { return QStringLiteral("DivisionNumber:数字除法运算"); }
 
 private:
     void compute() override
