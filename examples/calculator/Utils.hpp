@@ -4,6 +4,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMessageBox>
 #include <opencv2/opencv.hpp>
 
@@ -16,6 +17,8 @@ int createMessageBox(QWidget *parent,
                      const char *text,
                      const int &btn_num,
                      const std::vector<const char *> &btn_texts);
+
+void createLineEditFormCurQObj(QHBoxLayout *hlay_obj,QLabel *lab_obj,QLineEdit *edit_obj);
 
 QImage MatToQImage(const cv::Mat &mat);
 

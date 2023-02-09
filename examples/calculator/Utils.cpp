@@ -101,3 +101,12 @@ QImage cvMat2QImage(const cv::Mat &mat)
     }
     return image;
 }
+
+void createLineEditFormCurQObj(QHBoxLayout *hlay_obj, QLabel *lab_obj, QLineEdit *edit_obj)
+{
+    auto font = lab_obj->font();
+    font.setBold(true);
+    lab_obj->setFont(font);
+    hlay_obj->addWidget(lab_obj);
+    hlay_obj->addWidget(edit_obj);
+}

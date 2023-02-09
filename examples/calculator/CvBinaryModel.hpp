@@ -2,10 +2,13 @@
 
 #include <iostream>
 
+#include <QDoubleValidator>
 #include <QtCore/QObject>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QVBoxLayout>
 
 #include <QtNodes/NodeDelegateModel>
@@ -45,17 +48,30 @@ public:
 
     std::shared_ptr<NodeData> outData(PortIndex const port) override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override ;
+    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override;
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override { return _box; };
 
     bool resizable() const override { return true; }
+
+    void compute();
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     QLabel *_label;
+    QLineEdit *_thresh_val;
+    QLineEdit *_max_val;
+    QVBoxLayout *_vlayout;
+    QGroupBox *_box;
+    QRadioButton *_binary_r;
+    QRadioButton *_tozero_r;
+    QRadioButton *_trunc_r;
+    QRadioButton *_ostu_r;
+    QRadioButton *_inv_r;
+    QRadioButton *_not_inv_r;
+
     cv::Mat _mat;
     QPixmap _q_pix;
     std::shared_ptr<NodeData> _nodeData;
