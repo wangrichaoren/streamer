@@ -5,14 +5,13 @@
 #include <QtCore/QObject>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
+#include "Utils.hpp"
+#include <opencv2/opencv.hpp>
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>
-
-#include "ImageData.hpp"
-#include "Utils.hpp"
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -22,22 +21,22 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvImageLoaderModel : public NodeDelegateModel
+class CvImageShowModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvImageLoaderModel();
+    CvImageShowModel();
 
-    ~CvImageLoaderModel() = default;
-
-public:
-    QString caption() const override { return QString("Cv Image Source"); }
-
-    QString name() const override { return QString("CvImageLoaderModel:Cv图像加载器"); }
+    ~CvImageShowModel() = default;
 
 public:
-    virtual QString modelName() const { return QString("Cv Source Image"); }
+    QString caption() const override { return QString("Cv Image Display"); }
+
+    QString name() const override { return QString("CvImageShowModel:Cv图像显示器"); }
+
+public:
+    virtual QString modelName() const { return QString("Resulting Cv Image"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -45,7 +44,7 @@ public:
 
     std::shared_ptr<NodeData> outData(PortIndex const port) override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override {}
+    void setInData(std::shared_ptr<NodeData> nodeData, PortIndex const port) override;
 
     QWidget *embeddedWidget() override { return _box; }
 
@@ -56,11 +55,9 @@ protected:
 
 private:
     QLabel *_label;
-    QLineEdit *_path_lineedit;
-    QVBoxLayout *_layout;
+    QPushButton *_saveBtn;
     QGroupBox *_box;
+    QVBoxLayout *_layout;
 
-    cv::Mat _mat;
-
-    QPixmap _q_pix;
+    std::shared_ptr<NodeData> _nodeData;
 };

@@ -15,12 +15,11 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QVBoxLayout>
-
-#include <QtGui/QScreen>
 
 #include "AdditionModel.hpp"
 #include "CvImageLoaderModel.hpp"
+#include "CvImageShowModel.hpp"
+#include "CvRGB2GrayModel.hpp"
 #include "DivisionModel.hpp"
 #include "ImageLoaderModel.hpp"
 #include "ImageShowModel.hpp"
@@ -28,6 +27,7 @@
 #include "NumberDisplayDataModel.hpp"
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
+#include "Utils.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -50,9 +50,11 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<DivisionModel>("通用");
 
     // 2d模型
-    ret->registerModel<ImageLoaderModel>("2D");
-    ret->registerModel<ImageShowModel>("2D");
+    //    ret->registerModel<ImageLoaderModel>("2D");  // 过时
+    //    ret->registerModel<ImageShowModel>("2D");  // 过时
     ret->registerModel<CvImageLoaderModel>("2D");
+    ret->registerModel<CvImageShowModel>("2D");
+    ret->registerModel<CvRGB2GrayModel>("2D");
 
     // todo 3d模型
 
@@ -114,30 +116,6 @@ static void setStyle()
   )");
 }
 
-int createMessageBox(QWidget *parent,
-                     const char *icon_file,
-                     const char *window_title,
-                     const char *text,
-                     const int &btn_num,
-                     const std::vector<const char *> &btn_texts)
-{
-    QMessageBox copyrightBox(parent);
-    auto p = QPixmap(icon_file);
-    p = p.scaled(150,
-                 150,
-                 Qt::AspectRatioMode::KeepAspectRatio,
-                 Qt::TransformationMode::SmoothTransformation);
-    copyrightBox.setIconPixmap(p);
-    copyrightBox.setWindowTitle(window_title);
-    copyrightBox.setText(text);
-
-    for (int i = 0; i < btn_num; ++i) {
-        copyrightBox.addButton(btn_texts[i], QMessageBox::AcceptRole);
-    }
-
-    return copyrightBox.exec();
-}
-
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -180,7 +158,7 @@ int main(int argc, char *argv[])
     auto save_icon = QIcon(":icons/save.png");
     save_btn->setIcon(save_icon);
     save_btn->setMaximumWidth(btn_w);
-    save_btn->setToolTip("保存图文件");
+    save_btn->setToolTip("保存图文件(快捷键ctrl+s)");
 
     auto lock_btn = new QPushButton(); //锁
     auto lock_icon = QIcon(":icons/lock.png");
@@ -292,6 +270,13 @@ int main(int argc, char *argv[])
     auto scene = new DataFlowGraphicsScene(data_flow_graphics_model, &mainWidget);
 
     auto view = new GraphicsView(scene);
+
+    auto save_act = new QAction(scene);
+    save_act->setShortcutContext(Qt::ShortcutContext::WidgetShortcut);
+    save_act->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
+    view->addAction(save_act);
+    QObject::connect(save_act, &QAction::triggered, [=] { saveAction->triggered(); });
+
     v_layout_all->addWidget(view);
     v_layout_all->setContentsMargins(0, 0, 0, 0);
     v_layout_all->setSpacing(0);

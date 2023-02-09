@@ -73,6 +73,10 @@ QAction *GraphicsView::deleteSelectionAction() const
     return _deleteSelectionAction;
 }
 
+/**
+ * scene的快捷键设置
+ * @param scene
+ */
 void GraphicsView::setScene(BasicGraphicsScene *scene)
 {
     QGraphicsView::setScene(scene);

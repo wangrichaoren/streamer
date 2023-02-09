@@ -65,11 +65,13 @@ bool CvImageLoaderModel::eventFilter(QObject *object, QEvent *event)
                                                             tr("Open Image"),
                                                             QDir::homePath(),
                                                             tr("Image Files (*.png *.jpg *.bmp)"));
-
+            if(fileName.isEmpty()){
+                return false;
+            }
             _mat = cv::imread(fileName.toStdString(), -1);
 
             // _mat->pixmap
-            _q_pix = QPixmap::fromImage(this->MatToQImage(_mat));
+            _q_pix = QPixmap::fromImage(MatToQImage(_mat));
 
             _label->setPixmap(_q_pix.scaled(w, h, Qt::KeepAspectRatio));
 
@@ -97,41 +99,3 @@ std::shared_ptr<NodeData> CvImageLoaderModel::outData(PortIndex)
     return std::make_shared<ImageData>(_mat);
 }
 
-QImage CvImageLoaderModel::MatToQImage(const cv::Mat &mat)
-{
-    if (mat.type() == CV_8UC1) {
-        QImage image(mat.cols, mat.rows, QImage::Format_Indexed8);
-        // Set the color table (used to translate colour indexes to qRgb values)
-        image.setColorCount(256);
-        for (int i = 0; i < 256; i++) {
-            image.setColor(i, qRgb(i, i, i));
-        }
-        // Copy input Mat
-        uchar *pSrc = mat.data;
-        for (int row = 0; row < mat.rows; row++) {
-            uchar *pDest = image.scanLine(row);
-            memcpy(pDest, pSrc, mat.cols);
-            pSrc += mat.step;
-        }
-        return image;
-    }
-    // 8-bits unsigned, NO. OF CHANNELS = 3
-    else if (mat.type() == CV_8UC3) {
-        // Copy input Mat
-        const uchar *pSrc = (const uchar *) mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-        return image.rgbSwapped();
-    } else if (mat.type() == CV_8UC4) {
-        // Copy input Mat
-        const uchar *pSrc = (const uchar *) mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_ARGB32);
-        return image.copy();
-    } else {
-        //MessageInfo("ERROR: Mat could not be converted to QImage.", 1);
-        //emit sig_RunInfo("ERROR: Mat could not be converted to QImage.", 1);
-        //if (!globalPara.IsInlineRun) Runstateinfo("ERROR: Mat could not be converted to QImage.", 1);
-        return QImage();
-    }
-}

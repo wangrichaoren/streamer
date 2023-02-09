@@ -6,6 +6,9 @@ set(CALC_SOURCE_FILES
         ImageLoaderModel.cpp
         CvImageLoaderModel.cpp
         ImageShowModel.cpp
+        CvImageShowModel.cpp
+        Utils.cpp
+        CvRGB2GrayModel.cpp
         )
 
 set(CALC_HEADER_FILES
@@ -20,6 +23,10 @@ set(CALC_HEADER_FILES
         ImageLoaderModel.hpp
         CvImageLoaderModel.hpp
         ImageShowModel.hpp
+        CvImageShowModel.hpp
+        StringData.hpp
+        Utils.hpp
+        CvRGB2GrayModel.hpp
         )
 
 add_executable(calculator

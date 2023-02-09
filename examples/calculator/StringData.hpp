@@ -1,6 +1,7 @@
 #pragma once
 
-#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <QString>
 
 #include <QtNodes/NodeData>
 
@@ -9,25 +10,24 @@ using QtNodes::NodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class ImageData : public NodeData
+class StringData : public NodeData
 {
 public:
-    ImageData() {}
+    StringData() {}
 
-    ImageData(cv::Mat const &cv_mat)
-        : _cv_mat(cv_mat)
+    StringData(QString const &string)
+        : _str(string)
     {}
 
     NodeDataType type() const override
     {
         //       id      name
-        return {"Cv Mat", "CvMat"};
+        return {"String Data", "String"};
     }
 
-    cv::Mat mat() const { return _cv_mat; }
-
-    void set_mat(cv::Mat m) const { m.copyTo(_cv_mat); };
+    std::string string() const { return _str.toStdString(); }
+    QString qString() const { return _str; }
 
 private:
-    cv::Mat _cv_mat;
+    QString _str;
 };
