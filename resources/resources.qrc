@@ -19,5 +19,7 @@
         <file>fullscreen.png</file>
         <file>start.png</file>
         <file>stop.png</file>
+        <file>light.png</file>
+        <file>dark.png</file>
     </qresource>
 </RCC>

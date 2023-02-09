@@ -4,6 +4,7 @@ set(CALC_SOURCE_FILES
         NumberDisplayDataModel.cpp
         NumberSourceDataModel.cpp
         ImageLoaderModel.cpp
+        CvImageLoaderModel.cpp
         ImageShowModel.cpp
         )
 
@@ -17,6 +18,7 @@ set(CALC_HEADER_FILES
         SubtractionModel.hpp
         ImageData.hpp
         ImageLoaderModel.hpp
+        CvImageLoaderModel.hpp
         ImageShowModel.hpp
         )
 

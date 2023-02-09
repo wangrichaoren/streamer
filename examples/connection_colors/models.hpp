@@ -4,6 +4,7 @@
 
 #include <QtNodes/NodeData>
 #include <QtNodes/NodeDelegateModel>
+#include <QtNodes/NodeDelegateModel>
 
 #include <memory>
 

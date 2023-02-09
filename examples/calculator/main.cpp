@@ -2,8 +2,10 @@
 #include <QtNodes/DataFlowGraphModel>
 #include <QtNodes/DataFlowGraphicsScene>
 #include <QtNodes/GraphicsView>
+#include <QtNodes/GraphicsViewStyle>
 #include <QtNodes/NodeData>
 #include <QtNodes/NodeDelegateModelRegistry>
+#include <QtNodes/NodeStyle>
 
 #include <memory>
 #include <QMessageBox>
@@ -18,6 +20,7 @@
 #include <QtGui/QScreen>
 
 #include "AdditionModel.hpp"
+#include "CvImageLoaderModel.hpp"
 #include "DivisionModel.hpp"
 #include "ImageLoaderModel.hpp"
 #include "ImageShowModel.hpp"
@@ -30,7 +33,9 @@ using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
 using QtNodes::DataFlowGraphModel;
 using QtNodes::GraphicsView;
+using QtNodes::GraphicsViewStyle;
 using QtNodes::NodeDelegateModelRegistry;
+using QtNodes::NodeStyle;
 
 static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 {
@@ -47,6 +52,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     // 2d模型
     ret->registerModel<ImageLoaderModel>("2D");
     ret->registerModel<ImageShowModel>("2D");
+    ret->registerModel<CvImageLoaderModel>("2D");
 
     // todo 3d模型
 
@@ -55,6 +61,39 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 
 static void setStyle()
 {
+    GraphicsViewStyle::setStyle(
+        R"(
+      {
+        "GraphicsViewStyle": {
+          "BackgroundColor": [255, 255, 240],
+          "FineGridColor": [245, 245, 230],
+          "CoarseGridColor": [235, 235, 220]
+        }
+      }
+      )");
+
+    NodeStyle::setNodeStyle(
+        R"(
+      {
+        "NodeStyle": {
+          "NormalBoundaryColor": "darkgray",
+          "SelectedBoundaryColor": "dark",
+          "GradientColor0": "mintcream",
+          "GradientColor1": "mintcream",
+          "GradientColor2": "mintcream",
+          "GradientColor3": "mintcream",
+          "ShadowColor": [150, 150, 150],
+          "FontColor": [10, 10, 10],
+          "FontColorFaded": [100, 100, 100],
+          "ConnectionPointColor": "white",
+          "PenWidth": 2.0,
+          "HoveredPenWidth": 2.5,
+          "ConnectionPointDiameter": 10.0,
+          "Opacity": 1.0
+        }
+      }
+      )");
+
     ConnectionStyle::setConnectionStyle(
         R"(
   {
@@ -163,25 +202,25 @@ int main(int argc, char *argv[])
     auto back_icon = QIcon(":icons/withdraw.png");
     back_btn->setIcon(back_icon);
     back_btn->setMaximumWidth(btn_w);
-    back_btn->setToolTip("撤回");
+    back_btn->setToolTip("撤回(快捷键ctrl+z)");
 
     auto up_btn = new QPushButton(); //跳转到上一个
     auto up_icon = QIcon(":icons/left.png");
     up_btn->setIcon(up_icon);
     up_btn->setMaximumWidth(btn_w);
-    up_btn->setToolTip("跳转至上一个");
+    up_btn->setToolTip("跳转至上一个图元");
 
     auto down_btn = new QPushButton(); //跳转到下一个
     auto down_icon = QIcon(":icons/right.png");
     down_btn->setIcon(down_icon);
     down_btn->setMaximumWidth(btn_w);
-    down_btn->setToolTip("跳转至下一个");
+    down_btn->setToolTip("跳转至下一个图元");
 
     auto del_btn = new QPushButton(); //删除
     auto del_icon = QIcon(":icons/del.png");
     del_btn->setIcon(del_icon);
     del_btn->setMaximumWidth(btn_w);
-    del_btn->setToolTip("删除当前图元");
+    del_btn->setToolTip("删除当前图元(快捷键delete)");
 
     auto full_btn = new QPushButton(); //全景
     auto full_icon = QIcon(":icons/fullscreen.png");
@@ -220,9 +259,9 @@ int main(int argc, char *argv[])
     h_layout_tool->addWidget(save_btn);
     h_layout_tool->addWidget(vline1);
 
-    h_layout_tool->addWidget(back_btn);
     h_layout_tool->addWidget(up_btn);
     h_layout_tool->addWidget(down_btn);
+    h_layout_tool->addWidget(back_btn);
     h_layout_tool->addWidget(del_btn);
     h_layout_tool->addWidget(full_btn);
 
@@ -274,6 +313,47 @@ int main(int argc, char *argv[])
 
     QObject::connect(saveAction, &QAction::triggered, scene, &DataFlowGraphicsScene::save);
 
+    QObject::connect(new_btn, &QPushButton::clicked, [&] { newBuildAction->triggered(); });
+
+    QObject::connect(openfile_btn, &QPushButton::clicked, [&] { loadAction->triggered(); });
+
+    QObject::connect(save_btn, &QPushButton::clicked, [&] { saveAction->triggered(); });
+
+    // todo 撤回按钮
+    QObject::connect(back_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 上一步按钮
+    QObject::connect(up_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 下一步按钮
+    QObject::connect(down_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 删除按钮
+    QObject::connect(del_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 全屏按钮
+    QObject::connect(full_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 开始按钮
+    QObject::connect(start_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
+    // todo 停止按钮
+    QObject::connect(stop_btn, &QPushButton::clicked, [&] {
+        createMessageBox(&mainWidget, ":/icons/error.png", "未开发", "功能未开发...", 1, {"返回"});
+    });
+
     QObject::connect(loadAction, &QAction::triggered, scene, &DataFlowGraphicsScene::load);
 
     QObject::connect(newBuildAction, &QAction::triggered, [&] {
@@ -324,7 +404,7 @@ int main(int argc, char *argv[])
     });
 
     mainWidget.setWindowTitle("Flow Tool");
-    mainWidget.setWindowState(Qt::WindowMaximized);
+    //    mainWidget.setWindowState(Qt::WindowMaximized);
     mainWidget.show();
 
     return QApplication::exec();
