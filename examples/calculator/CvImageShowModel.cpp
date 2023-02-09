@@ -76,20 +76,17 @@ bool CvImageShowModel::eventFilter(QObject *object, QEvent *event)
         }
     } else if (object == _saveBtn) {
         if (event->type() == QEvent::MouseButtonPress) {
-            //            QString fileName = QFileDialog::getSaveFileName(nullptr,
-            //                                                            tr("Save Image"),
-            //                                                            QDir::homePath(),
-            //                                                            tr("Format (*.png *.jpg *.bmp)"));
-            auto url = QFileDialog::getSaveFileUrl(nullptr,
-                                                   "Save Image",
-                                                   QDir::homePath(),
-                                                   tr("Format (*.png *.jpg *.bmp)"))
-                           .path();
-            if (url.isEmpty()) {
-                return false;
+            QString fileName = QFileDialog::getSaveFileName(nullptr,
+                                                            tr("Save Image"),
+                                                            QDir::homePath(),
+                                                            tr("Image Files (*.png *.jpg *.bmp)"));
+
+            if (!fileName.isEmpty()) {
+                if (!fileName.endsWith("png", Qt::CaseInsensitive))
+                    fileName += ".png";
+                auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);
+                cv::imwrite(fileName.toStdString(), d->mat());
             }
-            auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);
-            cv::imwrite(url.toStdString(), d->mat());
         }
     }
     return false;

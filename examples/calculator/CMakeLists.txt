@@ -9,6 +9,7 @@ set(CALC_SOURCE_FILES
         CvImageShowModel.cpp
         Utils.cpp
         CvRGB2GrayModel.cpp
+        CvBinaryModel.cpp
         )
 
 set(CALC_HEADER_FILES
@@ -27,6 +28,7 @@ set(CALC_HEADER_FILES
         StringData.hpp
         Utils.hpp
         CvRGB2GrayModel.hpp
+        CvBinaryModel.hpp
         )
 
 add_executable(calculator

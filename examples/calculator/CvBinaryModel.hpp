@@ -22,22 +22,22 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvImageLoaderModel : public NodeDelegateModel
+class CvBinaryModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvImageLoaderModel();
+    CvBinaryModel();
 
-    ~CvImageLoaderModel() = default;
-
-public:
-    QString caption() const override { return QString("Image Source"); }
-
-    QString name() const override { return QString("ImageLoaderModel:图像加载器"); }
+    ~CvBinaryModel() = default;
 
 public:
-    virtual QString modelName() const { return QString("SourceImage"); }
+    QString caption() const override { return QString("Binary Image"); }
+
+    QString name() const override { return QString("BinaryImage:二值化"); }
+
+public:
+    virtual QString modelName() const { return QString("BinaryImage"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -45,9 +45,9 @@ public:
 
     std::shared_ptr<NodeData> outData(PortIndex const port) override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override {}
+    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override ;
 
-    QWidget *embeddedWidget() override { return _box; }
+    QWidget *embeddedWidget() override { return _label; }
 
     bool resizable() const override { return true; }
 
@@ -56,11 +56,7 @@ protected:
 
 private:
     QLabel *_label;
-    QLineEdit *_path_lineedit;
-    QVBoxLayout *_layout;
-    QGroupBox *_box;
-
     cv::Mat _mat;
-
     QPixmap _q_pix;
+    std::shared_ptr<NodeData> _nodeData;
 };

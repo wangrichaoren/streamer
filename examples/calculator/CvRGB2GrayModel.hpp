@@ -34,10 +34,10 @@ public:
 public:
     QString caption() const override { return QString("Gray Image"); }
 
-    QString name() const override { return QString("CvRGB2GrayModel:转灰度"); }
+    QString name() const override { return QString("RGB2GrayModel:灰度"); }
 
 public:
-    virtual QString modelName() const { return QString("Cv Gray Image"); }
+    virtual QString modelName() const { return QString("GrayImage"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

@@ -31,12 +31,12 @@ public:
     ~CvImageShowModel() = default;
 
 public:
-    QString caption() const override { return QString("Cv Image Display"); }
+    QString caption() const override { return QString("Image Display"); }
 
-    QString name() const override { return QString("CvImageShowModel:Cv图像显示器"); }
+    QString name() const override { return QString("ImageShowModel:图像显示器"); }
 
 public:
-    virtual QString modelName() const { return QString("Resulting Cv Image"); }
+    virtual QString modelName() const { return QString("ImageDisplay"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

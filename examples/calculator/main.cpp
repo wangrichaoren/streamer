@@ -28,6 +28,7 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 #include "Utils.hpp"
+#include "CvBinaryModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -55,6 +56,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvImageLoaderModel>("2D");
     ret->registerModel<CvImageShowModel>("2D");
     ret->registerModel<CvRGB2GrayModel>("2D");
+    ret->registerModel<CvBinaryModel>("2D");
 
     // todo 3d模型
 
