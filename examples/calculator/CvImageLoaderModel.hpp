@@ -37,7 +37,7 @@ public:
     QString name() const override { return QString("ImageLoaderModel:图像加载器"); }
 
 public:
-    virtual QString modelName() const { return QString("SourceImage"); }
+    virtual QString modelName() const { return QString("ImageLoaderModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

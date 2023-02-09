@@ -35,12 +35,12 @@ public:
     ~CvBinaryModel() = default;
 
 public:
-    QString caption() const override { return QString("Binary Image"); }
+    QString caption() const override { return QString("Binary"); }
 
-    QString name() const override { return QString("BinaryImage:二值化"); }
+    QString name() const override { return QString("BinaryModel:二值化"); }
 
 public:
-    virtual QString modelName() const { return QString("BinaryImage"); }
+    virtual QString modelName() const { return QString("BinaryModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

@@ -4,7 +4,7 @@ cmake_policy(SET CMP0072 NEW) # new in 3.11. The NEW behavior for this policy is
 cmake_policy(SET CMP0068 NEW) # new in 3.9. The NEW behavior of this policy is to ignore the RPATH settings for install_name on macOS.
 
 
-project(QtNodesLibrary CXX)
+project(Streamer CXX)
 
 if (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -O0")

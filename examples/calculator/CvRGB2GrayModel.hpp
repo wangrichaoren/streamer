@@ -32,12 +32,12 @@ public:
     ~CvRGB2GrayModel() = default;
 
 public:
-    QString caption() const override { return QString("Gray Image"); }
+    QString caption() const override { return QString("RGB2Gray"); }
 
     QString name() const override { return QString("RGB2GrayModel:灰度"); }
 
 public:
-    virtual QString modelName() const { return QString("GrayImage"); }
+    virtual QString modelName() const { return QString("RGB2GrayModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

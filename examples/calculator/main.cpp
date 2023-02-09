@@ -3,12 +3,10 @@
 #include <QtNodes/DataFlowGraphicsScene>
 #include <QtNodes/GraphicsView>
 #include <QtNodes/GraphicsViewStyle>
-#include <QtNodes/NodeData>
 #include <QtNodes/NodeDelegateModelRegistry>
 #include <QtNodes/NodeStyle>
 
 #include <memory>
-#include <QMessageBox>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
@@ -21,14 +19,13 @@
 #include "CvImageShowModel.hpp"
 #include "CvRGB2GrayModel.hpp"
 #include "DivisionModel.hpp"
-#include "ImageLoaderModel.hpp"
-#include "ImageShowModel.hpp"
 #include "MultiplicationModel.hpp"
 #include "NumberDisplayDataModel.hpp"
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 #include "Utils.hpp"
 #include "CvBinaryModel.hpp"
+#include "CvMorphModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -57,6 +54,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvImageShowModel>("2D");
     ret->registerModel<CvRGB2GrayModel>("2D");
     ret->registerModel<CvBinaryModel>("2D");
+    ret->registerModel<CvMorphModel>("2D");
 
     // todo 3d模型
 

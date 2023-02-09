@@ -10,6 +10,7 @@ set(CALC_SOURCE_FILES
         Utils.cpp
         CvRGB2GrayModel.cpp
         CvBinaryModel.cpp
+        CvMorphModel.cpp
         )
 
 set(CALC_HEADER_FILES
@@ -29,6 +30,7 @@ set(CALC_HEADER_FILES
         Utils.hpp
         CvRGB2GrayModel.hpp
         CvBinaryModel.hpp
+        CvMorphModel.hpp
         )
 
 add_executable(calculator
