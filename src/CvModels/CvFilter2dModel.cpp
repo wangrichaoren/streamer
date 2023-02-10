@@ -11,7 +11,6 @@ CvFilter2dModel::CvFilter2dModel()
     : _label(new QLabel("Image Visual"))
     , _box(new QGroupBox())
 {
-
     auto bf = _box->font();
     bf.setBold(true);
     _box->setFont(bf);
@@ -84,16 +83,16 @@ CvFilter2dModel::CvFilter2dModel()
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 
-    connect(dep_edit,&QLineEdit::textChanged,[=]{compute();});
-    connect(n00,&QLineEdit::textChanged,[=]{compute();});
-    connect(n01,&QLineEdit::textChanged,[=]{compute();});
-    connect(n02,&QLineEdit::textChanged,[=]{compute();});
-    connect(n10,&QLineEdit::textChanged,[=]{compute();});
-    connect(n11,&QLineEdit::textChanged,[=]{compute();});
-    connect(n12,&QLineEdit::textChanged,[=]{compute();});
-    connect(n20,&QLineEdit::textChanged,[=]{compute();});
-    connect(n21,&QLineEdit::textChanged,[=]{compute();});
-    connect(n22,&QLineEdit::textChanged,[=]{compute();});
+    connect(dep_edit, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n00, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n01, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n02, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n10, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n11, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n12, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n20, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n21, &QLineEdit::textChanged, [=] { compute(); });
+    connect(n22, &QLineEdit::textChanged, [=] { compute(); });
 }
 
 unsigned int CvFilter2dModel::nPorts(PortType portType) const
@@ -193,4 +192,35 @@ void CvFilter2dModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+QJsonObject CvFilter2dModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["dep"] = dep_edit->text();
+
+    s["n00"] = n00->text();
+    s["n01"] = n01->text();
+    s["n02"] = n02->text();
+    s["n10"] = n10->text();
+    s["n11"] = n11->text();
+    s["n12"] = n12->text();
+    s["n20"] = n20->text();
+    s["n21"] = n21->text();
+    s["n22"] = n22->text();
+
+    return s;
+}
+void CvFilter2dModel::load(const QJsonObject &s)
+{
+    dep_edit->setText(s["dep"].toString());
+
+    n00->setText(s["n00"].toString());
+    n01->setText(s["n01"].toString());
+    n02->setText(s["n02"].toString());
+    n10->setText(s["n10"].toString());
+    n11->setText(s["n11"].toString());
+    n12->setText(s["n12"].toString());
+    n20->setText(s["n20"].toString());
+    n21->setText(s["n21"].toString());
+    n22->setText(s["n22"].toString());
 }

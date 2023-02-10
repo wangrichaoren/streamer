@@ -54,8 +54,8 @@ CvMorphModel::CvMorphModel()
 
     auto row_lay = new QHBoxLayout();
     auto col_lay = new QHBoxLayout();
-    auto row_lab = new QLabel("行");
-    auto col_lab = new QLabel("列");
+    auto row_lab = new QLabel("宽");
+    auto col_lab = new QLabel("高");
     _row_edit = new QLineEdit("5");
     _col_edit = new QLineEdit("5");
     connect(_row_edit, &QLineEdit::textChanged, [=] { compute(); });
@@ -180,4 +180,32 @@ void CvMorphModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+void CvMorphModel::load(const QJsonObject &s)
+{
+    _row_edit->setText(s["w"].toString());
+    _col_edit->setText(s["h"].toString());
+
+    _cross_R->setChecked(s["is_cross"].toBool());
+    _ellipse_R->setChecked(s["is_ellipse"].toBool());
+    _dilation_R->setChecked(s["is_dilation"].toBool());
+    _erosion_R->setChecked(s["is_erosion"].toBool());
+    _open_R->setChecked(s["is_open"].toBool());
+    _close_R->setChecked(s["is_close"].toBool());
+}
+
+QJsonObject CvMorphModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["w"] = _row_edit->text();
+    s["h"] = _col_edit->text();
+    s["is_cross"] = _cross_R->isChecked();
+    s["is_ellipse"] = _ellipse_R->isChecked();
+
+    s["is_dilation"] = _dilation_R->isChecked();
+    s["is_erosion"] = _erosion_R->isChecked();
+    s["is_open"] = _open_R->isChecked();
+    s["is_close"] = _close_R->isChecked();
+
+    return s;
 }

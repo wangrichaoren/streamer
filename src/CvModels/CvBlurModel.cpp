@@ -28,8 +28,8 @@ CvBlurModel::CvBlurModel()
     auto vl = new QVBoxLayout();
     auto h_lay1 = new QHBoxLayout();
     auto h_lay2 = new QHBoxLayout();
-    auto lab1 = new QLabel("行");
-    auto lab2 = new QLabel("列");
+    auto lab1 = new QLabel("宽");
+    auto lab2 = new QLabel("高");
     val1 = new QLineEdit("5");
     val2 = new QLineEdit("5");
     val1->setValidator(pIntVld);
@@ -39,7 +39,6 @@ CvBlurModel::CvBlurModel()
     vl->addLayout(h_lay1);
     vl->addLayout(h_lay2);
     g->setLayout(vl);
-
 
     auto all_lay = new QVBoxLayout();
     all_lay->addWidget(_label);
@@ -144,4 +143,17 @@ void CvBlurModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+QJsonObject CvBlurModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["w"]=val1->text();
+    s["h"]=val2->text();
+    return s;
+}
+void CvBlurModel::load(const QJsonObject &s)
+{
+//    NodeDelegateModel::load(<unnamed>);
+    val1->setText(s["w"].toString());
+    val2->setText(s["h"].toString());
 }

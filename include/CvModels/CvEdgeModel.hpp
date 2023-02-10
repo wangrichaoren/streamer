@@ -56,6 +56,10 @@ public:
 
     void compute();
 
+    void load(const QJsonObject &) override;
+
+    QJsonObject save() const override;
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 

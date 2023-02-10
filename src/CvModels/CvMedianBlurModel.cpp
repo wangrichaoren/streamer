@@ -139,3 +139,14 @@ void CvMedianBlurModel::compute()
 
     Q_EMIT dataUpdated(0);
 }
+void CvMedianBlurModel::load(const QJsonObject &s)
+{
+    val->setText(s["val"].toString());
+}
+
+QJsonObject CvMedianBlurModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["val"] = val->text();
+    return s;
+}

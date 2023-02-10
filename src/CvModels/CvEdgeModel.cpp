@@ -25,7 +25,6 @@ CvEdgeModel::CvEdgeModel()
 
     p_int_vld = new QIntValidator();
 
-
     auto all_lay = new QVBoxLayout();
     all_lay->addWidget(_label);
 
@@ -113,13 +112,13 @@ void CvEdgeModel::compute()
     }
 
     //    // todo ------------------------
-//    cv::Sobel();
-//    InputArray src, OutputArray dst, int ddepth,
-//        int dx, int dy, int ksize = 3,
-//                            double scale = 1, double delta = 0,
-//                            int borderType = BORDER_DEFAULT
+    //    cv::Sobel();
+    //    InputArray src, OutputArray dst, int ddepth,
+    //        int dx, int dy, int ksize = 3,
+    //                            double scale = 1, double delta = 0,
+    //                            int borderType = BORDER_DEFAULT
 
-                            //    cv::Laplacian();
+    //    cv::Laplacian();
     // InputArray src, OutputArray dst, int ddepth,
     //                             int ksize = 1, double scale = 1, double delta = 0,
     //                             int borderType = BORDER_DEFAULT
@@ -132,4 +131,14 @@ void CvEdgeModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+void CvEdgeModel::load(const QJsonObject &)
+{
+//    NodeDelegateModel::load(<unnamed>);
+}
+
+QJsonObject CvEdgeModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+
 }

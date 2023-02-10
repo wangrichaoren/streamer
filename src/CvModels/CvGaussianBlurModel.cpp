@@ -159,7 +159,11 @@ void CvGaussianBlurModel::compute()
     if (height % 2 == 0) {
         height += 1;
     }
-    cv::GaussianBlur(d->mat(), _mat, cv::Size(width, height), _sigmy->text().toInt(), _sigmx->text().toInt());
+    cv::GaussianBlur(d->mat(),
+                     _mat,
+                     cv::Size(width, height),
+                     _sigmy->text().toInt(),
+                     _sigmx->text().toInt());
     // todo ------------------------
 
     int w = _label->width();
@@ -169,4 +173,23 @@ void CvGaussianBlurModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+void CvGaussianBlurModel::load(const QJsonObject &s)
+{
+    //    NodeDelegateModel::load(<unnamed>);
+    _kredi->setText(s["w"].toString());
+    _kcedi->setText(s["h"].toString());
+    _sigmx->setText(s["sigmx"].toString());
+    _sigmy->setText(s["sigmy"].toString());
+}
+
+QJsonObject CvGaussianBlurModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["w"] = _kredi->text();
+    s["h"] = _kcedi->text();
+    s["sigmx"] = _sigmx->text();
+    s["sigmy"] = _sigmy->text();
+
+    return s;
 }
