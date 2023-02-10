@@ -1,3 +1,7 @@
+//
+// Created by wrc on 23-2-10.
+//
+
 #include <QtNodes/ConnectionStyle>
 #include <QtNodes/DataFlowGraphModel>
 #include <QtNodes/DataFlowGraphicsScene>
@@ -14,18 +18,26 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 
-#include "AdditionModel.hpp"
-#include "CvImageLoaderModel.hpp"
-#include "CvImageShowModel.hpp"
-#include "CvRGB2GrayModel.hpp"
-#include "DivisionModel.hpp"
-#include "MultiplicationModel.hpp"
-#include "NumberDisplayDataModel.hpp"
-#include "NumberSourceDataModel.hpp"
-#include "SubtractionModel.hpp"
-#include "Utils.hpp"
-#include "CvBinaryModel.hpp"
-#include "CvMorphModel.hpp"
+#include "../include/Utils/Utils.hpp"
+
+#include "../include/GeneralModels/AdditionModel.hpp"
+#include "../include/GeneralModels/DivisionModel.hpp"
+#include "../include/GeneralModels/MultiplicationModel.hpp"
+#include "../include/GeneralModels/NumberDisplayDataModel.hpp"
+#include "../include/GeneralModels/NumberSourceDataModel.hpp"
+#include "../include/GeneralModels/SubtractionModel.hpp"
+#include "../include/GeneralModels/ImageShowModel.hpp"
+#include "../include/GeneralModels/ImageLoaderModel.hpp"
+
+#include "../include/CvModels/CvBinaryModel.hpp"
+#include "../include/CvModels/CvFilter2dModel.hpp"
+#include "../include/CvModels/CvImageLoaderModel.hpp"
+#include "../include/CvModels/CvImageShowModel.hpp"
+#include "../include/CvModels/CvMorphModel.hpp"
+#include "../include/CvModels/CvRGB2GrayModel.hpp"
+#include "../include/CvModels/CvBlurModel.hpp"
+#include "../include/CvModels/CvMedianBlurModel.hpp"
+#include "../include/CvModels/CvGaussianBlurModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -48,13 +60,15 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<DivisionModel>("通用");
 
     // 2d模型
-    //    ret->registerModel<ImageLoaderModel>("2D");  // 过时
-    //    ret->registerModel<ImageShowModel>("2D");  // 过时
     ret->registerModel<CvImageLoaderModel>("2D");
     ret->registerModel<CvImageShowModel>("2D");
     ret->registerModel<CvRGB2GrayModel>("2D");
     ret->registerModel<CvBinaryModel>("2D");
     ret->registerModel<CvMorphModel>("2D");
+    ret->registerModel<CvFilter2dModel>("2D");
+    ret->registerModel<CvBlurModel>("2D");
+    ret->registerModel<CvMedianBlurModel>("2D");
+    ret->registerModel<CvGaussianBlurModel>("2D");
 
     // todo 3d模型
 
@@ -129,7 +143,6 @@ int main(int argc, char *argv[])
     // 垂直布局 v_layout_all 添加menu toolbar h_center_layout log
     // 水平布局 h_layout_center 添加choose show option
     auto *v_layout_all = new QVBoxLayout(&mainWidget);
-//    auto *h_layout_center = new QHBoxLayout();
 
     // 菜单栏
     auto menuBar = new QMenuBar(&mainWidget);
@@ -388,8 +401,10 @@ int main(int argc, char *argv[])
             {"返回"});
     });
 
-    mainWidget.setWindowTitle("Flow Tool");
-    //    mainWidget.setWindowState(Qt::WindowMaximized);
+    mainWidget.setWindowTitle("Streamer");
+
+    mainWidget.setWindowIcon(QIcon(":icons/winicon.svg"));
+    mainWidget.setWindowState(Qt::WindowMaximized);
     mainWidget.show();
 
     return QApplication::exec();

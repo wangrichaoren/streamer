@@ -29,7 +29,7 @@ class CvRGB2GrayModel : public NodeDelegateModel
 public:
     CvRGB2GrayModel();
 
-    ~CvRGB2GrayModel() = default;
+    ~CvRGB2GrayModel() override = default;
 
 public:
     QString caption() const override { return QString("RGB2Gray"); }

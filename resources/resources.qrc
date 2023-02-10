@@ -21,5 +21,6 @@
         <file>stop.png</file>
         <file>light.png</file>
         <file>dark.png</file>
+        <file>winicon.svg</file>
     </qresource>
 </RCC>

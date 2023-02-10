@@ -3,13 +3,8 @@
 #include <iostream>
 
 #include <QtCore/QObject>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QVBoxLayout>
 
-#include "Utils.hpp"
-#include <opencv2/opencv.hpp>
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>
 
@@ -21,24 +16,22 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvImageShowModel : public NodeDelegateModel
+class ImageShowModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvImageShowModel();
+    ImageShowModel();
 
-    ~CvImageShowModel(){
-
-    };
+    ~ImageShowModel() = default;
 
 public:
     QString caption() const override { return QString("Image Display"); }
 
-    QString name() const override { return QString("ImageShowModel:图像显示器"); }
+    QString name() const override { return QString("ImageShowModel"); }
 
 public:
-    virtual QString modelName() const { return QString("ImageShowModel"); }
+    virtual QString modelName() const { return QString("Resulting Image"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -48,7 +41,7 @@ public:
 
     void setInData(std::shared_ptr<NodeData> nodeData, PortIndex const port) override;
 
-    QWidget *embeddedWidget() override { return _box; }
+    QWidget *embeddedWidget() override { return _label; }
 
     bool resizable() const override { return true; }
 
@@ -57,9 +50,6 @@ protected:
 
 private:
     QLabel *_label;
-    QPushButton *_saveBtn;
-    QGroupBox *_box;
-    QVBoxLayout *_layout;
 
     std::shared_ptr<NodeData> _nodeData;
 };

@@ -8,7 +8,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
-#include "Utils.hpp"
+#include "Utils/Utils.hpp"
 #include <opencv2/opencv.hpp>
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>

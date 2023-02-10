@@ -55,3 +55,9 @@ QWidget *TextSourceDataModel::embeddedWidget()
 
     return _lineEdit;
 }
+TextSourceDataModel::~TextSourceDataModel() {
+//    qDebug("析构");
+//    _lineEdit->deleteLater();
+//    delete _lineEdit;
+//    std::cout<<<<std::endl;
+}

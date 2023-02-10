@@ -287,3 +287,123 @@ install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/QtNodesConfig.cmake
         DESTINATION ${INSTALL_CONFIGDIR}
         )
+
+
+# head and source
+
+# ----------工具--------------
+# ---------------------------
+# ---------------------------
+set(UTIL_HEADER_FILES
+        include/Utils/Utils.hpp
+        )
+
+set(UTIL_SOURCE_FILES
+        src/Utils/Utils.cpp
+        )
+# ---------------------------
+# ---------------------------
+# ---------------------------
+
+
+
+# ---------数据类型---------
+# -------------------------
+# -------------------------
+set(HEADLESS_DATA_SOURCE_FILES
+        include/DataTypes/DecimalData.hpp
+        include/DataTypes/ImageData.hpp
+        include/DataTypes/StringData.hpp
+        include/DataTypes/PixmapData.hpp
+        )
+# ------------------------
+# ------------------------
+# ------------------------
+
+
+
+# -------------------通用模型-------------------
+# ---------------------------------------------
+# ---------------------------------------------
+# 通用模型头文件
+set(GENERAL_MODEL_HEADER_FILES
+        include/GeneralModels/AdditionModel.hpp
+        include/GeneralModels/DivisionModel.hpp
+        include/GeneralModels/SubtractionModel.hpp
+
+        include/GeneralModels/MathOperationDataModel.hpp
+        include/GeneralModels/MultiplicationModel.hpp
+        include/GeneralModels/NumberDisplayDataModel.hpp
+        include/GeneralModels/NumberSourceDataModel.hpp
+        include/GeneralModels/ImageLoaderModel.hpp
+        include/GeneralModels/ImageShowModel.hpp
+        )
+
+# 通用模型源文件
+set(GENERAL_MODEL_SOURCE_FILES
+        src/GeneralModels/MathOperationDataModel.cpp
+        src/GeneralModels/NumberDisplayDataModel.cpp
+        src/GeneralModels/NumberSourceDataModel.cpp
+        src/GeneralModels/ImageLoaderModel.cpp
+        src/GeneralModels/ImageShowModel.cpp
+        )
+# -------------------------------------------
+# -------------------------------------------
+# -------------------------------------------
+
+
+# -----------------2d模型-----------------
+# ----------------------------------------
+# ----------------------------------------
+# 2d模型头文件
+set(CV_MODEL_HEADER_FILES
+        include/CvModels/CvImageLoaderModel.hpp
+        include/CvModels/CvImageShowModel.hpp
+        include/CvModels/CvRGB2GrayModel.hpp
+        include/CvModels/CvBinaryModel.hpp
+        include/CvModels/CvMorphModel.hpp
+        include/CvModels/CvFilter2dModel.hpp
+        include/CvModels/CvBlurModel.hpp
+        include/CvModels/CvMedianBlurModel.hpp
+        include/CvModels/CvGaussianBlurModel.hpp
+        )
+
+# 2d模型源文件
+set(CV_MODEL_SOURCE_FILES
+        src/CvModels/CvImageLoaderModel.cpp
+        src/CvModels/CvImageShowModel.cpp
+        src/CvModels/CvRGB2GrayModel.cpp
+        src/CvModels/CvBinaryModel.cpp
+        src/CvModels/CvMorphModel.cpp
+        src/CvModels/CvFilter2dModel.cpp
+        src/CvModels/CvBlurModel.cpp
+        src/CvModels/CvMedianBlurModel.cpp
+        src/CvModels/CvGaussianBlurModel.cpp
+        )
+# ---------------------------------------
+# ---------------------------------------
+# ---------------------------------------
+
+
+# 主程序
+set(MAIN_SOURCE_FILE
+        main.cpp
+        )
+
+# UTIL_HEADER_FILES UTIL_SOURCE_FILES
+# HEADLESS_DATA_SOURCE_FILES
+# GENERAL_MODEL_HEADER_FILES GENERAL_MODEL_SOURCE_FILES
+# CV_MODEL_HEADER_FILES CV_MODEL_SOURCE_FILES
+add_executable(streamer
+        ${MAIN_SOURCE_FILE}
+
+        ${UTIL_HEADER_FILES}
+        ${UTIL_SOURCE_FILES}
+        ${HEADLESS_DATA_SOURCE_FILES}
+        ${GENERAL_MODEL_HEADER_FILES}
+        ${GENERAL_MODEL_SOURCE_FILES}
+        ${CV_MODEL_HEADER_FILES}
+        ${CV_MODEL_SOURCE_FILES}
+)
+
+target_link_libraries(streamer QtNodes)
