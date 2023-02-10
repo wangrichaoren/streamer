@@ -18,8 +18,8 @@ CvBinaryModel::CvBinaryModel()
     bf.setBold(true);
     _box->setFont(bf);
     // 限制输入范围 -255~255
-//    ^-?(255|([1,2]?[0-4]?\d|[1,2]?5[0-4]?)(\.\d)?)$
-//    QRegExp regx("^[0-9]$|^[0-9]{2}$|^[1][0-9]{2}$|^[2][0-4][0-9]$|^[2][5][0-5]$");
+    //    ^-?(255|([1,2]?[0-4]?\d|[1,2]?5[0-4]?)(\.\d)?)$
+    //    QRegExp regx("^[0-9]$|^[0-9]{2}$|^[1][0-9]{2}$|^[2][0-4][0-9]$|^[2][5][0-5]$");
     QRegExp regx("^-?(255|([1,2]?[0-4]?\\d|[1,2]?5[0-4]?)(\\.\\d)?)$");
     auto p_reg = new QRegExpValidator(regx, this);
 
@@ -204,4 +204,31 @@ void CvBinaryModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
+}
+QJsonObject CvBinaryModel::save() const
+{
+    auto s = NodeDelegateModel::save();
+    s["thresh_val"] = _thresh_val->text();
+    s["max_val"] = _max_val->text();
+    s["is_inv"] = _inv_r->isChecked();
+    s["is_not_inv"] = _not_inv_r->isChecked();
+
+    s["is_binary"] = _binary_r->isChecked();
+    s["is_tozero"] = _tozero_r->isChecked();
+    s["is_trunc"] = _trunc_r->isChecked();
+    s["is_ostu"] = _ostu_r->isChecked();
+    return s;
+}
+
+void CvBinaryModel::load(const QJsonObject &s)
+{
+    _thresh_val->setText(s["thresh_val"].toString());
+    _max_val->setText(s["max_val"].toString());
+
+    _inv_r->setChecked(s["is_inv"].isBool());
+    _not_inv_r->setChecked(s["is_not_inv"].toBool());
+    _binary_r->setChecked(s["is_binary"].toBool());
+    _tozero_r->setChecked(s["is_tozero"].toBool());
+    _trunc_r->setChecked(s["is_trunc"].toBool());
+    _trunc_r->setChecked(s["is_ostu"].toBool());
 }

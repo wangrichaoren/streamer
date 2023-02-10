@@ -118,16 +118,3 @@ void CvImageLoaderModel::load(const QJsonObject &js)
 
     _label->setPixmap(_q_pix.scaled(w, h, Qt::KeepAspectRatio));
 }
-
-void load(QJsonObject const &jsonDocument)
-{
-    //    for (QJsonValueRef nodeJson : nodesJsonArray) {
-    //        NodeId restoredNodeId = static_cast<NodeId>(nodeJson.toObject()["id"].toInt());
-    //        std::cout<<"aaa"<<std::endl;
-    //        std::cout<<restoredNodeId<<std::endl;
-    //    }
-
-    //        qDebug(e["nodes"]);
-    //    std::cout<<e["nodes"].toString().toStdString()<<std::endl;
-    //    NodeDelegateModel::load("image_path");
-}
