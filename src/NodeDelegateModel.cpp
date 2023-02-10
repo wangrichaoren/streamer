@@ -1,6 +1,7 @@
 #include "NodeDelegateModel.hpp"
 
 #include "StyleCollection.hpp"
+#include <iostream>
 
 namespace QtNodes {
 

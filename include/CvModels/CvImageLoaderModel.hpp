@@ -19,6 +19,7 @@ using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
+using NodeId = QtNodes::NodeId;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
@@ -50,6 +51,10 @@ public:
     QWidget *embeddedWidget() override { return _box; }
 
     bool resizable() const override { return true; }
+
+    QJsonObject save() const override;
+
+    void load(QJsonObject const &) override;
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;

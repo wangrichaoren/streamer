@@ -70,9 +70,15 @@ bool CvImageShowModel::eventFilter(QObject *object, QEvent *event)
                 if (d->mat().empty()) {
                     return false;
                 };
-                auto pix = QPixmap::fromImage(cvMat2QImage(d->mat()));
+                auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonDblClick) {
+            if (_mat.empty()) {
+                return false;
+            }
+            // 大图显示图片
+//            cv::imshow("Image Display", _mat);
         }
     } else if (object == _saveBtn) {
         if (event->type() == QEvent::MouseButtonPress) {
@@ -113,6 +119,7 @@ void CvImageShowModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex c
             return;
         };
 
+        _mat = d->mat();
         int w = _label->width();
         int h = _label->height();
 

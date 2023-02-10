@@ -366,6 +366,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvBlurModel.hpp
         include/CvModels/CvMedianBlurModel.hpp
         include/CvModels/CvGaussianBlurModel.hpp
+        include/CvModels/CvEdgeModel.hpp
         )
 
 # 2d模型源文件
@@ -379,6 +380,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvBlurModel.cpp
         src/CvModels/CvMedianBlurModel.cpp
         src/CvModels/CvGaussianBlurModel.cpp
+        src/CvModels/CvEdgeModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

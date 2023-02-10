@@ -44,6 +44,9 @@ public:
     /// Name makes this model unique
     virtual QString name() const = 0;
 
+    /// TODO node param 要做对node参数的解析和保存!
+//    virtual std::vector<QString> param() const = 0;
+
 public:
     QJsonObject save() const override;
 

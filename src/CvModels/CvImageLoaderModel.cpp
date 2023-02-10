@@ -3,6 +3,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 
+#include <QJsonArray>
 #include <QtWidgets/QFileDialog>
 
 CvImageLoaderModel::CvImageLoaderModel()
@@ -12,7 +13,8 @@ CvImageLoaderModel::CvImageLoaderModel()
     , _box(new QGroupBox())
 {
     // group box 无边框
-    _box->setStyleSheet("QGroupBox{padding-top:15px; margin-top:-15px;padding-left:15px; margin-left:-15px;padding-right:15px; margin-right:-15px;}") ;
+    _box->setStyleSheet("QGroupBox{padding-top:15px; margin-top:-15px;padding-left:15px; "
+                        "margin-left:-15px;padding-right:15px; margin-right:-15px;}");
     _label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
 
     QFont f = _label->font();
@@ -65,7 +67,7 @@ bool CvImageLoaderModel::eventFilter(QObject *object, QEvent *event)
                                                             tr("Open Image"),
                                                             QDir::homePath(),
                                                             tr("Image Files (*.png *.jpg *.bmp)"));
-            if(fileName.isEmpty()){
+            if (fileName.isEmpty()) {
                 return false;
             }
             _mat = cv::imread(fileName.toStdString(), -1);
@@ -98,4 +100,34 @@ std::shared_ptr<NodeData> CvImageLoaderModel::outData(PortIndex)
 {
     return std::make_shared<ImageData>(_mat);
 }
+QJsonObject CvImageLoaderModel::save() const
+{
+    auto saver = NodeDelegateModel::save();
+    saver["image_path"] = _path_lineedit->text();
+    return saver;
+}
+void CvImageLoaderModel::load(const QJsonObject &js)
+{
+    _path_lineedit->setText(js["image_path"].toString());
+    _mat = cv::imread(js["image_path"].toString().toStdString(), -1);
+    // _mat->pixmap
+    _q_pix = QPixmap::fromImage(MatToQImage(_mat));
 
+    int w = _label->width();
+    int h = _label->height();
+
+    _label->setPixmap(_q_pix.scaled(w, h, Qt::KeepAspectRatio));
+}
+
+void load(QJsonObject const &jsonDocument)
+{
+    //    for (QJsonValueRef nodeJson : nodesJsonArray) {
+    //        NodeId restoredNodeId = static_cast<NodeId>(nodeJson.toObject()["id"].toInt());
+    //        std::cout<<"aaa"<<std::endl;
+    //        std::cout<<restoredNodeId<<std::endl;
+    //    }
+
+    //        qDebug(e["nodes"]);
+    //    std::cout<<e["nodes"].toString().toStdString()<<std::endl;
+    //    NodeDelegateModel::load("image_path");
+}

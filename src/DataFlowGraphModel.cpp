@@ -414,6 +414,7 @@ QJsonObject DataFlowGraphModel::saveNode(NodeId const nodeId) const
 
     nodeJson["id"] = static_cast<qint64>(nodeId);
 
+    // TODO 插入到这里
     nodeJson["internal-data"] = _models.at(nodeId)->save();
 
     {
@@ -491,6 +492,7 @@ void DataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
 
 void DataFlowGraphModel::load(QJsonObject const &jsonDocument)
 {
+    // Restore the node
     QJsonArray nodesJsonArray = jsonDocument["nodes"].toArray();
 
     for (QJsonValueRef nodeJson : nodesJsonArray) {
