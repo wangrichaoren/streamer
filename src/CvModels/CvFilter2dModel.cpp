@@ -83,16 +83,16 @@ CvFilter2dModel::CvFilter2dModel()
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 
-    connect(dep_edit, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n00, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n01, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n02, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n10, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n11, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n12, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n20, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n21, &QLineEdit::textChanged, [=] { compute(); });
-    connect(n22, &QLineEdit::textChanged, [=] { compute(); });
+    connect(dep_edit, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n00, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n01, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n02, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n10, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n11, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n12, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n20, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n21, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(n22, &QLineEdit::editingFinished, [=] { compute(); });
 }
 
 unsigned int CvFilter2dModel::nPorts(PortType portType) const

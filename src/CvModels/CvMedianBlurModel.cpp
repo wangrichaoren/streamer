@@ -39,7 +39,7 @@ CvMedianBlurModel::CvMedianBlurModel()
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 
-    connect(val, &QLineEdit::textEdited, [=](const QString &v) { compute(); });
+    connect(val, &QLineEdit::editingFinished, [=] { compute(); });
 }
 
 unsigned int CvMedianBlurModel::nPorts(PortType portType) const

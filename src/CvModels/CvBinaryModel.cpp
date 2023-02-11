@@ -77,8 +77,8 @@ CvBinaryModel::CvBinaryModel()
     auto max_lab = new QLabel("最大值");
     createLineEditFormCurQObj(max_lay, max_lab, _max_val);
 
-    QObject::connect(_thresh_val, &QLineEdit::textChanged, [=] { this->compute(); });
-    QObject::connect(_max_val, &QLineEdit::textChanged, [=] { this->compute(); });
+    QObject::connect(_thresh_val, &QLineEdit::editingFinished, [=] { this->compute(); });
+    QObject::connect(_max_val, &QLineEdit::editingFinished, [=] { this->compute(); });
 
     _vlayout->addWidget(_label);
     _vlayout->addWidget(inv_G);

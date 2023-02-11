@@ -58,8 +58,8 @@ CvMorphModel::CvMorphModel()
     auto col_lab = new QLabel("高");
     _row_edit = new QLineEdit("5");
     _col_edit = new QLineEdit("5");
-    connect(_row_edit, &QLineEdit::textChanged, [=] { compute(); });
-    connect(_col_edit, &QLineEdit::textChanged, [=] { compute(); });
+    connect(_row_edit, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(_col_edit, &QLineEdit::editingFinished, [=] { compute(); });
 
     createLineEditFormCurQObj(row_lay, row_lab, _row_edit);
     createLineEditFormCurQObj(col_lay, col_lab, _col_edit);

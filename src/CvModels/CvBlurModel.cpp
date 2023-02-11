@@ -47,8 +47,8 @@ CvBlurModel::CvBlurModel()
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 
-    connect(val1, &QLineEdit::textChanged, [=] { compute(); });
-    connect(val2, &QLineEdit::textChanged, [=] { compute(); });
+    connect(val1, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(val2, &QLineEdit::editingFinished, [=] { compute(); });
 }
 
 unsigned int CvBlurModel::nPorts(PortType portType) const

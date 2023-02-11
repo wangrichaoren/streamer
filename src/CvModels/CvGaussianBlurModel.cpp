@@ -65,10 +65,10 @@ CvGaussianBlurModel::CvGaussianBlurModel()
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 
-    connect(_kredi, &QLineEdit::textEdited, [=](const QString &v) { compute(); });
-    connect(_kcedi, &QLineEdit::textEdited, [=](const QString &v) { compute(); });
-    connect(_sigmx, &QLineEdit::textEdited, [=](const QString &v) { compute(); });
-    connect(_sigmy, &QLineEdit::textEdited, [=](const QString &v) { compute(); });
+    connect(_kredi, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(_kcedi, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(_sigmx, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(_sigmy, &QLineEdit::editingFinished, [=] { compute(); });
 }
 
 unsigned int CvGaussianBlurModel::nPorts(PortType portType) const

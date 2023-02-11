@@ -60,16 +60,35 @@ public:
 
     QJsonObject save() const override;
 
+    void createLaplacianGroupBox();
+
+    void createSobelGroupBox();
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     QLabel *_label;
     QGroupBox *_box;
-    QRadioButton *laplacian_radio;
-    QRadioButton *sobel_radio;
-    QIntValidator *p_int_vld;
 
+    QRadioButton *laplacian_radio;
+    QLineEdit *ddepth_laplacian;
+    QLineEdit *ksize_laplacian;
+    QLineEdit *scale_laplacian;
+    QLineEdit *delta_laplacian;
+
+    QRadioButton *sobel_radio;
+    QLineEdit *ddepth_sobel;
+    QLineEdit *ksize_sobel;
+    QLineEdit *dx_sobel;
+    QLineEdit *dy_sobel;
+    QLineEdit *scale_sobel;
+    QLineEdit *delta_sobel;
+
+    QGroupBox *laplacian_group;
+    QGroupBox *sobel_group;
+
+    QVBoxLayout *all_lay;
 
     cv::Mat _mat;
     QPixmap _q_pix;

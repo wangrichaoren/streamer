@@ -38,6 +38,7 @@
 #include "../include/CvModels/CvBlurModel.hpp"
 #include "../include/CvModels/CvMedianBlurModel.hpp"
 #include "../include/CvModels/CvGaussianBlurModel.hpp"
+#include "../include/CvModels/CvEdgeModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -69,6 +70,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvBlurModel>("2D");
     ret->registerModel<CvMedianBlurModel>("2D");
     ret->registerModel<CvGaussianBlurModel>("2D");
+    ret->registerModel<CvEdgeModel>("2D");
 
     // todo 3d模型
 
