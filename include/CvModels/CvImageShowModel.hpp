@@ -12,6 +12,7 @@
 #include <opencv2/opencv.hpp>
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>
+#include "../include/Widget/Full2DDialog.h"
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;

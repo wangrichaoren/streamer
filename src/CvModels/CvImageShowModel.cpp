@@ -73,12 +73,15 @@ bool CvImageShowModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
-        } else if (event->type() == QEvent::MouseButtonDblClick) {
+        } else if (event->type() == QEvent::MouseButtonPress) {
             if (_mat.empty()) {
                 return false;
             }
-            // 大图显示图片
-//            cv::imshow("Image Display", _mat);
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     } else if (object == _saveBtn) {
         if (event->type() == QEvent::MouseButtonPress) {

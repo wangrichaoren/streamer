@@ -387,6 +387,22 @@ set(CV_MODEL_SOURCE_FILES
 # ---------------------------------------
 
 
+
+# --------------外部控件------------------
+set(WIDGET_UI_HEADER_FILES
+        include/Widget/ui_Full2DDialog.h
+        include/Widget/Full2DDialog.ui
+        include/Widget/Full2DDialog.h
+        )
+
+set(WIDGET_UI_SOURCE_FILES
+        src/Widget/Full2DDialog.cpp
+        )
+# ---------------------------------------
+# ---------------------------------------
+# ---------------------------------------
+
+
 # 主程序
 set(MAIN_SOURCE_FILE
         main.cpp
@@ -406,6 +422,9 @@ add_executable(streamer
         ${GENERAL_MODEL_SOURCE_FILES}
         ${CV_MODEL_HEADER_FILES}
         ${CV_MODEL_SOURCE_FILES}
+
+        ${WIDGET_UI_HEADER_FILES}
+        ${WIDGET_UI_SOURCE_FILES}
 )
 
 target_link_libraries(streamer QtNodes)
