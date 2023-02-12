@@ -31,15 +31,16 @@
 
 #include "../include/CvModels/CvBinaryModel.hpp"
 #include "../include/CvModels/CvBlurModel.hpp"
+#include "../include/CvModels/CvDrawContoursModel.hpp"
 #include "../include/CvModels/CvEdgeModel.hpp"
 #include "../include/CvModels/CvFilter2dModel.hpp"
+#include "../include/CvModels/CvFindContoursModel.hpp"
 #include "../include/CvModels/CvGaussianBlurModel.hpp"
 #include "../include/CvModels/CvImageLoaderModel.hpp"
 #include "../include/CvModels/CvImageShowModel.hpp"
 #include "../include/CvModels/CvMedianBlurModel.hpp"
 #include "../include/CvModels/CvMorphModel.hpp"
 #include "../include/CvModels/CvRGB2GrayModel.hpp"
-#include "../include/CvModels/CvFindContoursModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -73,6 +74,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvGaussianBlurModel>("2D");
     ret->registerModel<CvEdgeModel>("2D");
     ret->registerModel<CvFindContoursModel>("2D");
+    ret->registerModel<CvDrawContoursModel>("2D");
 
     // todo 3d模型
 

@@ -369,6 +369,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvGaussianBlurModel.hpp
         include/CvModels/CvEdgeModel.hpp
         include/CvModels/CvFindContoursModel.hpp
+        include/CvModels/CvDrawContoursModel.hpp
         )
 
 # 2d模型源文件
@@ -384,6 +385,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvGaussianBlurModel.cpp
         src/CvModels/CvEdgeModel.cpp
         src/CvModels/CvFindContoursModel.cpp
+        src/CvModels/CvDrawContoursModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------
