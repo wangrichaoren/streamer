@@ -39,6 +39,7 @@
 #include "../include/CvModels/CvMedianBlurModel.hpp"
 #include "../include/CvModels/CvMorphModel.hpp"
 #include "../include/CvModels/CvRGB2GrayModel.hpp"
+#include "../include/CvModels/CvFindContoursModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -71,6 +72,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvMedianBlurModel>("2D");
     ret->registerModel<CvGaussianBlurModel>("2D");
     ret->registerModel<CvEdgeModel>("2D");
+    ret->registerModel<CvFindContoursModel>("2D");
 
     // todo 3d模型
 

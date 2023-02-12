@@ -21,7 +21,7 @@ public:
     NodeDataType type() const override
     {
         //       id      name
-        return {"Cv Mat", "CvMat"};
+        return {"Mat", "mat"};
     }
 
     cv::Mat mat() const { return _cv_mat; }

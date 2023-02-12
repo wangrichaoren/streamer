@@ -315,6 +315,7 @@ set(HEADLESS_DATA_SOURCE_FILES
         include/DataTypes/ImageData.hpp
         include/DataTypes/StringData.hpp
         include/DataTypes/PixmapData.hpp
+        include/DataTypes/ContoursData.hpp
         )
 # ------------------------
 # ------------------------
@@ -367,6 +368,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvMedianBlurModel.hpp
         include/CvModels/CvGaussianBlurModel.hpp
         include/CvModels/CvEdgeModel.hpp
+        include/CvModels/CvFindContoursModel.hpp
         )
 
 # 2d模型源文件
@@ -381,6 +383,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvMedianBlurModel.cpp
         src/CvModels/CvGaussianBlurModel.cpp
         src/CvModels/CvEdgeModel.cpp
+        src/CvModels/CvFindContoursModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------
