@@ -17,11 +17,6 @@ CvBinaryModel::CvBinaryModel()
     auto bf = _box->font();
     bf.setBold(true);
     _box->setFont(bf);
-    // 限制输入范围 -255~255
-    //    ^-?(255|([1,2]?[0-4]?\d|[1,2]?5[0-4]?)(\.\d)?)$
-    //    QRegExp regx("^[0-9]$|^[0-9]{2}$|^[1][0-9]{2}$|^[2][0-4][0-9]$|^[2][5][0-5]$");
-    QRegExp regx("^-?(255|([1,2]?[0-4]?\\d|[1,2]?5[0-4]?)(\\.\\d)?)$");
-    auto p_reg = new QRegExpValidator(regx, this);
 
     // show label
     _label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
@@ -30,10 +25,6 @@ CvBinaryModel::CvBinaryModel()
     _label->setFont(f);
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
-
-    // 限制输入类型和范围
-    _thresh_val->setValidator(p_reg);
-    _max_val->setValidator(p_reg);
 
     // 取反
     auto inv_G = new QGroupBox("取反");

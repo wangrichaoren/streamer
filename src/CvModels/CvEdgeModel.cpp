@@ -29,13 +29,16 @@ CvEdgeModel::CvEdgeModel()
     auto type_group = new QGroupBox("方法");
 
     auto type_hlay = new QHBoxLayout();
+    canny_radio = new QRadioButton("canny");
     laplacian_radio = new QRadioButton("laplacian");
     sobel_radio = new QRadioButton("sobel");
+    type_hlay->addWidget(canny_radio);
     type_hlay->addWidget(laplacian_radio);
     type_hlay->addWidget(sobel_radio);
     type_group->setLayout(type_hlay);
 
     // ----
+    createCannyGroupBox();
     createLaplacianGroupBox();
     createSobelGroupBox();
     //----
@@ -46,8 +49,18 @@ CvEdgeModel::CvEdgeModel()
 
     _box->resize(200, 200);
 
+    connect(canny_radio, &QRadioButton::clicked, [=] {
+        sobel_group->hide();
+        laplacian_group->hide();
+        canny_group->show();
+        all_lay->addWidget(canny_group);
+        _box->setLayout(all_lay);
+        compute();
+    });
+
     connect(laplacian_radio, &QRadioButton::clicked, [=] {
         sobel_group->hide();
+        canny_group->hide();
         laplacian_group->show();
         all_lay->addWidget(laplacian_group);
         _box->setLayout(all_lay);
@@ -56,14 +69,18 @@ CvEdgeModel::CvEdgeModel()
 
     connect(sobel_radio, &QRadioButton::clicked, [=] {
         laplacian_group->hide();
+        canny_group->hide();
         sobel_group->show();
         all_lay->addWidget(sobel_group);
         _box->setLayout(all_lay);
         compute();
     });
 
-    connect(laplacian_radio, &QRadioButton::clicked, [=] { compute(); });
-    connect(sobel_radio, &QRadioButton::clicked, [=] { compute(); });
+    connect(laplacian_radio, &QRadioButton::objectNameChanged, [=] { compute(); });
+    connect(sobel_radio, &QRadioButton::objectNameChanged, [=] { compute(); });
+    connect(canny_radio, &QRadioButton::objectNameChanged, [=] { compute(); });
+    connect(l2gradient_canny_true, &QRadioButton::objectNameChanged, [=] { compute(); });
+    connect(l2gradient_canny_false, &QRadioButton::objectNameChanged, [=] { compute(); });
 
     connect(ddepth_laplacian, &QLineEdit::editingFinished, [=] { compute(); });
     connect(ksize_laplacian, &QLineEdit::editingFinished, [=] { compute(); });
@@ -76,8 +93,12 @@ CvEdgeModel::CvEdgeModel()
     connect(scale_sobel, &QLineEdit::editingFinished, [=] { compute(); });
     connect(delta_sobel, &QLineEdit::editingFinished, [=] { compute(); });
 
-    laplacian_radio->setChecked(true);
-    Q_EMIT laplacian_radio->clicked(true);
+    connect(threshold1_canny, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(threshold2_canny, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(aperture_size_canny, &QLineEdit::editingFinished, [=] { compute(); });
+
+    canny_radio->setChecked(true);
+    Q_EMIT canny_radio->clicked(true);
 }
 
 unsigned int CvEdgeModel::nPorts(PortType portType) const
@@ -193,10 +214,10 @@ void CvEdgeModel::compute()
             ddepth_sobel->setText(std::to_string(s_ddepth).c_str());
         }
 
-//        if (s_ksize == 0) {
-//            s_ksize = 1;
-//            ksize_sobel->setText(std::to_string(s_ksize).c_str());
-//        }
+        //        if (s_ksize == 0) {
+        //            s_ksize = 1;
+        //            ksize_sobel->setText(std::to_string(s_ksize).c_str());
+        //        }
 
         if (s_ksize % 2 == 0) {
             s_ksize += 1;
@@ -224,6 +245,27 @@ void CvEdgeModel::compute()
         }
 
         cv::Sobel(d->mat(), _mat, s_ddepth, s_dx, s_dy, s_ksize, s_scale, s_delta);
+    } else if (canny_radio->isChecked()) {
+        auto th1 = threshold1_canny->text().toDouble();
+        auto th2 = threshold2_canny->text().toDouble();
+        auto as = aperture_size_canny->text().toInt();
+
+        if (as < 3) {
+            as = 3;
+            aperture_size_canny->setText(std::to_string(as).c_str());
+        }
+        if (as > 7) {
+            as = 7;
+            aperture_size_canny->setText(std::to_string(as).c_str());
+        }
+
+        bool f;
+        if (l2gradient_canny_true->isChecked()) {
+            f = true;
+        } else {
+            f = false;
+        }
+        cv::Canny(d->mat(), _mat, th1, th2, as, f);
     }
 
     int w = _label->width();
@@ -239,6 +281,13 @@ void CvEdgeModel::load(const QJsonObject &s)
     laplacian_radio->setChecked(s["laplacian_radio"].toBool());
     sobel_radio->setChecked(s["sobel_radio"].toBool());
 
+    canny_radio->setChecked(s["canny_radio"].toBool());
+    l2gradient_canny_true->setChecked(s["l2gradient_canny_true"].toBool());
+    l2gradient_canny_false->setChecked(s["l2gradient_canny_false"].toBool());
+    threshold1_canny->setText(s["threshold1_canny"].toString());
+    threshold2_canny->setText(s["threshold2_canny"].toString());
+    aperture_size_canny->setText(s["aperture_size_canny"].toString());
+
     ddepth_laplacian->setText(s["ddepth_laplacian"].toString());
     ksize_laplacian->setText(s["ksize_laplacian"].toString());
     scale_laplacian->setText(s["scale_laplacian"].toString());
@@ -252,14 +301,23 @@ void CvEdgeModel::load(const QJsonObject &s)
 
     if (laplacian_radio->isChecked()) {
         emit laplacian_radio->clicked(true);
-    } else {
+    } else if (sobel_radio->isChecked()) {
         emit sobel_radio->clicked(true);
+    } else if (canny_radio->isChecked()) {
+        emit canny_radio->clicked(true);
     }
 }
 
 QJsonObject CvEdgeModel::save() const
 {
     auto s = NodeDelegateModel::save();
+    s["canny_radio"] = canny_radio->isChecked();
+    s["threshold1_canny"] = threshold1_canny->text();
+    s["threshold2_canny"] = threshold2_canny->text();
+    s["aperture_size_canny"] = aperture_size_canny->text();
+    s["l2gradient_canny_true"] = l2gradient_canny_true->isChecked();
+    s["l2gradient_canny_false"] = l2gradient_canny_false->isChecked();
+
     s["laplacian_radio"] = laplacian_radio->isChecked();
     s["ddepth_laplacian"] = ddepth_laplacian->text();
     s["ksize_laplacian"] = ksize_laplacian->text();
@@ -361,4 +419,47 @@ void CvEdgeModel::createSobelGroupBox()
     sbl_vlay->addLayout(kv_lay2);
     sbl_vlay->addLayout(kv_lay3);
     sobel_group->setLayout(sbl_vlay);
+}
+
+void CvEdgeModel::createCannyGroupBox()
+{
+    //    cv::Canny()
+    canny_group = new QGroupBox();
+
+    auto canny_vlay = new QVBoxLayout();
+
+    auto canny_hlay1 = new QHBoxLayout();
+    auto canny_hlay2 = new QHBoxLayout();
+    auto canny_hlay3 = new QHBoxLayout();
+    auto canny_hlay4 = new QHBoxLayout();
+    auto canny_hlay5 = new QHBoxLayout();
+
+    auto threshold1_lab = new QLabel("threshold1");
+    auto threshold2_lab = new QLabel("threshold2");
+    auto aperture_size_slab = new QLabel("apertureSize");
+
+    threshold1_canny = new QLineEdit("50");
+    threshold2_canny = new QLineEdit("100");
+    aperture_size_canny = new QLineEdit("3");
+
+    createLineEditFormCurQObj(canny_hlay1, threshold1_lab, threshold1_canny);
+    createLineEditFormCurQObj(canny_hlay2, threshold2_lab, threshold2_canny);
+    createLineEditFormCurQObj(canny_hlay3, aperture_size_slab, aperture_size_canny);
+
+    auto iASG = new QGroupBox("isApertureSize");
+    auto iASG_lay = new QVBoxLayout();
+    l2gradient_canny_false = new QRadioButton("false");
+    l2gradient_canny_true = new QRadioButton("true");
+    auto iasg_hlay = new QHBoxLayout();
+    iasg_hlay->addWidget(l2gradient_canny_false);
+    iasg_hlay->addWidget(l2gradient_canny_true);
+    iASG_lay->addLayout(iasg_hlay);
+    l2gradient_canny_false->setChecked(true);
+    iASG->setLayout(iASG_lay);
+
+    canny_vlay->addLayout(canny_hlay1);
+    canny_vlay->addLayout(canny_hlay2);
+    canny_vlay->addLayout(canny_hlay3);
+    canny_vlay->addWidget(iASG);
+    canny_group->setLayout(canny_vlay);
 }

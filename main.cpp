@@ -22,23 +22,23 @@
 
 #include "../include/GeneralModels/AdditionModel.hpp"
 #include "../include/GeneralModels/DivisionModel.hpp"
+#include "../include/GeneralModels/ImageLoaderModel.hpp"
+#include "../include/GeneralModels/ImageShowModel.hpp"
 #include "../include/GeneralModels/MultiplicationModel.hpp"
 #include "../include/GeneralModels/NumberDisplayDataModel.hpp"
 #include "../include/GeneralModels/NumberSourceDataModel.hpp"
 #include "../include/GeneralModels/SubtractionModel.hpp"
-#include "../include/GeneralModels/ImageShowModel.hpp"
-#include "../include/GeneralModels/ImageLoaderModel.hpp"
 
 #include "../include/CvModels/CvBinaryModel.hpp"
+#include "../include/CvModels/CvBlurModel.hpp"
+#include "../include/CvModels/CvEdgeModel.hpp"
 #include "../include/CvModels/CvFilter2dModel.hpp"
+#include "../include/CvModels/CvGaussianBlurModel.hpp"
 #include "../include/CvModels/CvImageLoaderModel.hpp"
 #include "../include/CvModels/CvImageShowModel.hpp"
+#include "../include/CvModels/CvMedianBlurModel.hpp"
 #include "../include/CvModels/CvMorphModel.hpp"
 #include "../include/CvModels/CvRGB2GrayModel.hpp"
-#include "../include/CvModels/CvBlurModel.hpp"
-#include "../include/CvModels/CvMedianBlurModel.hpp"
-#include "../include/CvModels/CvGaussianBlurModel.hpp"
-#include "../include/CvModels/CvEdgeModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -397,8 +397,7 @@ int main(int argc, char *argv[])
             "版权说明",
             "本软件免费使用,开发初衷皆为致力于打造简单/高效/"
             "复用率高的生产环境,欢迎使用!\n\nDmitry Pinaev et al, Qt Nodes, (2022), GitHub "
-            "repository, https://github.com/paceholder/nodeeditor\n\nAuthor: JerryWang Secondary "
-            "development. ",
+            "repository, https://github.com/paceholder/nodeeditor\n\nAuthor: Wrc development. ",
             1,
             {"返回"});
     });

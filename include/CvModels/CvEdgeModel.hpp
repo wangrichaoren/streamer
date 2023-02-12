@@ -60,6 +60,8 @@ public:
 
     QJsonObject save() const override;
 
+    void createCannyGroupBox();
+
     void createLaplacianGroupBox();
 
     void createSobelGroupBox();
@@ -70,6 +72,14 @@ protected:
 private:
     QLabel *_label;
     QGroupBox *_box;
+
+    QRadioButton *canny_radio;
+    QLineEdit *threshold1_canny;
+    QLineEdit *threshold2_canny;
+    QLineEdit *aperture_size_canny;
+    QRadioButton *l2gradient_canny_true;
+    QRadioButton *l2gradient_canny_false;
+
 
     QRadioButton *laplacian_radio;
     QLineEdit *ddepth_laplacian;
@@ -87,6 +97,7 @@ private:
 
     QGroupBox *laplacian_group;
     QGroupBox *sobel_group;
+    QGroupBox *canny_group;
 
     QVBoxLayout *all_lay;
 
