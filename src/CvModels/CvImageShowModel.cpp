@@ -61,6 +61,7 @@ unsigned int CvImageShowModel::nPorts(PortType portType) const
 bool CvImageShowModel::eventFilter(QObject *object, QEvent *event)
 {
     if (object == _label) {
+        this->embeddedWidget()->setCursor(Qt::PointingHandCursor);
         int w = _label->width();
         int h = _label->height();
 
