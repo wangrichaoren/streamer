@@ -1,0 +1,65 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"examples/lock_nodes_and_connections/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "QtNodes::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "lock_nodes_and_connections_autogen::@ec8587c2f3b508fa5508",
+	"isGeneratorProvided" : true,
+	"name" : "lock_nodes_and_connections_autogen",
+	"paths" : 
+	{
+		"build" : "examples/lock_nodes_and_connections",
+		"source" : "examples/lock_nodes_and_connections"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/examples/lock_nodes_and_connections/CMakeFiles/lock_nodes_and_connections_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/examples/lock_nodes_and_connections/CMakeFiles/lock_nodes_and_connections_autogen.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

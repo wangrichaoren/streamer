@@ -1,0 +1,16 @@
+/opt/clion-2022.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/opt/clion-2022.2.4/bin/ninja/linux/ninja -G Ninja -S /home/wrc/Desktop/streamer -B /home/wrc/Desktop/streamer/cmake-build-debug
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Debug mode: -Wall -O0
+-- QT_VERSION: 5.14.2, QT_DIR: /opt/Qt5.14.2/5.14.2/gcc_64/lib/cmake/Qt5
+-- Found OpenCV: /usr/local (found version "3.4.15") 
+-- OPENCV_VERSION: 3.4.15
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Failed to find sphinx-build executable (missing: SPHINX_EXECUTABLE) 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/wrc/Desktop/streamer/cmake-build-debug
