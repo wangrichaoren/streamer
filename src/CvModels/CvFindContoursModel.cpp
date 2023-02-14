@@ -8,28 +8,18 @@
 #include <QtWidgets/QFileDialog>
 
 CvFindContoursModel::CvFindContoursModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
 {
     auto bf = _box->font();
     bf.setBold(true);
     _box->setFont(bf);
 
-    // show label
-    _label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-    QFont f = _label->font();
-    f.setItalic(true);
-    _label->setFont(f);
-    _label->setMinimumSize(200, 200);
-    _label->installEventFilter(this);
-
-    // todo
-    auto mode_group = new QGroupBox("模式");
-    auto mode_vlay = new QVBoxLayout();
-    mode_retr_external = new QRadioButton("RETR_EXTERNAL");
-    mode_retr_list = new QRadioButton("RETR_LIST");
-    mode_retr_ccomp = new QRadioButton("RETR_CCOMP");
-    mode_retr_tree = new QRadioButton("RETR_TREE");
+    auto mode_group = new QGroupBox("模式", _box);
+    auto mode_vlay = new QVBoxLayout(_box);
+    mode_retr_external = new QRadioButton("RETR_EXTERNAL", _box);
+    mode_retr_list = new QRadioButton("RETR_LIST", _box);
+    mode_retr_ccomp = new QRadioButton("RETR_CCOMP", _box);
+    mode_retr_tree = new QRadioButton("RETR_TREE", _box);
     mode_vlay->addWidget(mode_retr_external);
     mode_vlay->addWidget(mode_retr_list);
     mode_vlay->addWidget(mode_retr_ccomp);
@@ -37,12 +27,12 @@ CvFindContoursModel::CvFindContoursModel()
     mode_group->setLayout(mode_vlay);
     mode_retr_external->setChecked(true);
 
-    auto method_group = new QGroupBox("方法");
-    auto method_vlay = new QVBoxLayout();
-    method_chain_approx_none = new QRadioButton("CHAIN_APPROX_NONE");
-    method_chain_approx_simple = new QRadioButton("CHAIN_APPROX_SIMPLE");
-    method_chain_approx_tc89_l1 = new QRadioButton("CHAIN_APPROX_TC89_L1");
-    method_chain_approx_tc89_kcos = new QRadioButton("CHAIN_APPROX_TC89_KCOS");
+    auto method_group = new QGroupBox("方法", _box);
+    auto method_vlay = new QVBoxLayout(_box);
+    method_chain_approx_none = new QRadioButton("CHAIN_APPROX_NONE", _box);
+    method_chain_approx_simple = new QRadioButton("CHAIN_APPROX_SIMPLE", _box);
+    method_chain_approx_tc89_l1 = new QRadioButton("CHAIN_APPROX_TC89_L1", _box);
+    method_chain_approx_tc89_kcos = new QRadioButton("CHAIN_APPROX_TC89_KCOS", _box);
     method_vlay->addWidget(method_chain_approx_none);
     method_vlay->addWidget(method_chain_approx_simple);
     method_vlay->addWidget(method_chain_approx_tc89_l1);
@@ -50,7 +40,7 @@ CvFindContoursModel::CvFindContoursModel()
     method_group->setLayout(method_vlay);
     method_chain_approx_none->setChecked(true);
 
-    auto all_lay = new QVBoxLayout();
+    auto all_lay = new QVBoxLayout(_box);
     //    all_lay->addWidget(_label);
     all_lay->addWidget(mode_group);
     all_lay->addWidget(method_group);
@@ -89,34 +79,7 @@ unsigned int CvFindContoursModel::nPorts(PortType portType) const
     return result;
 }
 
-bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event)
-{
-    if (object == _label) {
-        int w = _label->width();
-        int h = _label->height();
-
-        if (event->type() == QEvent::Resize) {
-            auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);
-            if (d) {
-                if (_mat.empty()) {
-                    return false;
-                };
-                auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
-                _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
-            }
-        } else if (event->type() == QEvent::MouseButtonPress) {
-            if (_mat.empty()) {
-                return false;
-            }
-            auto shower = new Full2DDialog(nullptr, &_mat);
-            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
-            shower->showNormal();
-            shower->exec();
-            shower->deleteLater();
-        }
-    }
-    return false;
-}
+bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event) {}
 
 NodeDataType CvFindContoursModel::dataType(PortType const portType, PortIndex const portIndex) const
 {
@@ -156,7 +119,7 @@ void CvFindContoursModel::setInData(std::shared_ptr<NodeData> nodeData, PortInde
         this->compute();
 
     } else {
-        _label->setPixmap(QPixmap());
+        return;
     }
 
     // dataUpdated 触发下游的节点更新
@@ -198,23 +161,17 @@ void CvFindContoursModel::compute()
 
     //    drawContours(_mat, contours, -1, cv::Scalar(255, 255, 0), 2, cv::LINE_AA);
 
-//    for (const auto& c : contours) {
-//        double area = cv::contourArea(c);
-//        //        double arc = cv::arcLength(c, true);
-////        std::cout << "面积: " << area << std::endl;
-//        //        cv::Point2f center;
-//        //        float radius;
-//        //        cv::minEnclosingCircle(c, center, radius);
-//        //        //        _mat.
-//        //        cv::circle(_mat, center, radius, cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
-//    }
-    // todo ----
+    //    for (const auto& c : contours) {
+    //        double area = cv::contourArea(c);
+    //        //        double arc = cv::arcLength(c, true);
+    ////        std::cout << "面积: " << area << std::endl;
+    //        //        cv::Point2f center;
+    //        //        float radius;
+    //        //        cv::minEnclosingCircle(c, center, radius);
+    //        //        //        _mat.
+    //        //        cv::circle(_mat, center, radius, cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
+    //    }
 
-    int w = _label->width();
-    int h = _label->height();
-
-    auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
-    _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
 }

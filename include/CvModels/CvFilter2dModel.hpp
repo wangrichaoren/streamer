@@ -32,7 +32,7 @@ class CvFilter2dModel : public NodeDelegateModel
 public:
     CvFilter2dModel();
 
-    ~CvFilter2dModel() = default;
+    ~CvFilter2dModel() override{delete _box;std::cout<<"delete CvFilter2dModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("Filter2d"); }
@@ -64,8 +64,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
     QLineEdit *dep_edit;
     QLineEdit *n00;
     QLineEdit *n01;

@@ -8,9 +8,10 @@
 #include <QtWidgets/QFileDialog>
 
 CvFilter2dModel::CvFilter2dModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
 {
+    auto all_lay = new QVBoxLayout(_box);
     auto bf = _box->font();
     bf.setBold(true);
     _box->setFont(bf);
@@ -23,43 +24,29 @@ CvFilter2dModel::CvFilter2dModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto pIntVld = new QIntValidator();
 
-    dep_edit = new QLineEdit("-1");
-    dep_edit->setValidator(pIntVld);
-    auto dep_lay = new QHBoxLayout();
-    auto dep_lab = new QLabel("深度");
+    dep_edit = new QLineEdit("-1",_box);
+    auto dep_lay = new QHBoxLayout(_box);
+    auto dep_lab = new QLabel("深度",_box);
     createLineEditFormCurQObj(dep_lay, dep_lab, dep_edit);
 
-    auto all_lay = new QVBoxLayout();
 
-    auto kernel_G = new QGroupBox("卷积核3*3");
-    auto v_line_lay = new QVBoxLayout();
+    auto kernel_G = new QGroupBox("卷积核3*3",_box);
+    auto v_line_lay = new QVBoxLayout(_box);
 
-    auto h_lay1 = new QHBoxLayout();
-    auto h_lay2 = new QHBoxLayout();
-    auto h_lay3 = new QHBoxLayout();
+    auto h_lay1 = new QHBoxLayout(_box);
+    auto h_lay2 = new QHBoxLayout(_box);
+    auto h_lay3 = new QHBoxLayout(_box);
 
-    n00 = new QLineEdit("-1");
-    n01 = new QLineEdit("-1");
-    n02 = new QLineEdit("-1");
-    n10 = new QLineEdit("-1");
-    n11 = new QLineEdit("9");
-    n12 = new QLineEdit("-1");
-    n20 = new QLineEdit("-1");
-    n21 = new QLineEdit("-1");
-    n22 = new QLineEdit("-1");
-
-    n00->setValidator(pIntVld);
-    n01->setValidator(pIntVld);
-    n02->setValidator(pIntVld);
-    n10->setValidator(pIntVld);
-    n11->setValidator(pIntVld);
-    n12->setValidator(pIntVld);
-    n20->setValidator(pIntVld);
-    n21->setValidator(pIntVld);
-    n22->setValidator(pIntVld);
-
+    n00 = new QLineEdit("-1",_box);
+    n01 = new QLineEdit("-1",_box);
+    n02 = new QLineEdit("-1",_box);
+    n10 = new QLineEdit("-1",_box);
+    n11 = new QLineEdit("9",_box);
+    n12 = new QLineEdit("-1",_box);
+    n20 = new QLineEdit("-1",_box);
+    n21 = new QLineEdit("-1",_box);
+    n22 = new QLineEdit("-1",_box);
     h_lay1->addWidget(n00);
     h_lay1->addWidget(n01);
     h_lay1->addWidget(n02);

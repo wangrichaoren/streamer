@@ -6,8 +6,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvDrawContoursModel::CvDrawContoursModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual"))
 {
     auto bf = _box->font();
     bf.setBold(true);
@@ -24,7 +24,7 @@ CvDrawContoursModel::CvDrawContoursModel()
     // todo
 
     // todo
-    auto all_lay = new QHBoxLayout();
+    auto all_lay = new QHBoxLayout(_box);
     all_lay->addWidget(_label);
     _box->setLayout(all_lay);
 
@@ -138,7 +138,7 @@ void CvDrawContoursModel::setInData(std::shared_ptr<NodeData> nodeData, PortInde
 
     if (port0_ok + port1_ok == 2) {
         compute();
-    }else{
+    } else {
         _label->clear();
         _mat.release();
     }

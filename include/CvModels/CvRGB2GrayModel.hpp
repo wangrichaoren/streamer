@@ -29,7 +29,7 @@ class CvRGB2GrayModel : public NodeDelegateModel
 public:
     CvRGB2GrayModel();
 
-    ~CvRGB2GrayModel() override = default;
+    ~CvRGB2GrayModel() override {delete _label;std::cout<<"delete CvRGB2GrayModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("RGB2Gray"); }

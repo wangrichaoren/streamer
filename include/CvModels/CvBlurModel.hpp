@@ -32,7 +32,7 @@ class CvBlurModel : public NodeDelegateModel
 public:
     CvBlurModel();
 
-    ~CvBlurModel() = default;
+    ~CvBlurModel() override{delete _box;std::cout<<"delete CvBlurModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("Blur"); }

@@ -8,8 +8,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvEdgeModel::CvEdgeModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
     , laplacian_group{nullptr}
     , sobel_group{nullptr}
 {
@@ -26,12 +26,12 @@ CvEdgeModel::CvEdgeModel()
     _label->installEventFilter(this);
 
     // radio group
-    auto type_group = new QGroupBox("方法");
+    auto type_group = new QGroupBox("方法",_box);
 
-    auto type_hlay = new QHBoxLayout();
-    canny_radio = new QRadioButton("canny");
-    laplacian_radio = new QRadioButton("laplacian");
-    sobel_radio = new QRadioButton("sobel");
+    auto type_hlay = new QHBoxLayout(_box);
+    canny_radio = new QRadioButton("canny",_box);
+    laplacian_radio = new QRadioButton("laplacian",_box);
+    sobel_radio = new QRadioButton("sobel",_box);
     type_hlay->addWidget(canny_radio);
     type_hlay->addWidget(laplacian_radio);
     type_hlay->addWidget(sobel_radio);
@@ -43,7 +43,7 @@ CvEdgeModel::CvEdgeModel()
     createSobelGroupBox();
     //----
 
-    all_lay = new QVBoxLayout();
+    all_lay = new QVBoxLayout(_box);
     all_lay->addWidget(_label);
     all_lay->addWidget(type_group);
 
@@ -375,29 +375,29 @@ void CvEdgeModel::createLaplacianGroupBox()
 void CvEdgeModel::createSobelGroupBox()
 {
     // sobel widget
-    sobel_group = new QGroupBox();
-    auto sbl_vlay = new QVBoxLayout();
+    sobel_group = new QGroupBox(_box);
+    auto sbl_vlay = new QVBoxLayout(_box);
 
-    auto sbl_hlay1 = new QHBoxLayout();
-    auto sbl_hlay2 = new QHBoxLayout();
-    auto sbl_hlay3 = new QHBoxLayout();
-    auto sbl_hlay4 = new QHBoxLayout();
-    auto sbl_hlay5 = new QHBoxLayout();
-    auto sbl_hlay6 = new QHBoxLayout();
+    auto sbl_hlay1 = new QHBoxLayout(_box);
+    auto sbl_hlay2 = new QHBoxLayout(_box);
+    auto sbl_hlay3 = new QHBoxLayout(_box);
+    auto sbl_hlay4 = new QHBoxLayout(_box);
+    auto sbl_hlay5 = new QHBoxLayout(_box);
+    auto sbl_hlay6 = new QHBoxLayout(_box);
 
-    auto dep_slab = new QLabel("depth");
-    auto size_slab = new QLabel("ksize");
-    auto dx_slab = new QLabel("dx       ");
-    auto dy_slab = new QLabel("dy      ");
-    auto scale_slab = new QLabel("scale  ");
-    auto delta_slab = new QLabel("delta ");
+    auto dep_slab = new QLabel("depth",_box);
+    auto size_slab = new QLabel("ksize",_box);
+    auto dx_slab = new QLabel("dx       ",_box);
+    auto dy_slab = new QLabel("dy      ",_box);
+    auto scale_slab = new QLabel("scale  ",_box);
+    auto delta_slab = new QLabel("delta ",_box);
 
-    ddepth_sobel = new QLineEdit("-1");
-    ksize_sobel = new QLineEdit("3");
-    dx_sobel = new QLineEdit("1");
-    dy_sobel = new QLineEdit("1");
-    scale_sobel = new QLineEdit("1");
-    delta_sobel = new QLineEdit("0");
+    ddepth_sobel = new QLineEdit("-1",_box);
+    ksize_sobel = new QLineEdit("3",_box);
+    dx_sobel = new QLineEdit("1",_box);
+    dy_sobel = new QLineEdit("1",_box);
+    scale_sobel = new QLineEdit("1",_box);
+    delta_sobel = new QLineEdit("0",_box);
 
     createLineEditFormCurQObj(sbl_hlay1, dep_slab, ddepth_sobel);
     createLineEditFormCurQObj(sbl_hlay2, size_slab, ksize_sobel);
@@ -406,9 +406,9 @@ void CvEdgeModel::createSobelGroupBox()
     createLineEditFormCurQObj(sbl_hlay5, scale_slab, scale_sobel);
     createLineEditFormCurQObj(sbl_hlay6, delta_slab, delta_sobel);
 
-    auto kv_lay1 = new QHBoxLayout();
-    auto kv_lay2 = new QHBoxLayout();
-    auto kv_lay3 = new QHBoxLayout();
+    auto kv_lay1 = new QHBoxLayout(_box);
+    auto kv_lay2 = new QHBoxLayout(_box);
+    auto kv_lay3 = new QHBoxLayout(_box);
     kv_lay1->addLayout(sbl_hlay1);
     kv_lay1->addLayout(sbl_hlay2);
     kv_lay2->addLayout(sbl_hlay3);
@@ -424,33 +424,33 @@ void CvEdgeModel::createSobelGroupBox()
 void CvEdgeModel::createCannyGroupBox()
 {
     //    cv::Canny()
-    canny_group = new QGroupBox();
+    canny_group = new QGroupBox(_box);
 
-    auto canny_vlay = new QVBoxLayout();
+    auto canny_vlay = new QVBoxLayout(_box);
 
-    auto canny_hlay1 = new QHBoxLayout();
-    auto canny_hlay2 = new QHBoxLayout();
-    auto canny_hlay3 = new QHBoxLayout();
-    auto canny_hlay4 = new QHBoxLayout();
-    auto canny_hlay5 = new QHBoxLayout();
+    auto canny_hlay1 = new QHBoxLayout(_box);
+    auto canny_hlay2 = new QHBoxLayout(_box);
+    auto canny_hlay3 = new QHBoxLayout(_box);
+    auto canny_hlay4 = new QHBoxLayout(_box);
+    auto canny_hlay5 = new QHBoxLayout(_box);
 
-    auto threshold1_lab = new QLabel("threshold1");
-    auto threshold2_lab = new QLabel("threshold2");
-    auto aperture_size_slab = new QLabel("apertureSize");
+    auto threshold1_lab = new QLabel("threshold1",_box);
+    auto threshold2_lab = new QLabel("threshold2",_box);
+    auto aperture_size_slab = new QLabel("apertureSize",_box);
 
-    threshold1_canny = new QLineEdit("50");
-    threshold2_canny = new QLineEdit("100");
-    aperture_size_canny = new QLineEdit("3");
+    threshold1_canny = new QLineEdit("50",_box);
+    threshold2_canny = new QLineEdit("100",_box);
+    aperture_size_canny = new QLineEdit("3",_box);
 
     createLineEditFormCurQObj(canny_hlay1, threshold1_lab, threshold1_canny);
     createLineEditFormCurQObj(canny_hlay2, threshold2_lab, threshold2_canny);
     createLineEditFormCurQObj(canny_hlay3, aperture_size_slab, aperture_size_canny);
 
-    auto iASG = new QGroupBox("isApertureSize");
-    auto iASG_lay = new QVBoxLayout();
-    l2gradient_canny_false = new QRadioButton("false");
-    l2gradient_canny_true = new QRadioButton("true");
-    auto iasg_hlay = new QHBoxLayout();
+    auto iASG = new QGroupBox("isApertureSize",_box);
+    auto iASG_lay = new QVBoxLayout(_box);
+    l2gradient_canny_false = new QRadioButton("false",_box);
+    l2gradient_canny_true = new QRadioButton("true",_box);
+    auto iasg_hlay = new QHBoxLayout(_box);
     iasg_hlay->addWidget(l2gradient_canny_false);
     iasg_hlay->addWidget(l2gradient_canny_true);
     iASG_lay->addLayout(iasg_hlay);

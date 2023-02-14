@@ -8,8 +8,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvBlurModel::CvBlurModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual"))
 {
     auto bf = _box->font();
     bf.setBold(true);
@@ -23,24 +23,21 @@ CvBlurModel::CvBlurModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto pIntVld = new QIntValidator();
-    auto g = new QGroupBox("卷积核大小");
-    auto vl = new QVBoxLayout();
-    auto h_lay1 = new QHBoxLayout();
-    auto h_lay2 = new QHBoxLayout();
-    auto lab1 = new QLabel("宽");
-    auto lab2 = new QLabel("高");
-    val1 = new QLineEdit("5");
-    val2 = new QLineEdit("5");
-    val1->setValidator(pIntVld);
-    val2->setValidator(pIntVld);
+    auto g = new QGroupBox("卷积核大小",_box);
+    auto vl = new QVBoxLayout(_box);
+    auto h_lay1 = new QHBoxLayout(_box);
+    auto h_lay2 = new QHBoxLayout(_box);
+    auto lab1 = new QLabel("宽",_box);
+    auto lab2 = new QLabel("高",_box);
+    val1 = new QLineEdit("5",_box);
+    val2 = new QLineEdit("5",_box);
     createLineEditFormCurQObj(h_lay1, lab1, val1);
     createLineEditFormCurQObj(h_lay2, lab2, val2);
     vl->addLayout(h_lay1);
     vl->addLayout(h_lay2);
     g->setLayout(vl);
 
-    auto all_lay = new QVBoxLayout();
+    auto all_lay = new QVBoxLayout(_box);
     all_lay->addWidget(_label);
     all_lay->addWidget(g);
 
@@ -147,13 +144,13 @@ void CvBlurModel::compute()
 QJsonObject CvBlurModel::save() const
 {
     auto s = NodeDelegateModel::save();
-    s["w"]=val1->text();
-    s["h"]=val2->text();
+    s["w"] = val1->text();
+    s["h"] = val2->text();
     return s;
 }
 void CvBlurModel::load(const QJsonObject &s)
 {
-//    NodeDelegateModel::load(<unnamed>);
+    //    NodeDelegateModel::load(<unnamed>);
     val1->setText(s["w"].toString());
     val2->setText(s["h"].toString());
 }

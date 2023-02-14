@@ -32,7 +32,7 @@ class CvMorphModel : public NodeDelegateModel
 public:
     CvMorphModel();
 
-    ~CvMorphModel() = default;
+    ~CvMorphModel() override{delete _box;std::cout<<"delete CvMorphModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("Morph"); }
@@ -64,8 +64,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
     QLineEdit *_row_edit;
     QLineEdit *_col_edit;
 

@@ -32,7 +32,7 @@ class CvGaussianBlurModel : public NodeDelegateModel
 public:
     CvGaussianBlurModel();
 
-    ~CvGaussianBlurModel() = default;
+    ~CvGaussianBlurModel() override{delete _box;std::cout<<"delete CvGaussianBlurModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("GaussianBlur"); }
@@ -64,8 +64,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
     QLineEdit *_kredi;
     QLineEdit *_kcedi;
     QLineEdit *_sigmx;

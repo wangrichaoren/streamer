@@ -34,7 +34,7 @@ class CvDrawContoursModel : public NodeDelegateModel
 public:
     CvDrawContoursModel();
 
-    ~CvDrawContoursModel() = default;
+    ~CvDrawContoursModel() override{delete _box;std::cout<<"delete CvDrawContoursModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("DrawContours"); }

@@ -30,7 +30,7 @@ class CvImageLoaderModel : public NodeDelegateModel
 public:
     CvImageLoaderModel();
 
-    ~CvImageLoaderModel() = default;
+    ~CvImageLoaderModel() override{delete _box;std::cout<<"delete CvImageLoaderModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("Image Source"); }
@@ -60,10 +60,10 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
+    QGroupBox *_box;
     QLabel *_label;
     QLineEdit *_path_lineedit;
     QVBoxLayout *_layout;
-    QGroupBox *_box;
 
     cv::Mat _mat;
 

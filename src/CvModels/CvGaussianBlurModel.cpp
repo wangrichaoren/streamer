@@ -8,8 +8,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvGaussianBlurModel::CvGaussianBlurModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
 {
     auto bf = _box->font();
     bf.setBold(true);
@@ -23,41 +23,35 @@ CvGaussianBlurModel::CvGaussianBlurModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto pIntVld = new QIntValidator();
-
-    auto kG = new QGroupBox("卷积核");
-    auto kvlay = new QVBoxLayout();
-    _kredi = new QLineEdit("5");
-    _kcedi = new QLineEdit("5");
-    _kredi->setValidator(pIntVld);
-    _kcedi->setValidator(pIntVld);
-    auto rlab = new QLabel("宽");
-    auto clab = new QLabel("高");
-    auto rlay = new QHBoxLayout();
-    auto clay = new QHBoxLayout();
+    auto kG = new QGroupBox("卷积核",_box);
+    auto kvlay = new QVBoxLayout(_box);
+    _kredi = new QLineEdit("5",_box);
+    _kcedi = new QLineEdit("5",_box);
+    auto rlab = new QLabel("宽",_box);
+    auto clab = new QLabel("高",_box);
+    auto rlay = new QHBoxLayout(_box);
+    auto clay = new QHBoxLayout(_box);
     createLineEditFormCurQObj(rlay, rlab, _kredi);
     createLineEditFormCurQObj(clay, clab, _kcedi);
     kvlay->addLayout(rlay);
     kvlay->addLayout(clay);
     kG->setLayout(kvlay);
 
-    auto sigmaG = new QGroupBox("Sigma");
-    auto svlay = new QVBoxLayout();
-    auto xlay = new QHBoxLayout();
-    auto ylay = new QHBoxLayout();
-    auto xlab = new QLabel("SigmaX");
-    auto ylab = new QLabel("SigmaY");
-    _sigmx = new QLineEdit("0");
-    _sigmy = new QLineEdit("0");
-    _sigmx->setValidator(pIntVld);
-    _sigmy->setValidator(pIntVld);
+    auto sigmaG = new QGroupBox("Sigma",_box);
+    auto svlay = new QVBoxLayout(_box);
+    auto xlay = new QHBoxLayout(_box);
+    auto ylay = new QHBoxLayout(_box);
+    auto xlab = new QLabel("SigmaX",_box);
+    auto ylab = new QLabel("SigmaY",_box);
+    _sigmx = new QLineEdit("0",_box);
+    _sigmy = new QLineEdit("0",_box);
     createLineEditFormCurQObj(xlay, xlab, _sigmx);
     createLineEditFormCurQObj(ylay, ylab, _sigmy);
     svlay->addLayout(xlay);
     svlay->addLayout(ylay);
     sigmaG->setLayout(svlay);
 
-    auto all_lay = new QVBoxLayout();
+    auto all_lay = new QVBoxLayout(_box);
     all_lay->addWidget(_label);
     all_lay->addWidget(kG);
     all_lay->addWidget(sigmaG);

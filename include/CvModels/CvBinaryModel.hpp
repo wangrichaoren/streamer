@@ -32,7 +32,11 @@ class CvBinaryModel : public NodeDelegateModel
 public:
     CvBinaryModel();
 
-    ~CvBinaryModel() = default;
+    ~CvBinaryModel() override
+    {
+        delete _box;
+        std::cout << "delete CvBinaryModel" << std::endl;
+    };
 
 public:
     QString caption() const override { return QString("Binary"); }
@@ -60,16 +64,15 @@ public:
 
     void load(QJsonObject const &) override;
 
-
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
+    QGroupBox *_box;
     QLabel *_label;
     QLineEdit *_thresh_val;
     QLineEdit *_max_val;
     QVBoxLayout *_vlayout;
-    QGroupBox *_box;
     QRadioButton *_binary_r;
     QRadioButton *_tozero_r;
     QRadioButton *_trunc_r;

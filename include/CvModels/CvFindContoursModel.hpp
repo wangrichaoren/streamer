@@ -14,11 +14,10 @@
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>
 
-#include "DataTypes/ImageData.hpp"
 #include "DataTypes/ContoursData.hpp"
+#include "DataTypes/ImageData.hpp"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
-
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -35,7 +34,11 @@ class CvFindContoursModel : public NodeDelegateModel
 public:
     CvFindContoursModel();
 
-    ~CvFindContoursModel() = default;
+    ~CvFindContoursModel() override
+    {
+        delete _box;
+        std::cout << "delete CvFindContoursModel" << std::endl;
+    };
 
 public:
     QString caption() const override { return QString("FindContours"); }
@@ -67,7 +70,6 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
 
     QRadioButton *mode_retr_external;
@@ -80,10 +82,9 @@ private:
     QRadioButton *method_chain_approx_tc89_l1;
     QRadioButton *method_chain_approx_tc89_kcos;
 
-    cv::Mat _mat;
     std::vector<std::vector<cv::Point>> contours = {};
     std::vector<cv::Vec4i> hierachy = {};
 
-    QPixmap _q_pix;
+    cv::Mat _mat;
     std::shared_ptr<NodeData> _nodeData;
 };

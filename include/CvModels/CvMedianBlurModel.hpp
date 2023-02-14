@@ -32,7 +32,7 @@ class CvMedianBlurModel : public NodeDelegateModel
 public:
     CvMedianBlurModel();
 
-    ~CvMedianBlurModel() = default;
+    ~CvMedianBlurModel() override{delete _box;std::cout<<"delete CvMedianBlurModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("MedianBlur"); }
@@ -64,8 +64,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
     QLineEdit *val;
 
     cv::Mat _mat;

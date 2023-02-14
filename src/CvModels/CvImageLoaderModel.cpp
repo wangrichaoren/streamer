@@ -7,10 +7,10 @@
 #include <QtWidgets/QFileDialog>
 
 CvImageLoaderModel::CvImageLoaderModel()
-    : _label(new QLabel("Click label to load image."))
-    , _path_lineedit(new QLineEdit(""))
-    , _layout(new QVBoxLayout())
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Click label to load image.",_box))
+    , _path_lineedit(new QLineEdit("",_box))
+    , _layout(new QVBoxLayout(_box))
 {
     // group box 无边框
     _box->setStyleSheet("QGroupBox{padding-top:15px; margin-top:-15px;padding-left:15px; "

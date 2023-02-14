@@ -8,9 +8,10 @@
 #include <QtWidgets/QFileDialog>
 
 CvMorphModel::CvMorphModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
 {
+    auto full_lay = new QVBoxLayout(_box);
     auto f = _box->font();
     f.setBold(true);
     _box->setFont(f);
@@ -19,45 +20,46 @@ CvMorphModel::CvMorphModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto func_group = new QGroupBox("方法");
-    _dilation_R = new QRadioButton("膨胀");
-    _erosion_R = new QRadioButton("腐蚀");
-    _open_R = new QRadioButton("开操作");
-    _close_R = new QRadioButton("闭操作");
+    auto func_group = new QGroupBox("方法",_box);
+
+    _dilation_R = new QRadioButton("膨胀",func_group);
+    _erosion_R = new QRadioButton("腐蚀",func_group);
+    _open_R = new QRadioButton("开操作",func_group);
+    _close_R = new QRadioButton("闭操作",func_group);
     connect(_dilation_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_erosion_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_open_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_close_R, &QRadioButton::clicked, [=] { compute(); });
     _dilation_R->setChecked(true);
-    auto func_lay1 = new QHBoxLayout();
-    auto func_lay2 = new QHBoxLayout();
+    auto func_lay1 = new QHBoxLayout(_box);
+    auto func_lay2 = new QHBoxLayout(_box);
     func_lay1->addWidget(_dilation_R);
     func_lay1->addWidget(_erosion_R);
     func_lay2->addWidget(_open_R);
     func_lay2->addWidget(_close_R);
-    auto func_vlay = new QVBoxLayout();
+    auto func_vlay = new QVBoxLayout(_box);
     func_vlay->addLayout(func_lay1);
     func_vlay->addLayout(func_lay2);
     func_group->setLayout(func_vlay);
 
-    auto kernel_group = new QGroupBox("卷积核形态");
-    auto kernel_vlay = new QVBoxLayout();
-    _cross_R = new QRadioButton("十字形");
-    _ellipse_R = new QRadioButton("椭圆形");
+    auto kernel_group = new QGroupBox("卷积核形态",_box);
+    auto kernel_vlay = new QVBoxLayout(_box);
+    _cross_R = new QRadioButton("十字形",_box);
+    _ellipse_R = new QRadioButton("椭圆形",_box);
     connect(_cross_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_ellipse_R, &QRadioButton::clicked, [=] { compute(); });
     _cross_R->setChecked(true);
-    auto shape_lay = new QHBoxLayout();
+    auto shape_lay = new QHBoxLayout(_box);
     shape_lay->addWidget(_cross_R);
     shape_lay->addWidget(_ellipse_R);
     kernel_vlay->addLayout(shape_lay);
 
-    auto row_lay = new QHBoxLayout();
-    auto col_lay = new QHBoxLayout();
-    auto row_lab = new QLabel("宽");
-    auto col_lab = new QLabel("高");
-    _row_edit = new QLineEdit("5");
-    _col_edit = new QLineEdit("5");
+    auto row_lay = new QHBoxLayout(_box);
+    auto col_lay = new QHBoxLayout(_box);
+    auto row_lab = new QLabel("宽",_box);
+    auto col_lab = new QLabel("高",_box);
+    _row_edit = new QLineEdit("5",_box);
+    _col_edit = new QLineEdit("5",_box);
     connect(_row_edit, &QLineEdit::editingFinished, [=] { compute(); });
     connect(_col_edit, &QLineEdit::editingFinished, [=] { compute(); });
 
@@ -67,7 +69,6 @@ CvMorphModel::CvMorphModel()
     kernel_vlay->addLayout(col_lay);
     kernel_group->setLayout(kernel_vlay);
 
-    auto full_lay = new QVBoxLayout();
     full_lay->addWidget(_label);
     full_lay->addWidget(func_group);
     full_lay->addWidget(kernel_group);

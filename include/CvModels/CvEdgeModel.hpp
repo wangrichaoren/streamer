@@ -32,7 +32,7 @@ class CvEdgeModel : public NodeDelegateModel
 public:
     CvEdgeModel();
 
-    ~CvEdgeModel() = default;
+    ~CvEdgeModel() override{delete _box;std::cout<<"delete CvEdgeModel"<<std::endl;};
 
 public:
     QString caption() const override { return QString("Edge"); }
@@ -70,8 +70,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
 
     QRadioButton *canny_radio;
     QLineEdit *threshold1_canny;

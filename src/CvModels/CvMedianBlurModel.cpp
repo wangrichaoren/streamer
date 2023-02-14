@@ -8,8 +8,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvMedianBlurModel::CvMedianBlurModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual"))
 {
     auto bf = _box->font();
     bf.setBold(true);
@@ -23,16 +23,14 @@ CvMedianBlurModel::CvMedianBlurModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto pIntVld = new QIntValidator();
 
-    auto hlay = new QHBoxLayout();
-    val = new QLineEdit("5");
-    val->setValidator(pIntVld);
+    auto hlay = new QHBoxLayout(_box);
+    val = new QLineEdit("5",_box);
     val->setPlaceholderText("中值必须为奇数");
-    auto lab = new QLabel("中值");
+    auto lab = new QLabel("中值",_box);
     createLineEditFormCurQObj(hlay, lab, val);
 
-    auto all_lay = new QVBoxLayout();
+    auto all_lay = new QVBoxLayout(_box);
     all_lay->addWidget(_label);
     all_lay->addLayout(hlay);
 

@@ -8,11 +8,11 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
+#include "../include/Widget/Full2DDialog.h"
 #include "Utils/Utils.hpp"
 #include <opencv2/opencv.hpp>
 #include <QtNodes/NodeDelegateModel>
 #include <QtNodes/NodeDelegateModelRegistry>
-#include "../include/Widget/Full2DDialog.h"
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -29,8 +29,10 @@ class CvImageShowModel : public NodeDelegateModel
 public:
     CvImageShowModel();
 
-    ~CvImageShowModel(){
-
+    ~CvImageShowModel() override
+    {
+        delete _box;
+        std::cout << "delete CvImageShowModel" << std::endl;
     };
 
 public:
@@ -57,9 +59,9 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
+    QGroupBox *_box;
     QLabel *_label;
     QPushButton *_saveBtn;
-    QGroupBox *_box;
     QVBoxLayout *_layout;
 
     cv::Mat _mat;

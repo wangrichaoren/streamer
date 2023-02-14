@@ -8,10 +8,10 @@
 #include <QtWidgets/QFileDialog>
 
 CvImageShowModel::CvImageShowModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
-    , _saveBtn(new QPushButton("保存"))
-    , _layout(new QVBoxLayout())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
+    , _saveBtn(new QPushButton("保存",_box))
+    , _layout(new QVBoxLayout(_box))
 {
     _box->setStyleSheet("QGroupBox{padding-top:15px; margin-top:-15px;padding-left:15px; "
                         "margin-left:-15px;padding-right:15px; margin-right:-15px;}");
