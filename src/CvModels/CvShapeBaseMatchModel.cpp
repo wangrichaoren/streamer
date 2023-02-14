@@ -1,17 +1,17 @@
-#include "../include/CvModels/CvModel.hpp"
+#include "CvModels/CvShapeBaseMatchModel.hpp"
 
-#include "../include/DataTypes/ImageData.hpp"
+#include "DataTypes/ImageData.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
 #include <QtWidgets/QFileDialog>
 
-CvFindContoursModel::CvFindContoursModel()
+CvShapeBaseMatchModel::CvShapeBaseMatchModel()
     : _box(new QGroupBox())
     , _label(new QLabel("Image Visual", _box))
+    , all_lay(new QVBoxLayout(_box))
 {
-    all_lay = new QVBoxLayout(_box);
     auto bf = _box->font();
     bf.setBold(true);
     _box->setFont(bf);
@@ -25,14 +25,13 @@ CvFindContoursModel::CvFindContoursModel()
     _label->installEventFilter(this);
 
     // todo
-
     all_lay->addWidget(_label);
     // todo
     _box->setLayout(all_lay);
     _box->resize(200, 200);
 }
 
-unsigned int CvFindContoursModel::nPorts(PortType portType) const
+unsigned int CvShapeBaseMatchModel::nPorts(PortType portType) const
 {
     unsigned int result = 1;
 
@@ -51,7 +50,7 @@ unsigned int CvFindContoursModel::nPorts(PortType portType) const
     return result;
 }
 
-bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event)
+bool CvShapeBaseMatchModel::eventFilter(QObject *object, QEvent *event)
 {
     if (object == _label) {
         this->embeddedWidget()->setCursor(Qt::PointingHandCursor);
@@ -81,17 +80,18 @@ bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-NodeDataType CvFindContoursModel::dataType(PortType const portType, PortIndex const portIndex) const
+NodeDataType CvShapeBaseMatchModel::dataType(PortType const portType,
+                                             PortIndex const portIndex) const
 {
     return ImageData().type();
 }
 
-std::shared_ptr<NodeData> CvFindContoursModel::outData(PortIndex)
+std::shared_ptr<NodeData> CvShapeBaseMatchModel::outData(PortIndex)
 {
     return std::make_shared<ImageData>(_mat);
 }
 
-void CvFindContoursModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex const)
+void CvShapeBaseMatchModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex const)
 {
     _nodeData = nodeData;
 
@@ -110,7 +110,7 @@ void CvFindContoursModel::setInData(std::shared_ptr<NodeData> nodeData, PortInde
     // dataUpdated 触发下游的节点更新
     Q_EMIT dataUpdated(0);
 }
-void CvFindContoursModel::compute()
+void CvShapeBaseMatchModel::compute()
 {
     auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);
     if (!d) {
@@ -132,9 +132,9 @@ void CvFindContoursModel::compute()
 
     Q_EMIT dataUpdated(0);
 }
-void CvFindContoursModel::load(const QJsonObject &s) {}
+void CvShapeBaseMatchModel::load(const QJsonObject &s) {}
 
-QJsonObject CvFindContoursModel::save() const
+QJsonObject CvShapeBaseMatchModel::save() const
 {
     auto s = NodeDelegateModel::save();
 

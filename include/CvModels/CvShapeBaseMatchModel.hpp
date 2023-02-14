@@ -26,14 +26,18 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvFindContoursModel : public NodeDelegateModel
+class CvShapeBaseMatchModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvFindContoursModel();
+    CvShapeBaseMatchModel();
 
-    ~CvFindContoursModel() = default;
+    ~CvShapeBaseMatchModel()
+    {
+        delete _box;
+        std::cout << "delete CvShapeBaseMatchModel" << std::endl;
+    };
 
 public:
     QString caption() const override { return QString("ShapeBaseMatch"); }
@@ -61,7 +65,6 @@ public:
 
     QJsonObject save() const override;
 
-
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
@@ -69,7 +72,6 @@ private:
     QGroupBox *_box;
     QVBoxLayout *all_lay;
     QLabel *_label;
-
 
     cv::Mat _mat;
     QPixmap _q_pix;

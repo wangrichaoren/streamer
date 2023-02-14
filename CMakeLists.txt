@@ -374,6 +374,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvEdgeModel.hpp
         include/CvModels/CvFindContoursModel.hpp
         include/CvModels/CvDrawContoursModel.hpp
+        include/CvModels/CvShapeBaseMatchModel.hpp
         )
 
 # 2d模型源文件
@@ -390,6 +391,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvEdgeModel.cpp
         src/CvModels/CvFindContoursModel.cpp
         src/CvModels/CvDrawContoursModel.cpp
+        src/CvModels/CvShapeBaseMatchModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------
