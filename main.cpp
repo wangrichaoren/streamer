@@ -18,29 +18,27 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 
-#include "../include/Utils/Utils.hpp"
+#include "Utils/Utils.hpp"
 
-#include "../include/GeneralModels/AdditionModel.hpp"
-#include "../include/GeneralModels/DivisionModel.hpp"
-#include "../include/GeneralModels/ImageLoaderModel.hpp"
-#include "../include/GeneralModels/ImageShowModel.hpp"
-#include "../include/GeneralModels/MultiplicationModel.hpp"
-#include "../include/GeneralModels/NumberDisplayDataModel.hpp"
-#include "../include/GeneralModels/NumberSourceDataModel.hpp"
-#include "../include/GeneralModels/SubtractionModel.hpp"
+#include "GeneralModels/AdditionModel.hpp"
+#include "GeneralModels/DivisionModel.hpp"
+#include "GeneralModels/MultiplicationModel.hpp"
+#include "GeneralModels/NumberDisplayDataModel.hpp"
+#include "GeneralModels/NumberSourceDataModel.hpp"
+#include "GeneralModels/SubtractionModel.hpp"
 
-#include "../include/CvModels/CvBinaryModel.hpp"
-#include "../include/CvModels/CvBlurModel.hpp"
-#include "../include/CvModels/CvDrawContoursModel.hpp"
-#include "../include/CvModels/CvEdgeModel.hpp"
-#include "../include/CvModels/CvFilter2dModel.hpp"
-#include "../include/CvModels/CvFindContoursModel.hpp"
-#include "../include/CvModels/CvGaussianBlurModel.hpp"
-#include "../include/CvModels/CvImageLoaderModel.hpp"
-#include "../include/CvModels/CvImageShowModel.hpp"
-#include "../include/CvModels/CvMedianBlurModel.hpp"
-#include "../include/CvModels/CvMorphModel.hpp"
-#include "../include/CvModels/CvRGB2GrayModel.hpp"
+#include "CvModels/CvBinaryModel.hpp"
+#include "CvModels/CvBlurModel.hpp"
+#include "CvModels/CvDrawContoursModel.hpp"
+#include "CvModels/CvEdgeModel.hpp"
+#include "CvModels/CvFilter2dModel.hpp"
+#include "CvModels/CvFindContoursModel.hpp"
+#include "CvModels/CvGaussianBlurModel.hpp"
+#include "CvModels/CvImageLoaderModel.hpp"
+#include "CvModels/CvImageShowModel.hpp"
+#include "CvModels/CvMedianBlurModel.hpp"
+#include "CvModels/CvMorphModel.hpp"
+#include "CvModels/CvRGB2GrayModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;

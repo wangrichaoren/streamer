@@ -67,7 +67,7 @@ public:
     QJsonObject save() const override;
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
+    bool eventFilter(QObject *object, QEvent *event) override{return false;};
 
 private:
     QGroupBox *_box;

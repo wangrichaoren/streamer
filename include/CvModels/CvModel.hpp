@@ -36,12 +36,12 @@ public:
     ~CvFindContoursModel() = default;
 
 public:
-    QString caption() const override { return QString("FindContours"); }
+    QString caption() const override { return QString("ShapeBaseMatch"); }
 
-    QString name() const override { return QString("FindContoursModel:轮廓提取"); }
+    QString name() const override { return QString("ShapeBaseMatchModel:形状匹配"); }
 
 public:
-    virtual QString modelName() const { return QString("FindContoursModel"); }
+    virtual QString modelName() const { return QString("ShapeBaseMatchModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -66,8 +66,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
+    QLabel *_label;
 
 
     cv::Mat _mat;

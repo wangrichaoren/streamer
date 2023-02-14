@@ -285,7 +285,17 @@ install(FILES
         )
 
 
-# head and source
+# header and source
+
+# include MIPP headers / linemod2d
+include_directories( "include/MIPP/")
+set(LINE2DUP_HEADER_FILES
+        include/Line2Dup/line2Dup.h
+        )
+
+set(LINE2DUP_SOURCE_FILES
+        src/Line2Dup/line2Dup.cpp
+        )
 
 # ----------工具--------------
 # ---------------------------
@@ -302,7 +312,6 @@ set(UTIL_SOURCE_FILES
 # ---------------------------
 
 
-
 # ---------数据类型---------
 # -------------------------
 # -------------------------
@@ -316,7 +325,6 @@ set(HEADLESS_DATA_SOURCE_FILES
 # ------------------------
 # ------------------------
 # ------------------------
-
 
 
 # -------------------通用模型-------------------
@@ -388,7 +396,6 @@ set(CV_MODEL_SOURCE_FILES
 # ---------------------------------------
 
 
-
 # --------------外部控件------------------
 set(WIDGET_UI_HEADER_FILES
         include/Widget/ui_Full2DDialog.h
@@ -416,11 +423,17 @@ set(MAIN_SOURCE_FILE
 add_executable(streamer
         ${MAIN_SOURCE_FILE}
 
+        ${LINE2DUP_HEADER_FILES}
+        ${LINE2DUP_SOURCE_FILES}
+
         ${UTIL_HEADER_FILES}
         ${UTIL_SOURCE_FILES}
+
         ${HEADLESS_DATA_SOURCE_FILES}
+
         ${GENERAL_MODEL_HEADER_FILES}
         ${GENERAL_MODEL_SOURCE_FILES}
+
         ${CV_MODEL_HEADER_FILES}
         ${CV_MODEL_SOURCE_FILES}
 

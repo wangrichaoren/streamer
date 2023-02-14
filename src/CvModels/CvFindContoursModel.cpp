@@ -79,7 +79,6 @@ unsigned int CvFindContoursModel::nPorts(PortType portType) const
     return result;
 }
 
-bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event) {}
 
 NodeDataType CvFindContoursModel::dataType(PortType const portType, PortIndex const portIndex) const
 {

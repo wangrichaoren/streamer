@@ -1,4 +1,4 @@
-#include "../include/CvModels/CvFindContoursModel.hpp"
+#include "../include/CvModels/CvModel.hpp"
 
 #include "../include/DataTypes/ImageData.hpp"
 
@@ -8,8 +8,8 @@
 #include <QtWidgets/QFileDialog>
 
 CvFindContoursModel::CvFindContoursModel()
-    : _label(new QLabel("Image Visual"))
-    , _box(new QGroupBox())
+    : _box(new QGroupBox())
+    , _label(new QLabel("Image Visual",_box))
 {
     auto bf = _box->font();
     bf.setBold(true);
@@ -78,7 +78,7 @@ bool CvFindContoursModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-NodeDataType CvFindContoursModel::dataType(PortType const, PortIndex const) const
+NodeDataType CvFindContoursModel::dataType(PortType const portType, PortIndex const portIndex) const
 {
     return ImageData().type();
 }
