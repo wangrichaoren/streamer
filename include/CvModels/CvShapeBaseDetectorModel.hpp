@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <QDoubleValidator>
+#include <QPushButton>
 #include <QtCore/QObject>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -15,8 +16,10 @@
 #include <QtNodes/NodeDelegateModelRegistry>
 
 #include "DataTypes/ImageData.hpp"
+#include "Line2Dup/line2Dup.h"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
+#include "DataTypes/ResultData.hpp"
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -26,26 +29,26 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvShapeBaseMatchModel : public NodeDelegateModel
+class CvShapeBaseDetectorModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvShapeBaseMatchModel();
+    CvShapeBaseDetectorModel();
 
-    ~CvShapeBaseMatchModel()
+    ~CvShapeBaseDetectorModel()
     {
         delete _box;
-        std::cout << "delete CvShapeBaseMatchModel" << std::endl;
+        std::cout << "delete CvShapeBaseDetectorModel" << std::endl;
     };
 
 public:
-    QString caption() const override { return QString("ShapeBaseMatch"); }
+    QString caption() const override { return QString("ShapeBaseDetector"); }
 
-    QString name() const override { return QString("ShapeBaseMatchModel:形状匹配"); }
+    QString name() const override { return QString("ShapeBaseDetectorModel:形状匹配检测器"); }
 
 public:
-    virtual QString modelName() const { return QString("ShapeBaseMatchModel"); }
+    virtual QString modelName() const { return QString("ShapeBaseDetectorModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -72,6 +75,8 @@ private:
     QGroupBox *_box;
     QVBoxLayout *all_lay;
     QLabel *_label;
+    QLineEdit *path_show;
+    QLineEdit *threshold_edit;
 
     cv::Mat _mat;
     QPixmap _q_pix;

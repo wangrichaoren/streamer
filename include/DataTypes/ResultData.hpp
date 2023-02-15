@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <QString>
 
 #include <QtNodes/NodeData>
 
@@ -10,13 +9,13 @@ using QtNodes::NodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class StringData : public NodeData
+class ResultData : public NodeData
 {
 public:
-    StringData() {}
+    ResultData() {}
 
-    StringData(QString const &string)
-        : _str(string)
+    ResultData(std::string const &res)
+        : _result(res)
     {}
 
     NodeDataType type() const override
@@ -25,9 +24,8 @@ public:
         return {"Result", "result"};
     }
 
-    std::string string() const { return _str.toStdString(); }
-    QString qString() const { return _str; }
+    std::string getData() const { return _result; }
 
 private:
-    QString _str;
+    std::string _result;
 };

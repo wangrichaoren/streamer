@@ -321,6 +321,7 @@ set(HEADLESS_DATA_SOURCE_FILES
         include/DataTypes/StringData.hpp
         include/DataTypes/PixmapData.hpp
         include/DataTypes/ContoursData.hpp
+        include/DataTypes/ResultData.hpp
         )
 # ------------------------
 # ------------------------
@@ -342,6 +343,7 @@ set(GENERAL_MODEL_HEADER_FILES
         include/GeneralModels/NumberSourceDataModel.hpp
         include/GeneralModels/ImageLoaderModel.hpp
         include/GeneralModels/ImageShowModel.hpp
+        include/GeneralModels/ResultShowerModel.hpp
         )
 
 # 通用模型源文件
@@ -351,6 +353,7 @@ set(GENERAL_MODEL_SOURCE_FILES
         src/GeneralModels/NumberSourceDataModel.cpp
         src/GeneralModels/ImageLoaderModel.cpp
         src/GeneralModels/ImageShowModel.cpp
+        src/GeneralModels/ResultShowerModel.cpp
         )
 # -------------------------------------------
 # -------------------------------------------
@@ -374,7 +377,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvEdgeModel.hpp
         include/CvModels/CvFindContoursModel.hpp
         include/CvModels/CvDrawContoursModel.hpp
-        include/CvModels/CvShapeBaseMatchModel.hpp
+        include/CvModels/CvShapeBaseDetectorModel.hpp
         )
 
 # 2d模型源文件
@@ -391,7 +394,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvEdgeModel.cpp
         src/CvModels/CvFindContoursModel.cpp
         src/CvModels/CvDrawContoursModel.cpp
-        src/CvModels/CvShapeBaseMatchModel.cpp
+        src/CvModels/CvShapeBaseDetectorModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

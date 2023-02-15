@@ -26,6 +26,7 @@
 #include "GeneralModels/NumberDisplayDataModel.hpp"
 #include "GeneralModels/NumberSourceDataModel.hpp"
 #include "GeneralModels/SubtractionModel.hpp"
+#include "GeneralModels/ResultShowerModel.hpp"
 
 #include "CvModels/CvBinaryModel.hpp"
 #include "CvModels/CvBlurModel.hpp"
@@ -39,7 +40,7 @@
 #include "CvModels/CvMedianBlurModel.hpp"
 #include "CvModels/CvMorphModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
-#include "CvModels/CvShapeBaseMatchModel.hpp"
+#include "CvModels/CvShapeBaseDetectorModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -60,6 +61,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<SubtractionModel>("通用");
     ret->registerModel<MultiplicationModel>("通用");
     ret->registerModel<DivisionModel>("通用");
+    ret->registerModel<ResultShowerModel>("通用");
 
     // 2d模型
     ret->registerModel<CvImageLoaderModel>("2D");
@@ -74,7 +76,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
     ret->registerModel<CvEdgeModel>("2D");
     ret->registerModel<CvFindContoursModel>("2D");
     ret->registerModel<CvDrawContoursModel>("2D");
-    ret->registerModel<CvShapeBaseMatchModel>("2D");
+    ret->registerModel<CvShapeBaseDetectorModel>("2D");
 
     // todo 3d模型
 
