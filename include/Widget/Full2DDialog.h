@@ -5,10 +5,11 @@
 #ifndef STREAMER_FULL2DDIALOG_H
 #define STREAMER_FULL2DDIALOG_H
 
+#include "Utils/Utils.hpp"
+#include "Widget/MyGraphicsView.h"
 #include <opencv2/opencv.hpp>
 #include <QDialog>
 #include <QGraphicsScene>
-#include "Utils/Utils.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,7 +30,7 @@ public:
 private:
     Ui::Full2DDialog *ui;
     cv::Mat *mat;
-    QGraphicsScene *scene = new QGraphicsScene(this);
+    MyGraphicsView *myGraphicsView{nullptr};
 };
 
 #endif //STREAMER_FULL2DDIALOG_H

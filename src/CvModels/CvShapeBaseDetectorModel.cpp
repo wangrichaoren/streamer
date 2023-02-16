@@ -187,9 +187,15 @@ NodeDataType CvShapeBaseDetectorModel::dataType(PortType const portType,
     return NodeDataType();
 }
 
-std::shared_ptr<NodeData> CvShapeBaseDetectorModel::outData(PortIndex)
+std::shared_ptr<NodeData> CvShapeBaseDetectorModel::outData(PortIndex portIndex)
 {
-    return std::make_shared<ImageData>(_mat);
+    if (portIndex == 0) {
+        return std::make_shared<ImageData>(_mat);
+    } else if (portIndex == 1) {
+        return std::make_shared<ResultData>(_res);
+    } else {
+        return nullptr;
+    }
 }
 
 void CvShapeBaseDetectorModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex const)
@@ -213,6 +219,7 @@ void CvShapeBaseDetectorModel::setInData(std::shared_ptr<NodeData> nodeData, Por
 
     // dataUpdated 触发下游的节点更新
     Q_EMIT dataUpdated(0);
+    Q_EMIT dataUpdated(1);
 }
 void CvShapeBaseDetectorModel::compute()
 {
@@ -318,6 +325,8 @@ void CvShapeBaseDetectorModel::compute()
             cv::line(_mat, vertices[i], vertices[next], randColor, 2);
         }
 
+        _res += ("template_id: " + std::to_string(match.template_id) + "\n"
+                 + "similarity: " + std::to_string(match.similarity) + "\n");
         //        std::cout << "\nmatch.template_id: " << match.template_id << std::endl;
         //        std::cout << "match.similarity: " << match.similarity << std::endl;
     }
@@ -330,7 +339,7 @@ void CvShapeBaseDetectorModel::compute()
     _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
 
     Q_EMIT dataUpdated(0);
-    //    Q_EMIT dataUpdated(1);
+    Q_EMIT dataUpdated(1);
 }
 void CvShapeBaseDetectorModel::load(const QJsonObject &s)
 {

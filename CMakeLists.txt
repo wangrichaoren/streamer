@@ -403,12 +403,16 @@ set(CV_MODEL_SOURCE_FILES
 
 # --------------外部控件------------------
 set(WIDGET_UI_HEADER_FILES
+        include/Widget/MyGraphicsView.h
+
         include/Widget/ui_Full2DDialog.h
         include/Widget/Full2DDialog.ui
         include/Widget/Full2DDialog.h
         )
 
 set(WIDGET_UI_SOURCE_FILES
+        src/Widget/MyGraphicsView.cpp
+
         src/Widget/Full2DDialog.cpp
         )
 # ---------------------------------------

@@ -4,8 +4,8 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_Full2DDialog.h" resolved
 
-#include "../include/Widget/Full2DDialog.h"
-#include "../include/Widget/ui_Full2DDialog.h"
+#include "Widget/Full2DDialog.h"
+#include "Widget/ui_Full2DDialog.h"
 
 Full2DDialog::Full2DDialog(QWidget *parent, cv::Mat *m)
     : QDialog(parent)
@@ -20,6 +20,7 @@ Full2DDialog::Full2DDialog(QWidget *parent, cv::Mat *m)
 
 Full2DDialog::~Full2DDialog()
 {
+    delete myGraphicsView;
     delete ui;
 }
 void Full2DDialog::initView()
@@ -27,7 +28,16 @@ void Full2DDialog::initView()
     if (mat->empty()) {
         return;
     }
-    auto pix = QPixmap::fromImage(cvMat2QImage(*mat));
-    scene->addPixmap(pix);
-    ui->graphicsView->setScene(scene);
+    myGraphicsView = new MyGraphicsView(ui->graphicsView);
+    myGraphicsView->graphicsImageFromMat(*mat);
+    //    MyGraphicsView myGraphicsView(ui->graphicsView);
+    //    myGraphicsView.graphicsImageFromMat(*mat);
+
+    //    myGraphicsView.setImage(QPixmap::fromImage(cvMat2QImage(*mat)))
+    //    auto pix = QPixmap::fromImage(cvMat2QImage(*mat));
+    //    myGraphicsView.setImage(&pix);
+    //    ui->graphicsView->update();
+    //    scene->addPixmap(pix);
+    //    myGraphicsView.s
+    //    ui->graphicsView->setScene(scene);
 }

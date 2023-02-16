@@ -35,7 +35,6 @@ public:
 
         gridLayout->addWidget(graphicsView, 0, 0, 1, 1);
 
-
         retranslateUi(Full2DDialog);
 
         QMetaObject::connectSlotsByName(Full2DDialog);
@@ -43,13 +42,14 @@ public:
 
     void retranslateUi(QDialog *Full2DDialog)
     {
-        Full2DDialog->setWindowTitle(QCoreApplication::translate("Full2DDialog", "Full2DDialog", nullptr));
+        Full2DDialog->setWindowTitle(
+            QCoreApplication::translate("Full2DDialog", "Full2DDialog", nullptr));
     } // retranslateUi
-
 };
 
 namespace Ui {
-    class Full2DDialog: public Ui_Full2DDialog {};
+class Full2DDialog : public Ui_Full2DDialog
+{};
 } // namespace Ui
 
 QT_END_NAMESPACE

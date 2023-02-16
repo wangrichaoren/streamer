@@ -16,10 +16,10 @@
 #include <QtNodes/NodeDelegateModelRegistry>
 
 #include "DataTypes/ImageData.hpp"
+#include "DataTypes/ResultData.hpp"
 #include "Line2Dup/line2Dup.h"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
-#include "DataTypes/ResultData.hpp"
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -79,6 +79,6 @@ private:
     QLineEdit *threshold_edit;
 
     cv::Mat _mat;
-    QPixmap _q_pix;
+    std::string _res;
     std::shared_ptr<NodeData> _nodeData;
 };
