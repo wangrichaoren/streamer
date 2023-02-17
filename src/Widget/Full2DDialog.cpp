@@ -6,6 +6,7 @@
 
 #include "Widget/Full2DDialog.h"
 #include "Widget/ui_Full2DDialog.h"
+#include <QVBoxLayout>
 
 Full2DDialog::Full2DDialog(QWidget *parent, cv::Mat *m)
     : QDialog(parent)
@@ -13,6 +14,7 @@ Full2DDialog::Full2DDialog(QWidget *parent, cv::Mat *m)
     , mat(m)
 {
     ui->setupUi(this);
+    ui->graphicsView->resize(this->width(), this->height());
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     initView();
@@ -29,15 +31,5 @@ void Full2DDialog::initView()
         return;
     }
     myGraphicsView = new MyGraphicsView(ui->graphicsView);
-    myGraphicsView->graphicsImageFromMat(*mat);
-    //    MyGraphicsView myGraphicsView(ui->graphicsView);
-    //    myGraphicsView.graphicsImageFromMat(*mat);
-
-    //    myGraphicsView.setImage(QPixmap::fromImage(cvMat2QImage(*mat)))
-    //    auto pix = QPixmap::fromImage(cvMat2QImage(*mat));
-    //    myGraphicsView.setImage(&pix);
-    //    ui->graphicsView->update();
-    //    scene->addPixmap(pix);
-    //    myGraphicsView.s
-    //    ui->graphicsView->setScene(scene);
+    myGraphicsView->graphics(*mat);
 }

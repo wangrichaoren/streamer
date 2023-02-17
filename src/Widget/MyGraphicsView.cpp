@@ -233,19 +233,13 @@ void MyGraphicsView::graphics(QImage &image, string path)
     instance->setFocus(); //将界面的焦点设置到当前Graphics View控件
 }
 
-void MyGraphicsView::graphicsImageFromMat(cv::Mat &mat)
+void MyGraphicsView::graphics(cv::Mat &mat)
 {
-    // image也是filenane啊...
-    //    roirect = QRectF(0, 0, 0, 0);
-    //    Mat mat;
-    //    cvtColor(mat, mat, COLOR_BGR2RGB);
-    //    QImage q_img(mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-    //    QImage q_img(mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-    QImage q_img((const unsigned char *) mat.data,
-                 mat.cols,
-                 mat.rows,
-                 mat.step,
-                 QImage::Format_RGB888);
+    auto q_img = cvMat2QImage(mat);
+    //    std::cout<<getScaleValue()<<std::endl;
+    //    std::cout<<mat.size<<std::endl;
+    //    std::cout<<instance->size().width()<<std::endl;
+    //    std::cout<<instance->size().height()<<std::endl;
 
     QPixmap ConvertPixmap = QPixmap::fromImage(q_img);
 
@@ -267,7 +261,7 @@ void MyGraphicsView::graphicsImageFromMat(cv::Mat &mat)
 MyGraphicsView::~MyGraphicsView()
 {
     //    delete graphicsScene;
-        std::cout<<"xxx graphicsScene"<<std::endl;
+    std::cout << "xxx graphicsScene" << std::endl;
 }
 
 void MyGraphicsView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -379,82 +373,6 @@ bool MyGraphicsView::hasRoiRect()
         return false;
     }
     return true;
-}
-
-cv::Mat MyGraphicsView::QImage2Mat(const QImage &src)
-{
-    cv::Mat mat;
-    //    cout<<src.format()<<endl;
-    switch (src.format()) {
-    case QImage::Format_RGB888:
-        mat = cv::Mat(src.height(),
-                      src.width(),
-                      CV_8UC3,
-                      (void *) src.constBits(),
-                      src.bytesPerLine());
-        break;
-    case QImage::Format_ARGB32_Premultiplied:
-        mat = cv::Mat(src.height(),
-                      src.width(),
-                      CV_8UC4,
-                      (void *) src.constBits(),
-                      src.bytesPerLine());
-        break;
-    case QImage::Format_RGB32:
-        mat = cv::Mat(src.height(),
-                      src.width(),
-                      CV_8UC4,
-                      (void *) src.constBits(),
-                      src.bytesPerLine());
-        break;
-    case QImage::Format_Invalid:
-        break;
-    case QImage::Format_Mono:
-        break;
-    case QImage::Format_MonoLSB:
-        break;
-    case QImage::Format_Indexed8:
-        break;
-    case QImage::Format_ARGB32:
-        break;
-    case QImage::Format_RGB16:
-        break;
-    case QImage::Format_ARGB8565_Premultiplied:
-        break;
-    case QImage::Format_RGB666:
-        break;
-    case QImage::Format_ARGB6666_Premultiplied:
-        break;
-    case QImage::Format_RGB555:
-        break;
-    case QImage::Format_ARGB8555_Premultiplied:
-        break;
-    case QImage::Format_RGB444:
-        break;
-    case QImage::Format_ARGB4444_Premultiplied:
-        break;
-    case QImage::Format_RGBX8888:
-        break;
-    case QImage::Format_RGBA8888:
-        break;
-    case QImage::Format_RGBA8888_Premultiplied:
-        break;
-    case QImage::Format_BGR30:
-        break;
-    case QImage::Format_A2BGR30_Premultiplied:
-        break;
-    case QImage::Format_RGB30:
-        break;
-    case QImage::Format_A2RGB30_Premultiplied:
-        break;
-    case QImage::Format_Alpha8:
-        break;
-    case QImage::Format_Grayscale8:
-        break;
-    case QImage::NImageFormats:
-        break;
-    }
-    return mat;
 }
 
 cv::Mat MyGraphicsView::getScenceToMat()

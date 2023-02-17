@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>962</width>
-    <height>811</height>
+    <width>813</width>
+    <height>710</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QGraphicsView" name="graphicsView"/>
+    <widget class="QGraphicsView" name="graphicsView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -11,7 +11,6 @@
 #include <QtNodes/NodeStyle>
 
 #include <memory>
-#include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>

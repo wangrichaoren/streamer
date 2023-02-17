@@ -26,6 +26,7 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGui>
 #include <QGraphicsSceneMouseEvent>
+#include "Utils/Utils.hpp"
 
 
 using namespace std;
@@ -67,7 +68,8 @@ public:
 
     void graphics(QImage &image, string path);
 
-    void graphicsImageFromMat(cv::Mat &mat);
+    void graphics(cv::Mat &mat);
+
 
     QRectF boundingRect() const;
 
@@ -95,8 +97,6 @@ public:
     qreal getScaleValue() const;
 
     void setQGraphicsViewWH(int nwidth, int nheight);
-
-    cv::Mat QImage2Mat(QImage const &src);
 
 private:
     QGraphicsView *instance;
