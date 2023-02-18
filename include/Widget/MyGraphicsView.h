@@ -5,12 +5,14 @@
 #ifndef STREAMER_MYGRAPHICSVIEW_H
 #define STREAMER_MYGRAPHICSVIEW_H
 
+#include "Utils/Utils.hpp"
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <QDragEnterEvent>
 #include <QGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneWheelEvent>
 #include <QGraphicsView>
 #include <QLabel>
@@ -25,9 +27,6 @@
 #include <QWidget>
 #include <QtConcurrent/QtConcurrent>
 #include <QtGui>
-#include <QGraphicsSceneMouseEvent>
-#include "Utils/Utils.hpp"
-
 
 using namespace std;
 
@@ -50,9 +49,9 @@ enum EnumDirection {
 
 class MyGraphicsView : public QGraphicsItem
 {
-    //    Q_OBJECT
+//    Q_OBJECT
 public:
-    MyGraphicsView(QGraphicsView *instance);
+    MyGraphicsView(QGraphicsView *instance, bool is_mark_model = false);
 
     ~MyGraphicsView();
 
@@ -69,7 +68,6 @@ public:
     void graphics(QImage &image, string path);
 
     void graphics(cv::Mat &mat);
-
 
     QRectF boundingRect() const;
 
@@ -108,6 +106,7 @@ private:
     QGraphicsScene *graphicsScene;
     EnumDirection direction;
     string img_path;
+    bool is_mark_model;
 };
 
 #endif //STREAMER_MYGRAPHICSVIEW_H

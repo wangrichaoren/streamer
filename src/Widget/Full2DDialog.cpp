@@ -18,6 +18,7 @@ Full2DDialog::Full2DDialog(QWidget *parent, cv::Mat *m)
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     initView();
+    ui->graphicsView->installEventFilter(this);
 }
 
 Full2DDialog::~Full2DDialog()
@@ -32,4 +33,19 @@ void Full2DDialog::initView()
     }
     myGraphicsView = new MyGraphicsView(ui->graphicsView);
     myGraphicsView->graphics(*mat);
+}
+
+bool Full2DDialog::eventFilter(QObject *obj, QEvent *e)
+{
+    if (obj == ui->graphicsView) {
+        if (e->type() == QEvent::Resize) {
+            myGraphicsView->graphics(*mat);
+            myGraphicsView->ResetItemPos();
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }

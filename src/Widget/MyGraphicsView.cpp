@@ -1,7 +1,8 @@
 #include "Widget/MyGraphicsView.h"
 
-MyGraphicsView::MyGraphicsView(QGraphicsView *instance)
+MyGraphicsView::MyGraphicsView(QGraphicsView *instance, bool is_mark_model)
     : instance{instance}
+    , is_mark_model{is_mark_model}
 {
     graphicsScene = new QGraphicsScene(instance); //要用QGraphicsView就必须要有QGraphicsScene搭配着用
     init();
@@ -126,6 +127,11 @@ void MyGraphicsView::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MyGraphicsView::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!is_mark_model) {
+        QPointF point = (event->pos() - m_startPos) * m_scaleValue;
+        moveBy(point.x(), point.y());
+        return;
+    }
     // todo ？需要鼠标点击后在移动才能进入 move事件函数？不合理啊？
     if ((direction == dir_top) | (direction == dir_bottom) | (direction == dir_left)
         | (direction == dir_right)) {
@@ -235,11 +241,9 @@ void MyGraphicsView::graphics(QImage &image, string path)
 
 void MyGraphicsView::graphics(cv::Mat &mat)
 {
+    //    graphicsScene->removeItem(this);
+    graphicsScene->removeItem(this->topLevelItem());
     auto q_img = cvMat2QImage(mat);
-    //    std::cout<<getScaleValue()<<std::endl;
-    //    std::cout<<mat.size<<std::endl;
-    //    std::cout<<instance->size().width()<<std::endl;
-    //    std::cout<<instance->size().height()<<std::endl;
 
     QPixmap ConvertPixmap = QPixmap::fromImage(q_img);
 
@@ -260,12 +264,14 @@ void MyGraphicsView::graphics(cv::Mat &mat)
 
 MyGraphicsView::~MyGraphicsView()
 {
-    //    delete graphicsScene;
     std::cout << "xxx graphicsScene" << std::endl;
 }
 
 void MyGraphicsView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!is_mark_model) {
+        return;
+    }
     QGraphicsItem::mouseDoubleClickEvent(event);
     auto p = event->pos();
     if (roirect.contains(p)) {

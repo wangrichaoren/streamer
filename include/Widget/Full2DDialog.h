@@ -27,6 +27,8 @@ public:
 
     void initView();
 
+    bool eventFilter(QObject *, QEvent *) override;
+
 private:
     Ui::Full2DDialog *ui;
     cv::Mat *mat;
