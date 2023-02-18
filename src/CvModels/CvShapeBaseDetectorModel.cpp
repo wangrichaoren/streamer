@@ -253,8 +253,14 @@ void CvShapeBaseDetectorModel::compute()
     auto tmp_w = tmp_img.cols;
 
     cv::Mat test_img = d->mat();
-    // 4 channel -> 3
-    cv::cvtColor(test_img, test_img, cv::COLOR_RGBA2RGB);
+
+    if (test_img.channels() == 1) {
+        // gray -> rgb
+        cv::cvtColor(test_img, test_img, cv::COLOR_GRAY2RGB);
+    } else if (test_img.channels() == 4) {
+        // 4 channel -> 3
+        cv::cvtColor(test_img, test_img, cv::COLOR_RGBA2RGB);
+    }
 
     int padding = 250;
     cv::Mat padded_img = cv::Mat(test_img.rows + 2 * padding,

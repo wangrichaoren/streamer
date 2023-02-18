@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -23,11 +25,10 @@ CvMedianBlurModel::CvMedianBlurModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-
     auto hlay = new QHBoxLayout(_box);
-    val = new QLineEdit("5",_box);
+    val = new QLineEdit("5", _box);
     val->setPlaceholderText("中值必须为奇数");
-    auto lab = new QLabel("中值",_box);
+    auto lab = new QLabel("中值", _box);
     createLineEditFormCurQObj(hlay, lab, val);
 
     auto all_lay = new QVBoxLayout(_box);
@@ -74,6 +75,15 @@ bool CvMedianBlurModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;

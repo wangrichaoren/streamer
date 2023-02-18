@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -99,6 +101,15 @@ bool CvGaussianBlurModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        }else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;

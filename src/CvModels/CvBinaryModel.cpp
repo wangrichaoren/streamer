@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -10,8 +12,8 @@
 CvBinaryModel::CvBinaryModel()
     : _box(new QGroupBox())
     , _label(new QLabel("Image Visual", _box))
-    , _thresh_val(new QLineEdit("125",_box))
-    , _max_val(new QLineEdit("255",_box))
+    , _thresh_val(new QLineEdit("125", _box))
+    , _max_val(new QLineEdit("255", _box))
     , _vlayout(new QVBoxLayout(_box))
 {
     auto bf = _box->font();
@@ -27,10 +29,10 @@ CvBinaryModel::CvBinaryModel()
     _label->installEventFilter(this);
 
     // 取反
-    auto inv_G = new QGroupBox("取反",_box);
+    auto inv_G = new QGroupBox("取反", _box);
     auto inv_Hlay = new QHBoxLayout();
-    _not_inv_r = new QRadioButton("否",inv_G);
-    _inv_r = new QRadioButton("是",inv_G);
+    _not_inv_r = new QRadioButton("否", inv_G);
+    _inv_r = new QRadioButton("是", inv_G);
     inv_Hlay->addWidget(_not_inv_r);
     inv_Hlay->addWidget(_inv_r);
     inv_G->setLayout(inv_Hlay);
@@ -40,14 +42,14 @@ CvBinaryModel::CvBinaryModel()
     QObject::connect(_inv_r, &QRadioButton::clicked, [=] { this->compute(); });
 
     // 单选
-    auto type_G = new QGroupBox("方法",_box);
+    auto type_G = new QGroupBox("方法", _box);
     auto radio_VLay = new QVBoxLayout(type_G);
     auto radio_HLay1 = new QHBoxLayout(type_G);
     auto radio_HLay2 = new QHBoxLayout(type_G);
-    _tozero_r = new QRadioButton("TOZERO",type_G);
-    _trunc_r = new QRadioButton("TRUNC",type_G);
-    _ostu_r = new QRadioButton("OSTU",type_G);
-    _binary_r = new QRadioButton("BINARY",type_G);
+    _tozero_r = new QRadioButton("TOZERO", type_G);
+    _trunc_r = new QRadioButton("TRUNC", type_G);
+    _ostu_r = new QRadioButton("OSTU", type_G);
+    _binary_r = new QRadioButton("BINARY", type_G);
     _binary_r->setChecked(true);
     radio_HLay1->addWidget(_binary_r);
     radio_HLay1->addWidget(_tozero_r);
@@ -61,11 +63,11 @@ CvBinaryModel::CvBinaryModel()
     }
 
     auto th_lay = new QHBoxLayout(type_G);
-    auto th_lab = new QLabel("阈值    ",type_G);
+    auto th_lab = new QLabel("阈值    ", type_G);
     createLineEditFormCurQObj(th_lay, th_lab, _thresh_val);
 
     auto max_lay = new QHBoxLayout(type_G);
-    auto max_lab = new QLabel("最大值",type_G);
+    auto max_lab = new QLabel("最大值", type_G);
     createLineEditFormCurQObj(max_lay, max_lab, _max_val);
 
     QObject::connect(_thresh_val, &QLineEdit::editingFinished, [=] { this->compute(); });
@@ -114,6 +116,15 @@ bool CvBinaryModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;

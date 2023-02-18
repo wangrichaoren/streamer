@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -23,14 +25,14 @@ CvBlurModel::CvBlurModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto g = new QGroupBox("卷积核大小",_box);
+    auto g = new QGroupBox("卷积核大小", _box);
     auto vl = new QVBoxLayout(_box);
     auto h_lay1 = new QHBoxLayout(_box);
     auto h_lay2 = new QHBoxLayout(_box);
-    auto lab1 = new QLabel("宽",_box);
-    auto lab2 = new QLabel("高",_box);
-    val1 = new QLineEdit("5",_box);
-    val2 = new QLineEdit("5",_box);
+    auto lab1 = new QLabel("宽", _box);
+    auto lab2 = new QLabel("高", _box);
+    val1 = new QLineEdit("5", _box);
+    val2 = new QLineEdit("5", _box);
     createLineEditFormCurQObj(h_lay1, lab1, val1);
     createLineEditFormCurQObj(h_lay2, lab2, val2);
     vl->addLayout(h_lay1);
@@ -82,6 +84,15 @@ bool CvBlurModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;

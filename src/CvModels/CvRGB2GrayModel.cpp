@@ -1,6 +1,7 @@
-#include "../include/CvModels/CvRGB2GrayModel.hpp"
+#include "CvModels/CvRGB2GrayModel.hpp"
 
-#include "../include/DataTypes/ImageData.hpp"
+#include "DataTypes/ImageData.hpp"
+#include "Widget/Full2DDialog.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
@@ -57,6 +58,15 @@ bool CvRGB2GrayModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;
@@ -82,12 +92,15 @@ void CvRGB2GrayModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex co
         if (d->mat().empty()) {
             return;
         };
-
         int w = _label->width();
         int h = _label->height();
 
-        // to gray
-        cv::cvtColor(d->mat(), _mat, cv::COLOR_BGR2GRAY);
+        if (d->mat().channels() == 1) {
+            _mat = d->mat();
+        } else {
+            // to gray
+            cv::cvtColor(d->mat(), _mat, cv::COLOR_BGR2GRAY);
+        }
 
         auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
 

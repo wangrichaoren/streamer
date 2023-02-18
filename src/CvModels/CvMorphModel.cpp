@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -9,7 +11,7 @@
 
 CvMorphModel::CvMorphModel()
     : _box(new QGroupBox())
-    , _label(new QLabel("Image Visual",_box))
+    , _label(new QLabel("Image Visual", _box))
 {
     auto full_lay = new QVBoxLayout(_box);
     auto f = _box->font();
@@ -20,12 +22,12 @@ CvMorphModel::CvMorphModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    auto func_group = new QGroupBox("方法",_box);
+    auto func_group = new QGroupBox("方法", _box);
 
-    _dilation_R = new QRadioButton("膨胀",func_group);
-    _erosion_R = new QRadioButton("腐蚀",func_group);
-    _open_R = new QRadioButton("开操作",func_group);
-    _close_R = new QRadioButton("闭操作",func_group);
+    _dilation_R = new QRadioButton("膨胀", func_group);
+    _erosion_R = new QRadioButton("腐蚀", func_group);
+    _open_R = new QRadioButton("开操作", func_group);
+    _close_R = new QRadioButton("闭操作", func_group);
     connect(_dilation_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_erosion_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_open_R, &QRadioButton::clicked, [=] { compute(); });
@@ -42,10 +44,10 @@ CvMorphModel::CvMorphModel()
     func_vlay->addLayout(func_lay2);
     func_group->setLayout(func_vlay);
 
-    auto kernel_group = new QGroupBox("卷积核形态",_box);
+    auto kernel_group = new QGroupBox("卷积核形态", _box);
     auto kernel_vlay = new QVBoxLayout(_box);
-    _cross_R = new QRadioButton("十字形",_box);
-    _ellipse_R = new QRadioButton("椭圆形",_box);
+    _cross_R = new QRadioButton("十字形", _box);
+    _ellipse_R = new QRadioButton("椭圆形", _box);
     connect(_cross_R, &QRadioButton::clicked, [=] { compute(); });
     connect(_ellipse_R, &QRadioButton::clicked, [=] { compute(); });
     _cross_R->setChecked(true);
@@ -56,10 +58,10 @@ CvMorphModel::CvMorphModel()
 
     auto row_lay = new QHBoxLayout(_box);
     auto col_lay = new QHBoxLayout(_box);
-    auto row_lab = new QLabel("宽",_box);
-    auto col_lab = new QLabel("高",_box);
-    _row_edit = new QLineEdit("5",_box);
-    _col_edit = new QLineEdit("5",_box);
+    auto row_lab = new QLabel("宽", _box);
+    auto col_lab = new QLabel("高", _box);
+    _row_edit = new QLineEdit("5", _box);
+    _col_edit = new QLineEdit("5", _box);
     connect(_row_edit, &QLineEdit::editingFinished, [=] { compute(); });
     connect(_col_edit, &QLineEdit::editingFinished, [=] { compute(); });
 
@@ -109,6 +111,15 @@ bool CvMorphModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;

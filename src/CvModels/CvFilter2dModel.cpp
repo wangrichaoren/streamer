@@ -2,6 +2,8 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include "Widget/Full2DDialog.h"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -9,7 +11,7 @@
 
 CvFilter2dModel::CvFilter2dModel()
     : _box(new QGroupBox())
-    , _label(new QLabel("Image Visual",_box))
+    , _label(new QLabel("Image Visual", _box))
 {
     auto all_lay = new QVBoxLayout(_box);
     auto bf = _box->font();
@@ -24,29 +26,27 @@ CvFilter2dModel::CvFilter2dModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-
-    dep_edit = new QLineEdit("-1",_box);
+    dep_edit = new QLineEdit("-1", _box);
     auto dep_lay = new QHBoxLayout(_box);
-    auto dep_lab = new QLabel("深度",_box);
+    auto dep_lab = new QLabel("深度", _box);
     createLineEditFormCurQObj(dep_lay, dep_lab, dep_edit);
 
-
-    auto kernel_G = new QGroupBox("卷积核3*3",_box);
+    auto kernel_G = new QGroupBox("卷积核3*3", _box);
     auto v_line_lay = new QVBoxLayout(_box);
 
     auto h_lay1 = new QHBoxLayout(_box);
     auto h_lay2 = new QHBoxLayout(_box);
     auto h_lay3 = new QHBoxLayout(_box);
 
-    n00 = new QLineEdit("-1",_box);
-    n01 = new QLineEdit("-1",_box);
-    n02 = new QLineEdit("-1",_box);
-    n10 = new QLineEdit("-1",_box);
-    n11 = new QLineEdit("9",_box);
-    n12 = new QLineEdit("-1",_box);
-    n20 = new QLineEdit("-1",_box);
-    n21 = new QLineEdit("-1",_box);
-    n22 = new QLineEdit("-1",_box);
+    n00 = new QLineEdit("-1", _box);
+    n01 = new QLineEdit("-1", _box);
+    n02 = new QLineEdit("-1", _box);
+    n10 = new QLineEdit("-1", _box);
+    n11 = new QLineEdit("9", _box);
+    n12 = new QLineEdit("-1", _box);
+    n20 = new QLineEdit("-1", _box);
+    n21 = new QLineEdit("-1", _box);
+    n22 = new QLineEdit("-1", _box);
     h_lay1->addWidget(n00);
     h_lay1->addWidget(n01);
     h_lay1->addWidget(n02);
@@ -116,6 +116,15 @@ bool CvFilter2dModel::eventFilter(QObject *object, QEvent *event)
                 auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
                 _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
             }
+        } else if (event->type() == QEvent::MouseButtonPress) {
+            if (_mat.empty()) {
+                return false;
+            }
+            auto shower = new Full2DDialog(nullptr, &_mat);
+            shower->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+            shower->showNormal();
+            shower->exec();
+            shower->deleteLater();
         }
     }
     return false;
