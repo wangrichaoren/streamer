@@ -17,7 +17,7 @@
 
 #include "DataTypes/ImageData.hpp"
 #include "DataTypes/ResultData.hpp"
-#include "Line2Dup/line2Dup.h"
+#include "Line2Dup/line2Dup.hpp"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
 

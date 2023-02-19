@@ -1,14 +1,15 @@
 #ifndef CXXLINEMOD_H
 #define CXXLINEMOD_H
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <map>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
-#include "../include/MIPP/mipp.h"  // for SIMD in different platforms
+#include "../include/MIPP/mipp.h" // for SIMD in different platforms
 
-namespace line2Dup
-{
+
+
+namespace line2Dup {
 
 struct Feature
 {
@@ -20,10 +21,18 @@ struct Feature
     void read(const cv::FileNode &fn);
     void write(cv::FileStorage &fs) const;
 
-    Feature() : x(0), y(0), label(0) {}
+    Feature()
+        : x(0)
+        , y(0)
+        , label(0)
+    {}
     Feature(int x, int y, int label);
 };
-inline Feature::Feature(int _x, int _y, int _label) : x(_x), y(_y), label(_label) {}
+inline Feature::Feature(int _x, int _y, int _label)
+    : x(_x)
+    , y(_y)
+    , label(_label)
+{}
 
 struct Template
 {
@@ -41,9 +50,11 @@ struct Template
 class ColorGradientPyramid
 {
 public:
-    ColorGradientPyramid(const cv::Mat &src, const cv::Mat &mask,
-                                             float weak_threshold, size_t num_features,
-                                             float strong_threshold);
+    ColorGradientPyramid(const cv::Mat &src,
+                         const cv::Mat &mask,
+                         float weak_threshold,
+                         size_t num_features,
+                         float strong_threshold);
 
     void quantize(cv::Mat &dst) const;
 
@@ -59,10 +70,7 @@ public:
         Candidate(int x, int y, int label, float score);
 
         /// Sort candidates with high score to the front
-        bool operator<(const Candidate &rhs) const
-        {
-            return score > rhs.score;
-        }
+        bool operator<(const Candidate &rhs) const { return score > rhs.score; }
 
         Feature f;
         float score;
@@ -80,10 +88,14 @@ public:
     size_t num_features;
     float strong_threshold;
     static bool selectScatteredFeatures(const std::vector<Candidate> &candidates,
-                                                                            std::vector<Feature> &features,
-                                                                            size_t num_features, float distance);
+                                        std::vector<Feature> &features,
+                                        size_t num_features,
+                                        float distance);
 };
-inline ColorGradientPyramid::Candidate::Candidate(int x, int y, int label, float _score) : f(x, y, label), score(_score) {}
+inline ColorGradientPyramid::Candidate::Candidate(int x, int y, int label, float _score)
+    : f(x, y, label)
+    , score(_score)
+{}
 
 class ColorGradient
 {
@@ -101,15 +113,17 @@ public:
 
     cv::Ptr<ColorGradientPyramid> process(const cv::Mat src, const cv::Mat &mask = cv::Mat()) const
     {
-        return cv::makePtr<ColorGradientPyramid>(src, mask, weak_threshold, num_features, strong_threshold);
+        return cv::makePtr<ColorGradientPyramid>(src,
+                                                 mask,
+                                                 weak_threshold,
+                                                 num_features,
+                                                 strong_threshold);
     }
 };
 
 struct Match
 {
-    Match()
-    {
-    }
+    Match() {}
 
     Match(int x, int y, float similarity, const std::string &class_id, int template_id);
 
@@ -136,9 +150,12 @@ struct Match
 };
 
 inline Match::Match(int _x, int _y, float _similarity, const std::string &_class_id, int _template_id)
-        : x(_x), y(_y), similarity(_similarity), class_id(_class_id), template_id(_template_id)
-{
-}
+    : x(_x)
+    , y(_y)
+    , similarity(_similarity)
+    , class_id(_class_id)
+    , template_id(_template_id)
+{}
 
 class Detector
 {
@@ -149,16 +166,25 @@ public:
     Detector();
 
     Detector(std::vector<int> T);
-    Detector(int num_features, std::vector<int> T, float weak_thresh = 30.0f, float strong_thresh = 60.0f);
+    Detector(int num_features,
+             std::vector<int> T,
+             float weak_thresh = 30.0f,
+             float strong_thresh = 60.0f);
 
-    std::vector<Match> match(cv::Mat sources, float threshold,
-                                                     const std::vector<std::string> &class_ids = std::vector<std::string>(),
-                                                     const cv::Mat masks = cv::Mat()) const;
+    std::vector<Match> match(cv::Mat sources,
+                             float threshold,
+                             const std::vector<std::string> &class_ids = std::vector<std::string>(),
+                             const cv::Mat masks = cv::Mat()) const;
 
-    int addTemplate(const cv::Mat sources, const std::string &class_id,
-                                    const cv::Mat &object_mask, int num_features = 0);
+    int addTemplate(const cv::Mat sources,
+                    const std::string &class_id,
+                    const cv::Mat &object_mask,
+                    int num_features = 0);
 
-    int addTemplate_rotate(const std::string &class_id, int zero_id, float theta, cv::Point2f center);
+    int addTemplate_rotate(const std::string &class_id,
+                           int zero_id,
+                           float theta,
+                           cv::Point2f center);
 
     const cv::Ptr<ColorGradient> &getModalities() const { return modality; }
 
@@ -181,7 +207,7 @@ public:
     void writeClass(const std::string &class_id, cv::FileStorage &fs) const;
 
     void readClasses(const std::vector<std::string> &class_ids,
-                                     const std::string &format = "templates_%s.yml.gz");
+                     const std::string &format = "templates_%s.yml.gz");
     void writeClasses(const std::string &format = "templates_%s.yml.gz") const;
 
 protected:
@@ -198,16 +224,18 @@ protected:
     typedef std::vector<std::vector<LinearMemories>> LinearMemoryPyramid;
 
     void matchClass(const LinearMemoryPyramid &lm_pyramid,
-                                    const std::vector<cv::Size> &sizes,
-                                    float threshold, std::vector<Match> &matches,
-                                    const std::string &class_id,
-                                    const std::vector<TemplatePyramid> &template_pyramids) const;
+                    const std::vector<cv::Size> &sizes,
+                    float threshold,
+                    std::vector<Match> &matches,
+                    const std::string &class_id,
+                    const std::vector<TemplatePyramid> &template_pyramids) const;
 };
 
 } // namespace line2Dup
 
 namespace shape_based_matching {
-class shapeInfo_producer{
+class shapeInfo_producer
+{
 public:
     cv::Mat src;
     cv::Mat mask;
@@ -219,44 +247,49 @@ public:
     float scale_step = 0.5;
     float eps = 0.00001f;
 
-    class Info{
+    class Info
+    {
     public:
         float angle;
         float scale;
 
-        Info(float angle_, float scale_){
+        Info(float angle_, float scale_)
+        {
             angle = angle_;
             scale = scale_;
         }
     };
     std::vector<Info> infos;
 
-    shapeInfo_producer(cv::Mat src, cv::Mat mask = cv::Mat()){
+    shapeInfo_producer(cv::Mat src, cv::Mat mask = cv::Mat())
+    {
         this->src = src;
-        if(mask.empty()){
+        if (mask.empty()) {
             // make sure we have masks
             this->mask = cv::Mat(src.size(), CV_8UC1, {255});
-        }else{
+        } else {
             this->mask = mask;
         }
     }
 
-    static cv::Mat transform(cv::Mat src, float angle, float scale){
+    static cv::Mat transform(cv::Mat src, float angle, float scale)
+    {
         cv::Mat dst;
 
-        cv::Point2f center(src.cols/2.0f, src.rows/2.0f);
+        cv::Point2f center(src.cols / 2.0f, src.rows / 2.0f);
         cv::Mat rot_mat = cv::getRotationMatrix2D(center, angle, scale);
         cv::warpAffine(src, dst, rot_mat, src.size());
 
         return dst;
     }
-    static void save_infos(std::vector<shapeInfo_producer::Info>& infos, std::string path = "infos.yaml"){
+    static void save_infos(std::vector<shapeInfo_producer::Info> &infos,
+                           std::string path = "infos.yaml")
+    {
         cv::FileStorage fs(path, cv::FileStorage::WRITE);
 
         fs << "infos"
            << "[";
-        for (int i = 0; i < infos.size(); i++)
-        {
+        for (int i = 0; i < infos.size(); i++) {
             fs << "{";
             fs << "angle" << infos[i].angle;
             fs << "scale" << infos[i].scale;
@@ -264,73 +297,71 @@ public:
         }
         fs << "]";
     }
-    static std::vector<Info> load_infos(std::string path = "info.yaml"){
+    static std::vector<Info> load_infos(std::string path = "info.yaml")
+    {
         cv::FileStorage fs(path, cv::FileStorage::READ);
 
         std::vector<Info> infos;
 
         cv::FileNode infos_fn = fs["infos"];
         cv::FileNodeIterator it = infos_fn.begin(), it_end = infos_fn.end();
-        for (int i = 0; it != it_end; ++it, i++)
-        {
+        for (int i = 0; it != it_end; ++it, i++) {
             infos.emplace_back(float((*it)["angle"]), float((*it)["scale"]));
         }
         return infos;
     }
 
-    void produce_infos(){
+    void produce_infos()
+    {
         infos.clear();
 
         assert(angle_range.size() <= 2);
         assert(scale_range.size() <= 2);
-        assert(angle_step > eps*10);
-        assert(scale_step > eps*10);
+        assert(angle_step > eps * 10);
+        assert(scale_step > eps * 10);
 
         // make sure range not empty
-        if(angle_range.size() == 0){
+        if (angle_range.size() == 0) {
             angle_range.push_back(0);
         }
-        if(scale_range.size() == 0){
+        if (scale_range.size() == 0) {
             scale_range.push_back(1);
         }
 
-        if(angle_range.size() == 1 && scale_range.size() == 1){
+        if (angle_range.size() == 1 && scale_range.size() == 1) {
             float angle = angle_range[0];
             float scale = scale_range[0];
             infos.emplace_back(angle, scale);
 
-        }else if(angle_range.size() == 1 && scale_range.size() == 2){
+        } else if (angle_range.size() == 1 && scale_range.size() == 2) {
             assert(scale_range[1] > scale_range[0]);
             float angle = angle_range[0];
-            for(float scale = scale_range[0]; scale <= scale_range[1]+eps; scale += scale_step){
+            for (float scale = scale_range[0]; scale <= scale_range[1] + eps; scale += scale_step) {
                 infos.emplace_back(angle, scale);
             }
-        }else if(angle_range.size() == 2 && scale_range.size() == 1){
+        } else if (angle_range.size() == 2 && scale_range.size() == 1) {
             assert(angle_range[1] > angle_range[0]);
             float scale = scale_range[0];
-            for(float angle = angle_range[0]; angle <= angle_range[1]+eps; angle += angle_step){
+            for (float angle = angle_range[0]; angle <= angle_range[1] + eps; angle += angle_step) {
                 infos.emplace_back(angle, scale);
             }
-        }else if(angle_range.size() == 2 && scale_range.size() == 2){
+        } else if (angle_range.size() == 2 && scale_range.size() == 2) {
             assert(scale_range[1] > scale_range[0]);
             assert(angle_range[1] > angle_range[0]);
-            for(float scale = scale_range[0]; scale <= scale_range[1]+eps; scale += scale_step){
-                for(float angle = angle_range[0]; angle <= angle_range[1]+eps; angle += angle_step){
+            for (float scale = scale_range[0]; scale <= scale_range[1] + eps; scale += scale_step) {
+                for (float angle = angle_range[0]; angle <= angle_range[1] + eps;
+                     angle += angle_step) {
                     infos.emplace_back(angle, scale);
                 }
             }
         }
     }
 
-    cv::Mat src_of(const Info& info){
-        return transform(src, info.angle, info.scale);
-    }
+    cv::Mat src_of(const Info &info) { return transform(src, info.angle, info.scale); }
 
-    cv::Mat mask_of(const Info& info){
-        return (transform(mask, info.angle, info.scale) > 0);
-    }
+    cv::Mat mask_of(const Info &info) { return (transform(mask, info.angle, info.scale) > 0); }
 };
 
-}
+} // namespace shape_based_matching
 
 #endif

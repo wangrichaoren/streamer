@@ -1,4 +1,4 @@
-#include "Line2Dup/line2Dup.h"
+#include "Line2Dup/line2Dup.hpp"
 #include <iostream>
 
 using namespace std;
@@ -484,8 +484,10 @@ bool ColorGradientPyramid::extractTemplate(Template &templ) const
     }
     // We require a certain number of features
     if (candidates.size() < num_features){
-        if(candidates.size() <= 4) {
-            std::cout << "too few features, abort" << std::endl;
+        // 由原来的的 if(candidates.size() <= 4) 改为 candidates.empty()
+        if(candidates.empty()) {
+//            std::cout << "too few features, abort" << std::endl;
+            std::cout << "empty features, abort" << std::endl;
             return false;
         }
         std::cout << "have no enough features, exaustive mode" << std::endl;

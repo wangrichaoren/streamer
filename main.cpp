@@ -18,14 +18,15 @@
 #include <QtWidgets/QPushButton>
 
 #include "Utils/Utils.hpp"
+#include "Widget/ShapeBaseTrainer.h"
 
 #include "GeneralModels/AdditionModel.hpp"
 #include "GeneralModels/DivisionModel.hpp"
 #include "GeneralModels/MultiplicationModel.hpp"
 #include "GeneralModels/NumberDisplayDataModel.hpp"
 #include "GeneralModels/NumberSourceDataModel.hpp"
-#include "GeneralModels/SubtractionModel.hpp"
 #include "GeneralModels/ResultShowerModel.hpp"
+#include "GeneralModels/SubtractionModel.hpp"
 
 #include "CvModels/CvBinaryModel.hpp"
 #include "CvModels/CvBlurModel.hpp"
@@ -154,6 +155,7 @@ int main(int argc, char *argv[])
     // 菜单栏
     auto menuBar = new QMenuBar(&mainWidget);
     QMenu *menu = menuBar->addMenu("文件");
+    QMenu *exterior_tool_menu = menuBar->addMenu("工具");
     QMenu *help_menu = menuBar->addMenu("帮助");
     v_layout_all->addWidget(menuBar);
 
@@ -282,6 +284,8 @@ int main(int argc, char *argv[])
     auto saveAction = menu->addAction("保存流图");
     auto exitAction = menu->addAction("退出");
 
+    auto markerAction = exterior_tool_menu->addAction("模板标注");
+
     auto helpAction = help_menu->addAction("操作说明");
     auto copyrightAction = help_menu->addAction("版权说明");
 
@@ -392,6 +396,18 @@ int main(int argc, char *argv[])
     // 帮助说明
     QObject::connect(helpAction, &QAction::triggered, [&] {
         createMessageBox(&mainWidget, ":icons/cool.png", "操作说明", "稍后补充......", 1, {"返回"});
+    });
+
+    // 模板标注工具
+    QObject::connect(markerAction, &QAction::triggered, [&] {
+        auto shape_base_marker = new ShapeBaseTrainerDialog(&mainWidget);
+        shape_base_marker->setWindowFlags(Qt::Window);
+        shape_base_marker->setWindowState(Qt::WindowMaximized);
+        mainWidget.hide();
+        shape_base_marker->show();
+        shape_base_marker->exec();
+        shape_base_marker->deleteLater();
+        mainWidget.show();
     });
 
     // 版权说明

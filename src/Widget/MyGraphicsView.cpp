@@ -385,3 +385,10 @@ cv::Mat MyGraphicsView::getScenceToMat()
 {
     return cv::imread(img_path);
 }
+void MyGraphicsView::clearView()
+{
+    graphicsScene->removeItem(this->topLevelItem());
+    //    std::cout << "has roi: " << hasRoiRect() << std::endl;
+
+    roirect = QRectF(0, 0, 0, 0);
+}

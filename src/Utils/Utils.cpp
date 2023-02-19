@@ -1,5 +1,5 @@
-#include <iostream>
 #include <dirent.h>
+#include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -114,7 +114,8 @@ void createLineEditFormCurQObj(QHBoxLayout *hlay_obj, QLabel *lab_obj, QLineEdit
     hlay_obj->addWidget(edit_obj);
 }
 
-bool getDirectoryFile(const std::string& dir_in, std::vector<std::string>& files) {
+bool getDirectoryFile(const std::string &dir_in, std::vector<std::string> &files)
+{
     if (dir_in.empty()) {
         return false;
     }
@@ -123,12 +124,12 @@ bool getDirectoryFile(const std::string& dir_in, std::vector<std::string>& files
     if (!S_ISDIR(s.st_mode)) {
         return false;
     }
-    DIR* open_dir = opendir(dir_in.c_str());
+    DIR *open_dir = opendir(dir_in.c_str());
     if (NULL == open_dir) {
         std::exit(EXIT_FAILURE);
     }
-    dirent* p = nullptr;
-    while( (p = readdir(open_dir)) != nullptr) {
+    dirent *p = nullptr;
+    while ((p = readdir(open_dir)) != nullptr) {
         struct stat st;
         if (p->d_name[0] != '.') {
             //因为是使用devC++ 获取windows下的文件，所以使用了 "\" ,linux下要换成"/"
@@ -136,8 +137,7 @@ bool getDirectoryFile(const std::string& dir_in, std::vector<std::string>& files
             stat(name.c_str(), &st);
             if (S_ISDIR(st.st_mode)) {
                 getDirectoryFile(name, files);
-            }
-            else if (S_ISREG(st.st_mode)) {
+            } else if (S_ISREG(st.st_mode)) {
                 files.push_back(name);
             }
         }

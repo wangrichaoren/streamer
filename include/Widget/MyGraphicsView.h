@@ -69,6 +69,8 @@ public:
 
     void graphics(cv::Mat &mat);
 
+    void clearView();
+
     QRectF boundingRect() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

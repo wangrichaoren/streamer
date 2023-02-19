@@ -290,7 +290,7 @@ install(FILES
 # include MIPP headers / linemod2d
 include_directories( "include/MIPP/")
 set(LINE2DUP_HEADER_FILES
-        include/Line2Dup/line2Dup.h
+        include/Line2Dup/line2Dup.hpp
         )
 
 set(LINE2DUP_SOURCE_FILES
@@ -408,12 +408,18 @@ set(WIDGET_UI_HEADER_FILES
         include/Widget/ui_Full2DDialog.h
         include/Widget/Full2DDialog.ui
         include/Widget/Full2DDialog.h
+
+        include/Widget/ui_ShapeBaseTrainer.h
+        include/Widget/ShapeBaseTrainer.ui
+        include/Widget/ShapeBaseTrainer.h
         )
 
 set(WIDGET_UI_SOURCE_FILES
         src/Widget/MyGraphicsView.cpp
 
         src/Widget/Full2DDialog.cpp
+
+        src/Widget/ShapeBaseTrainer.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

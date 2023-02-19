@@ -110,14 +110,14 @@ void CvDrawContoursModel::setInData(std::shared_ptr<NodeData> nodeData, PortInde
             if (d->mat().empty()) {
                 return;
             }
-            if (d->mat().channels() == 1) {
-                createMessageBox(nullptr,
-                                 ":icons/error.png",
-                                 "不正常的输入",
-                                 "绘制轮廓需要RGB三通道图像的输入，在单通道图像上绘制不生效!",
-                                 1,
-                                 {"确认"});
-            }
+            //            if (d->mat().channels() == 1) {
+            //                createMessageBox(nullptr,
+            //                                 ":icons/error.png",
+            //                                 "不正常的输入",
+            //                                 "绘制轮廓需要RGB三通道图像的输入，在单通道图像上绘制不生效!",
+            //                                 1,
+            //                                 {"确认"});
+            //            }
 
             port0_ok = true;
         } else {
@@ -159,6 +159,9 @@ void CvDrawContoursModel::compute()
     }
 
     // todo ----
+    if (d->mat().channels() == 1) {
+        cv::cvtColor(d->mat(), _mat, cv::COLOR_GRAY2RGB);
+    }
     if (d->mat().type() == CV_8UC4) {
         cv::cvtColor(d->mat(), _mat, cv::COLOR_RGBA2RGB);
     }

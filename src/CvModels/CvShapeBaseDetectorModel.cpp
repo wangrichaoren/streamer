@@ -7,6 +7,105 @@
 #include <QtNodes/NodeDelegateModelRegistry>
 #include <QtWidgets/QFileDialog>
 
+// NMS, got from cv::dnn so we don't need opencv contrib
+// just collapse it
+namespace cv_dnn {
+namespace {
+
+template<typename T>
+static inline bool SortScorePairDescend(const std::pair<float, T> &pair1,
+                                        const std::pair<float, T> &pair2)
+{
+    return pair1.first > pair2.first;
+}
+
+} // namespace
+
+inline void GetMaxScoreIndex(const std::vector<float> &scores,
+                             const float threshold,
+                             const int top_k,
+                             std::vector<std::pair<float, int>> &score_index_vec)
+{
+    for (size_t i = 0; i < scores.size(); ++i) {
+        if (scores[i] > threshold) {
+            score_index_vec.push_back(std::make_pair(scores[i], i));
+        }
+    }
+    std::stable_sort(score_index_vec.begin(), score_index_vec.end(), SortScorePairDescend<int>);
+    if (top_k > 0 && top_k < (int) score_index_vec.size()) {
+        score_index_vec.resize(top_k);
+    }
+}
+
+template<typename BoxType>
+inline void NMSFast_(const std::vector<BoxType> &bboxes,
+                     const std::vector<float> &scores,
+                     const float score_threshold,
+                     const float nms_threshold,
+                     const float eta,
+                     const int top_k,
+                     std::vector<int> &indices,
+                     float (*computeOverlap)(const BoxType &, const BoxType &))
+{
+    CV_Assert(bboxes.size() == scores.size());
+    std::vector<std::pair<float, int>> score_index_vec;
+    GetMaxScoreIndex(scores, score_threshold, top_k, score_index_vec);
+
+    // Do nms.
+    float adaptive_threshold = nms_threshold;
+    indices.clear();
+    for (size_t i = 0; i < score_index_vec.size(); ++i) {
+        const int idx = score_index_vec[i].second;
+        bool keep = true;
+        for (int k = 0; k < (int) indices.size() && keep; ++k) {
+            const int kept_idx = indices[k];
+            float overlap = computeOverlap(bboxes[idx], bboxes[kept_idx]);
+            keep = overlap <= adaptive_threshold;
+        }
+        if (keep)
+            indices.push_back(idx);
+        if (keep && eta < 1 && adaptive_threshold > 0.5) {
+            adaptive_threshold *= eta;
+        }
+    }
+}
+
+// copied from opencv 3.4, not exist in 3.0
+template<typename _Tp>
+static inline double jaccardDistance__(const cv::Rect_<_Tp> &a, const cv::Rect_<_Tp> &b)
+{
+    _Tp Aa = a.area();
+    _Tp Ab = b.area();
+
+    if ((Aa + Ab) <= std::numeric_limits<_Tp>::epsilon()) {
+        // jaccard_index = 1 -> distance = 0
+        return 0.0;
+    }
+
+    double Aab = (a & b).area();
+    // distance = 1 - jaccard_index
+    return 1.0 - Aab / (Aa + Ab - Aab);
+}
+
+template<typename T>
+static inline float rectOverlap(const T &a, const T &b)
+{
+    return 1.f - static_cast<float>(jaccardDistance__(a, b));
+}
+
+void NMSBoxes(const std::vector<cv::Rect> &bboxes,
+              const std::vector<float> &scores,
+              const float score_threshold,
+              const float nms_threshold,
+              std::vector<int> &indices,
+              const float eta = 1,
+              const int top_k = 0)
+{
+    NMSFast_(bboxes, scores, score_threshold, nms_threshold, eta, top_k, indices, rectOverlap);
+}
+
+} // namespace cv_dnn
+
 CvShapeBaseDetectorModel::CvShapeBaseDetectorModel()
     : _box(new QGroupBox())
     , _label(new QLabel("Image Visual", _box))
@@ -210,7 +309,6 @@ void CvShapeBaseDetectorModel::setInData(std::shared_ptr<NodeData> nodeData, Por
         if (path_show->text().isEmpty()) {
             return;
         }
-
         this->compute();
 
     } else {
@@ -235,25 +333,9 @@ void CvShapeBaseDetectorModel::compute()
     if (path_show->text().isEmpty()) {
         return;
     }
-
-    // todo ----
-    line2Dup::Detector detector({4, 8}); // T 必须偶数
-
-    std::vector<std::string> ids;
-    ids.push_back("test");
-
-    auto template_path = path_show->text().toStdString() + "/template.yaml";
-    detector.readClasses(ids, template_path);
-
-    // angle & scale are saved here, fetched by match id
-    auto info_path = path_show->text().toStdString() + "/info.yaml";
-    auto infos = shape_based_matching::shapeInfo_producer::load_infos(info_path);
-    auto tmp_img = cv::imread(path_show->text().toStdString() + "/template.png");
-    auto tmp_h = tmp_img.rows;
-    auto tmp_w = tmp_img.cols;
+    _res.clear();
 
     cv::Mat test_img = d->mat();
-
     if (test_img.channels() == 1) {
         // gray -> rgb
         cv::cvtColor(test_img, test_img, cv::COLOR_GRAY2RGB);
@@ -262,81 +344,123 @@ void CvShapeBaseDetectorModel::compute()
         cv::cvtColor(test_img, test_img, cv::COLOR_RGBA2RGB);
     }
 
-    int padding = 250;
-    cv::Mat padded_img = cv::Mat(test_img.rows + 2 * padding,
-                                 test_img.cols + 2 * padding,
-                                 test_img.type(),
-                                 cv::Scalar::all(0));
-    test_img.copyTo(padded_img(cv::Rect(padding, padding, test_img.cols, test_img.rows)));
+    bool is_find = false;
+
+    line2Dup::Detector detector({4, 8}); // T 必须偶数
+
+    std::vector<std::string> ids;
+    ids.push_back("template");
+
+    auto template_path = path_show->text().toStdString() + "/template.yaml";
+    detector.readClasses(ids, template_path);
+
+    // angle & scale are saved here, fetched by match id
+    auto info_path = path_show->text().toStdString() + "/info.yaml";
+    auto infos = shape_based_matching::shapeInfo_producer::load_infos(info_path);
+
+    auto padding_path = path_show->text().toStdString() + "/padding.yaml";
+    int padding = 0;
+    cv::FileStorage fs(padding_path, cv::FileStorage::READ);
+    padding = fs["padding"];
+    fs.release();
+
+    auto tmp_img = cv::imread(path_show->text().toStdString() + "/template.png");
+    auto tmp_h = tmp_img.rows;
+    auto tmp_w = tmp_img.cols;
 
     int stride = 16;
-    int n = padded_img.rows / stride;
-    int m = padded_img.cols / stride;
+    int n = test_img.rows / stride;
+    int m = test_img.cols / stride;
     cv::Rect roi(0, 0, stride * m, stride * n);
-    _mat = padded_img(roi).clone();
-    assert(img.isContinuous());
+    test_img = test_img(roi).clone();
 
-    auto matches = detector.match(_mat, 90, ids);
+    auto matches = detector.match(test_img, threshold_edit->text().toFloat(), ids);
 
-    if (_mat.channels() == 1)
-        cvtColor(_mat, _mat, CV_GRAY2BGR);
+    vector<cv::Rect> boxes;
+    vector<float> scores;
+    vector<int> idxs;
+    for (auto match : matches) {
+        cv::Rect box;
+        box.x = match.x;
+        box.y = match.y;
 
-    //    std::cout << "matches.size(): " << matches.size() << std::endl;
-    size_t top5 = 1;
-    if (top5 > matches.size())
-        top5 = matches.size();
-    for (size_t i = 0; i < top5; i++) {
-        auto match = matches[i];
-        auto templ = detector.getTemplates("test", match.template_id);
+        auto templ = detector.getTemplates("template", match.template_id);
 
-        // 270 is width of template image
-        // 100 is padding when training
-        // tl_x/y: template croping topleft corner when training
+        box.width = templ[0].width;
+        box.height = templ[0].height;
+        boxes.push_back(box);
+        scores.push_back(match.similarity);
+    }
 
-        float r_scaled = tmp_w / 2.0f * infos[match.template_id].scale;
+    cv_dnn::NMSBoxes(boxes, scores, threshold_edit->text().toFloat(), 0.1f, idxs);
 
+    if (!idxs.empty()) {
+        is_find = true;
+    }
+    int id_c = 0;
+    for (auto idx : idxs) {
+        id_c += 1;
+        auto match = matches[idx];
+        auto templ = detector.getTemplates("template", match.template_id);
+
+        float r_scaled_w = tmp_w / 2.0f * infos[match.template_id].scale;
+        float r_scaled_h = tmp_h / 2.0f * infos[match.template_id].scale;
         // scaling won't affect this, because it has been determined by warpAffine
         // cv::warpAffine(src, dst, rot_mat, src.size()); last param
-        float train_img_half_width = tmp_w / 2.0f + 100;
-        float train_img_half_height = tmp_h / 2.0f + 100;
+        float train_img_half_width = tmp_w / 2.0f + padding;
+        float train_img_half_height = tmp_h / 2.0f + padding;
 
         // center x,y of train_img in test img
         float x = match.x - templ[0].tl_x + train_img_half_width;
         float y = match.y - templ[0].tl_y + train_img_half_height;
 
+        int tw = templ[0].width / 2;
+        int th = templ[0].height / 2;
+
         cv::Vec3b randColor;
         randColor[0] = rand() % 155 + 100;
         randColor[1] = rand() % 155 + 100;
         randColor[2] = rand() % 155 + 100;
+
+        // 绘制特征点
         for (int i = 0; i < templ[0].features.size(); i++) {
             auto feat = templ[0].features[i];
-            cv::circle(_mat, {feat.x + match.x, feat.y + match.y}, 3, randColor, -1);
+            cv::circle(test_img, {feat.x + match.x, feat.y + match.y}, 3, randColor, -1);
         }
 
-        cv::putText(_mat,
-                    std::to_string(int(round(match.similarity))),
-                    cv::Point(match.x + r_scaled - 10, match.y - 3),
+        cv::putText(test_img,
+                    ("id-" + to_string(id_c)),
+                    cv::Point(x + tw, y + th),
                     cv::FONT_HERSHEY_PLAIN,
                     2,
                     randColor);
 
+        // 绘制方框
         cv::RotatedRect rotatedRectangle({x, y},
-                                         {2 * r_scaled, 2 * r_scaled},
+                                         {2 * r_scaled_w, 2 * r_scaled_h},
                                          -infos[match.template_id].angle);
-
         cv::Point2f vertices[4];
         rotatedRectangle.points(vertices);
         for (int i = 0; i < 4; i++) {
             int next = (i + 1 == 4) ? 0 : (i + 1);
-            cv::line(_mat, vertices[i], vertices[next], randColor, 2);
+            cv::line(test_img, vertices[i], vertices[next], randColor, 2);
         }
 
-        _res += ("template_id: " + std::to_string(match.template_id) + "\n"
-                 + "similarity: " + std::to_string(match.similarity) + "\n");
-        //        std::cout << "\nmatch.template_id: " << match.template_id << std::endl;
-        //        std::cout << "match.similarity: " << match.similarity << std::endl;
+        // 输出: 角度&置信率.
+        _res += ("id: " + std::to_string(id_c) + "\n"
+                 + "similarity: " + std::to_string(match.similarity) + "\n"
+                 + "angle: " + std::to_string(infos[match.template_id].angle) + "\n"
+                 + "scale: " + std::to_string(infos[match.template_id].scale) + "\n"
+                 + "------------------------------" + "\n");
     }
-    // todo ----
+    _mat = test_img;
+    if (is_find) {
+        _res = "flag: true\n------------------------------\nnum: " + std::to_string(id_c)
+               + "\n------------------------------\n" + _res;
+    } else {
+        _res = "flag: false\n------------------------------\nnum: " + std::to_string(id_c)
+               + "\n------------------------------\n";
+    }
 
     int w = _label->width();
     int h = _label->height();
