@@ -47,6 +47,7 @@ ShapeBaseTrainerDialog::ShapeBaseTrainerDialog(QWidget *parent)
                              {"确认"});
             return;
         }
+
         line2Dup::Detector detector(ui->num_lineEdit->text().toInt(), {4, 8});
 
         auto img = m_view->getRoiRectToMat();
@@ -55,15 +56,15 @@ ShapeBaseTrainerDialog::ShapeBaseTrainerDialog(QWidget *parent)
 
         // 填充以避免旋转丢失特征
         int padding;
-        // 求填充的大小，而不是固定值
         auto max_img_h = ui->scale2_lineEdit->text().toFloat() * img.rows;
         auto max_img_w = ui->scale2_lineEdit->text().toFloat() * img.cols;
+        auto k = sqrt((pow(max_img_h, 2) + pow(max_img_w, 2)));
         if (max_img_h > max_img_w) {
-            padding = (max_img_h - max_img_w) / 2;
+            padding = (k - max_img_w) / 2;
         } else {
-            padding = (max_img_w - max_img_h) / 2;
+            padding = (k - max_img_h) / 2;
         }
-        //        std::cout<<"padding: "<<padding<<std::endl;
+        std::cout << "padding: " << padding << std::endl;
 
         cv::Mat padded_img = cv::Mat(img.rows + 2 * padding,
                                      img.cols + 2 * padding,
