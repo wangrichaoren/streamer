@@ -30,9 +30,9 @@ endif ()
 
 set(QT_NODES_DEVELOPER_DEFAULTS "${is_root_project}" CACHE BOOL "Turns on default settings for development of QtNodes")
 
-option(BUILD_TESTING "Build tests" "${QT_NODES_DEVELOPER_DEFAULTS}")
-option(BUILD_EXAMPLES "Build Examples" "${QT_NODES_DEVELOPER_DEFAULTS}")
-option(BUILD_DOCS "Build Documentation" "${QT_NODES_DEVELOPER_DEFAULTS}")
+#option(BUILD_TESTING "Build tests" "${QT_NODES_DEVELOPER_DEFAULTS}")
+#option(BUILD_EXAMPLES "Build Examples" "${QT_NODES_DEVELOPER_DEFAULTS}")
+#option(BUILD_DOCS "Build Documentation" "${QT_NODES_DEVELOPER_DEFAULTS}")
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
 option(BUILD_DEBUG_POSTFIX_D "Append d suffix to debug libraries" OFF)
 option(QT_NODES_FORCE_TEST_COLOR "Force colorized unit test output" OFF)
@@ -169,7 +169,6 @@ target_link_libraries(QtNodes
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Gui
         Qt${QT_VERSION_MAJOR}::OpenGL
-        ${OpenCV_LIBS}
         )
 
 target_compile_definitions(QtNodes
@@ -236,7 +235,7 @@ target_sources(QtNodes PRIVATE ${nodes_moc})
 ##
 
 #if (BUILD_EXAMPLES)
-#    add_subdirectory(examples)
+    add_subdirectory(examples)
 #endif ()
 
 ##################
@@ -456,4 +455,4 @@ add_executable(streamer
         ${WIDGET_UI_SOURCE_FILES}
 )
 
-target_link_libraries(streamer QtNodes)
+target_link_libraries(streamer QtNodes ${OpenCV_LIBS})
