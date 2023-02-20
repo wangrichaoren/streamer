@@ -6,5 +6,6 @@ build*/
 .idea
 cmake-build-release/
 cmake-build-debug/
+examples/
 
 tags
