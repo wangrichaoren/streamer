@@ -10,7 +10,7 @@ if (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -O0")
     message("Debug mode:${CMAKE_C_FLAGS_DEBUG}")
 elseif (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Release"))
-    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Wall -O3")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Wall -O3 ")
     message("Release mode:${CMAKE_C_FLAGS_RELEASE}")
 endif ()
 
@@ -73,6 +73,14 @@ endif ()
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 MESSAGE(STATUS "OPENCV_VERSION: ${OpenCV_VERSION}")
+
+# PCL
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+MESSAGE(STATUS "PCL_VERSION: ${PCL_VERSION}")
+list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")#不加这个会报错,必须在下面这行之前
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 # Unfortunately, as we have a split include/src, AUTOMOC doesn't work.
 # We'll have to manually specify some files
@@ -235,7 +243,7 @@ target_sources(QtNodes PRIVATE ${nodes_moc})
 ##
 
 #if (BUILD_EXAMPLES)
-    add_subdirectory(examples)
+add_subdirectory(examples)
 #endif ()
 
 ##################
@@ -287,7 +295,7 @@ install(FILES
 # header and source
 
 # include MIPP headers / linemod2d
-include_directories( "include/MIPP/")
+include_directories("include/MIPP/")
 set(LINE2DUP_HEADER_FILES
         include/Line2Dup/line2Dup.hpp
         )
@@ -453,6 +461,6 @@ add_executable(streamer
 
         ${WIDGET_UI_HEADER_FILES}
         ${WIDGET_UI_SOURCE_FILES}
-)
+        )
 
-target_link_libraries(streamer QtNodes ${OpenCV_LIBS})
+target_link_libraries(streamer QtNodes ${OpenCV_LIBS} ${PCL_LIBRARIES})
