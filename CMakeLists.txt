@@ -235,9 +235,9 @@ target_sources(QtNodes PRIVATE ${nodes_moc})
 # Examples
 ##
 
-if (BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif ()
+#if (BUILD_EXAMPLES)
+#    add_subdirectory(examples)
+#endif ()
 
 ##################
 # Automated Tests
