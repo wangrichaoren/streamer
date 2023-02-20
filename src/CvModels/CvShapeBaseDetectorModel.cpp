@@ -428,28 +428,45 @@ void CvShapeBaseDetectorModel::compute()
             cv::circle(test_img, {feat.x + match.x, feat.y + match.y}, 3, randColor, -1);
         }
 
-        cv::putText(test_img,
-                    ("id-" + to_string(id_c)),
-                    cv::Point(x + tw, y + th),
-                    cv::FONT_HERSHEY_PLAIN,
-                    2,
-                    randColor);
-
         // 绘制方框
         cv::RotatedRect rotatedRectangle({x, y},
                                          {2 * r_scaled_w, 2 * r_scaled_h},
                                          -infos[match.template_id].angle);
+
         cv::Point2f vertices[4];
         rotatedRectangle.points(vertices);
         for (int i = 0; i < 4; i++) {
             int next = (i + 1 == 4) ? 0 : (i + 1);
-            cv::line(test_img, vertices[i], vertices[next], randColor, 2);
+            cv::line(test_img, vertices[i], vertices[next], randColor, 3);
         }
+
+        // 坐标轴
+        float x_axis_l = tmp_w * infos[match.template_id].scale * 1.2;
+        float y_axis_l = tmp_h * infos[match.template_id].scale * 1.2;
+        cv::RotatedRect rotatedRectangleX({x, y}, {x_axis_l, 0}, -infos[match.template_id].angle);
+        cv::Point2f verticesX[4];
+        rotatedRectangleX.points(verticesX);
+        cv::line(test_img, cv::Point(x, y), verticesX[3], cv::Scalar(0, 0, 255), 5);
+
+        cv::RotatedRect rotatedRectangleY({x, y}, {0, y_axis_l}, -infos[match.template_id].angle);
+        cv::Point2f verticesY[4];
+        rotatedRectangleY.points(verticesY);
+        cv::line(test_img, cv::Point(x, y), verticesY[2], cv::Scalar(0, 255, 0), 5);
+
+        cv::circle(test_img, cv::Point(x, y), 5, cv::Scalar(255, 0, 0), -1);
+
+        cv::putText(test_img,
+                    (to_string(id_c)),
+                    cv::Point(x, y),
+                    cv::FONT_HERSHEY_SCRIPT_SIMPLEX,
+                    4,
+                    randColor,
+                    2);
 
         // 输出: 角度&置信率.
         _res += ("id: " + std::to_string(id_c) + "\n"
                  + "similarity: " + std::to_string(match.similarity) + "\n"
-                 + "angle: " + std::to_string(infos[match.template_id].angle) + "\n"
+                 + "angle: " + std::to_string(-infos[match.template_id].angle) + "\n"
                  + "scale: " + std::to_string(infos[match.template_id].scale) + "\n"
                  + "------------------------------" + "\n");
     }
