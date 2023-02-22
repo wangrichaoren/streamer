@@ -6,6 +6,8 @@ cmake_policy(SET CMP0068 NEW) # new in 3.9. The NEW behavior of this policy is t
 
 project(Streamer CXX)
 
+#add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=0)
+
 if (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -O0")
     message("Debug mode:${CMAKE_C_FLAGS_DEBUG}")
@@ -329,6 +331,7 @@ set(HEADLESS_DATA_SOURCE_FILES
         include/DataTypes/PixmapData.hpp
         include/DataTypes/ContoursData.hpp
         include/DataTypes/ResultData.hpp
+        include/DataTypes/PointCloudData.hpp
         )
 # ------------------------
 # ------------------------
@@ -367,11 +370,12 @@ set(GENERAL_MODEL_SOURCE_FILES
 # -------------------------------------------
 
 
-# -----------------2d模型-----------------
+# -----------------视觉模型-----------------
 # ----------------------------------------
 # ----------------------------------------
-# 2d模型头文件
+# 视觉模型头文件
 set(CV_MODEL_HEADER_FILES
+        # 二维
         include/CvModels/CvImageLoaderModel.hpp
         include/CvModels/CvImageShowModel.hpp
         include/CvModels/CvRGB2GrayModel.hpp
@@ -385,10 +389,14 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvFindContoursModel.hpp
         include/CvModels/CvDrawContoursModel.hpp
         include/CvModels/CvShapeBaseDetectorModel.hpp
+
+        # 三维
+        include/CvModels/CvPointCloudLoaderModel.hpp
         )
 
-# 2d模型源文件
+# 视觉模型源文件
 set(CV_MODEL_SOURCE_FILES
+        # 二维
         src/CvModels/CvImageLoaderModel.cpp
         src/CvModels/CvImageShowModel.cpp
         src/CvModels/CvRGB2GrayModel.cpp
@@ -402,6 +410,9 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvFindContoursModel.cpp
         src/CvModels/CvDrawContoursModel.cpp
         src/CvModels/CvShapeBaseDetectorModel.cpp
+
+        # 三维
+        src/CvModels/CvPointCloudLoaderModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------
@@ -410,6 +421,10 @@ set(CV_MODEL_SOURCE_FILES
 
 # --------------外部控件------------------
 set(WIDGET_UI_HEADER_FILES
+        include/Widget/ui_StreamerMainWindow.h
+        include/Widget/StreamerMainWindow.ui
+        include/Widget/StreamerMainWindow.hpp
+
         include/Widget/MyGraphicsView.h
 
         include/Widget/ui_Full2DDialog.h
@@ -419,14 +434,22 @@ set(WIDGET_UI_HEADER_FILES
         include/Widget/ui_ShapeBaseTrainer.h
         include/Widget/ShapeBaseTrainer.ui
         include/Widget/ShapeBaseTrainer.h
+
+        include/Widget/ui_PCViewer.h
+        include/Widget/PCViewer.ui
+        include/Widget/PCViewer.h
         )
 
 set(WIDGET_UI_SOURCE_FILES
+        src/Widget/StreamerMainWindow.cpp
+
         src/Widget/MyGraphicsView.cpp
 
         src/Widget/Full2DDialog.cpp
 
         src/Widget/ShapeBaseTrainer.cpp
+
+        src/Widget/PCViewer.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

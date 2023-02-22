@@ -105,6 +105,7 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
     treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     treeView->header()->setStretchLastSection(false);
 
+
     connect(treeView,
             &QTreeWidget::itemClicked,
             [this, modelMenu, scenePos](QTreeWidgetItem *item, int) {
@@ -143,7 +144,6 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 
     // QMenu's instance auto-destruction
     modelMenu->setAttribute(Qt::WA_DeleteOnClose);
-
     return modelMenu;
 }
 

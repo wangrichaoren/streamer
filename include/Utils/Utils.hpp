@@ -1,6 +1,10 @@
 #include <iostream>
 
+#include <fstream>
 #include <opencv2/opencv.hpp>
+#include <string>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <QtCore/QObject>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -25,5 +29,11 @@ QImage MatToQImage(const cv::Mat &mat);
 QImage cvMat2QImage(const cv::Mat &mat);
 
 bool getDirectoryFile(const std::string &dir_in, std::vector<std::string> &files);
+
+inline bool checkFileExists(const std::string &name)
+{
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
+}
 
 #endif
