@@ -23,7 +23,7 @@
 * cd streamer
 * mkdir build && cd build
 * cmake ..
-* make -j9 && make install
+* make -j12 && make install
 
 ---
 
