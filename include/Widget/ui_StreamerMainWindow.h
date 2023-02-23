@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
@@ -44,11 +45,12 @@ public:
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_2;
-    QSpacerItem *horizontalSpacer;
-    QVTKWidget *qvtkWidget;
     QPushButton *full_pc_pushButton;
-    QSpacerItem *verticalSpacer;
+    QSpacerItem *horizontalSpacer;
     QSpacerItem *horizontalSpacer_2;
+    QVTKWidget *qvtkWidget;
+    QSpacerItem *verticalSpacer;
+    QCheckBox *show_coords_checkBox;
     QFrame *frame_2;
     QGridLayout *gridLayout_4;
     QStatusBar *statusbar;
@@ -117,9 +119,25 @@ public:
         tab->setObjectName(QString::fromUtf8("tab"));
         gridLayout_2 = new QGridLayout(tab);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        full_pc_pushButton = new QPushButton(tab);
+        full_pc_pushButton->setObjectName(QString::fromUtf8("full_pc_pushButton"));
+        QFont font1;
+        font1.setPointSize(10);
+        font1.setBold(true);
+        font1.setWeight(75);
+        full_pc_pushButton->setFont(font1);
+        full_pc_pushButton->setIconSize(QSize(10, 10));
+        full_pc_pushButton->setAutoDefault(false);
+
+        gridLayout_2->addWidget(full_pc_pushButton, 2, 1, 1, 1);
+
         horizontalSpacer = new QSpacerItem(20, 30, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer, 1, 2, 1, 1);
+        gridLayout_2->addItem(horizontalSpacer, 2, 2, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(20, 30, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer_2, 2, 0, 1, 1);
 
         qvtkWidget = new QVTKWidget(tab);
         qvtkWidget->setObjectName(QString::fromUtf8("qvtkWidget"));
@@ -130,36 +148,38 @@ public:
         qvtkWidget->setSizePolicy(sizePolicy);
         qvtkWidget->setMinimumSize(QSize(100, 100));
         qvtkWidget->setMaximumSize(QSize(178, 178));
-        QFont font1;
-        font1.setPointSize(10);
-        font1.setBold(true);
-        font1.setItalic(true);
-        font1.setWeight(75);
-        font1.setStyleStrategy(QFont::PreferAntialias);
-        qvtkWidget->setFont(font1);
+        QFont font2;
+        font2.setPointSize(10);
+        font2.setBold(true);
+        font2.setItalic(true);
+        font2.setWeight(75);
+        font2.setStyleStrategy(QFont::PreferAntialias);
+        qvtkWidget->setFont(font2);
         qvtkWidget->setCursor(QCursor(Qt::CrossCursor));
 
         gridLayout_2->addWidget(qvtkWidget, 0, 0, 1, 3);
 
-        full_pc_pushButton = new QPushButton(tab);
-        full_pc_pushButton->setObjectName(QString::fromUtf8("full_pc_pushButton"));
-        QFont font2;
-        font2.setPointSize(10);
-        font2.setBold(true);
-        font2.setWeight(75);
-        full_pc_pushButton->setFont(font2);
-        full_pc_pushButton->setIconSize(QSize(10, 10));
-        full_pc_pushButton->setAutoDefault(false);
-
-        gridLayout_2->addWidget(full_pc_pushButton, 1, 1, 1, 1);
-
         verticalSpacer = new QSpacerItem(20, 528, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(verticalSpacer, 2, 1, 1, 1);
+        gridLayout_2->addItem(verticalSpacer, 3, 1, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(20, 30, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        show_coords_checkBox = new QCheckBox(tab);
+        show_coords_checkBox->setObjectName(QString::fromUtf8("show_coords_checkBox"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(show_coords_checkBox->sizePolicy().hasHeightForWidth());
+        show_coords_checkBox->setSizePolicy(sizePolicy1);
+        QFont font3;
+        font3.setPointSize(11);
+        font3.setBold(true);
+        font3.setWeight(75);
+        show_coords_checkBox->setFont(font3);
+        show_coords_checkBox->setIconSize(QSize(20, 20));
+        show_coords_checkBox->setCheckable(true);
+        show_coords_checkBox->setChecked(false);
 
-        gridLayout_2->addItem(horizontalSpacer_2, 1, 0, 1, 1);
+        gridLayout_2->addWidget(show_coords_checkBox, 1, 1, 1, 1);
 
         tabWidget->addTab(tab, QString());
 
@@ -167,11 +187,11 @@ public:
 
         frame_2 = new QFrame(frame);
         frame_2->setObjectName(QString::fromUtf8("frame_2"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(frame_2->sizePolicy().hasHeightForWidth());
-        frame_2->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(frame_2->sizePolicy().hasHeightForWidth());
+        frame_2->setSizePolicy(sizePolicy2);
         frame_2->setFrameShape(QFrame::NoFrame);
         frame_2->setFrameShadow(QFrame::Plain);
         frame_2->setLineWidth(0);
@@ -235,6 +255,7 @@ public:
         exit_action->setText(QCoreApplication::translate("StreamerMainWindow", "\351\200\200\345\207\272", nullptr));
         template_marker_action->setText(QCoreApplication::translate("StreamerMainWindow", "\346\250\241\346\235\277\346\213\276\345\217\226\345\231\250", nullptr));
         full_pc_pushButton->setText(QCoreApplication::translate("StreamerMainWindow", "\346\237\245\347\234\213", nullptr));
+        show_coords_checkBox->setText(QCoreApplication::translate("StreamerMainWindow", "Coords", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("StreamerMainWindow", "3DViewer", nullptr));
         file_menu->setTitle(QCoreApplication::translate("StreamerMainWindow", "\346\226\207\344\273\266", nullptr));
         tool_menu->setTitle(QCoreApplication::translate("StreamerMainWindow", "\345\267\245\345\205\267", nullptr));

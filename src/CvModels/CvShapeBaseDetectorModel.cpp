@@ -319,6 +319,7 @@ void CvShapeBaseDetectorModel::setInData(std::shared_ptr<NodeData> nodeData, Por
     Q_EMIT dataUpdated(0);
     Q_EMIT dataUpdated(1);
 }
+
 void CvShapeBaseDetectorModel::compute()
 {
     auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);

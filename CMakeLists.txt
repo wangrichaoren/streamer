@@ -392,6 +392,7 @@ set(CV_MODEL_HEADER_FILES
 
         # 三维
         include/CvModels/CvPointCloudLoaderModel.hpp
+        include/CvModels/CvPointCloudPassThroughModel.hpp
         )
 
 # 视觉模型源文件
@@ -413,6 +414,7 @@ set(CV_MODEL_SOURCE_FILES
 
         # 三维
         src/CvModels/CvPointCloudLoaderModel.cpp
+        src/CvModels/CvPointCloudPassThroughModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

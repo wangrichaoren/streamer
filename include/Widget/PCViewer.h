@@ -26,7 +26,7 @@ class PCViewer : public QDialog
 
 public:
     explicit PCViewer(QWidget *parent = nullptr,
-                      pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc = nullptr);
+                      pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc = nullptr,bool is_show_coord=true);
     ~PCViewer() override;
 
     void initialVtkWidget();
@@ -34,6 +34,7 @@ public:
 private:
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _pc;
     Ui::PCViewer *ui;
+    bool is_show_coord;
 };
 
 #endif //STREAMER_PCVIEWER_H

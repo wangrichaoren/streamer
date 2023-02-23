@@ -56,6 +56,7 @@
 #include "CvModels/CvPointCloudLoaderModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
+#include "CvModels/CvPointCloudPassThroughModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -166,6 +167,7 @@ public:
 
         // 3d模型
         ret->registerModel<CvPointCloudLoaderModel>("3D");
+        ret->registerModel<CvPointCloudPassThroughModel>("3D");
 
         return ret;
     }

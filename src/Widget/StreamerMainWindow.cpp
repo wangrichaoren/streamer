@@ -53,6 +53,9 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
     lock_btn->setIcon(QIcon(":icons/lock.png"));
     lock_btn->setToolTip("Streamer上锁");
 
+    ui->show_coords_checkBox->setIcon(QIcon(":icons/xyz.png"));
+    ui->show_coords_checkBox->setToolTip("显示坐标");
+
     pcl_viewer_btn = new QPushButton(this);
     pcl_viewer_btn->setIcon(QIcon(":icons/pc_undis.png"));
     pcl_viewer_btn->setToolTip("3D侧边烂显示");
@@ -65,6 +68,17 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
     ui->toolBar->addWidget(pcl_viewer_btn); // 隐藏3d显示栏
 
     ui->frame_2->installEventFilter(this);
+
+    // check box connect
+    connect(ui->show_coords_checkBox, &QCheckBox::clicked, [=](bool f) {
+        if (f) {
+            pcl_viewer->addCoordinateSystem(0.5);
+            ui->qvtkWidget->update();
+        } else {
+            pcl_viewer->removeAllCoordinateSystems();
+            ui->qvtkWidget->update();
+        }
+    });
 
     // btn connect
     connect(pcl_viewer_btn, &QPushButton::clicked, [=] {
@@ -189,13 +203,16 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
         if (m_pc->empty()) {
             return;
         }
-        auto pc_viewer = new PCViewer(this, m_pc);
+        auto pc_viewer = new PCViewer(this, m_pc, ui->show_coords_checkBox->isChecked());
         pc_viewer->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         pc_viewer->showNormal();
         pc_viewer->exec();
         pc_viewer->deleteLater();
     });
 
+    // 默认轴显示
+    ui->show_coords_checkBox->setChecked(true);
+    ui->show_coords_checkBox->clicked(true);
     this->setWindowIcon(QIcon(":icons/winicon.svg"));
     this->setWindowState(Qt::WindowMaximized);
 }
