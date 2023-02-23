@@ -15,8 +15,6 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //    installEventFilter(this);
-
     setupStyle();
 
     auto reg = registerDataModels();
@@ -120,9 +118,6 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
             save_flow_btn->setEnabled(true);
             pcl_viewer_btn->setEnabled(true);
             lock_btn->setStyleSheet("");
-            //            if (_pc_display_state){
-            //
-            //            }
             view_mask->hide();
         }
     });
@@ -243,15 +238,13 @@ void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr 
     // check xyz or xyzrgb datatype
     auto vec_rgb = pc->points.data()->getRGBVector3i();
     if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
-        std::cout << "no rgb" << std::endl;
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(pc, "y");
         //           pcl::visualization::PointCloudColorHandlerRandom<pcl::PointXYZRGB> rgb(pc);
         pcl_viewer->addPointCloud(pc, rgb, "cloud");
     } else {
-        std::cout << "is rgb" << std::endl;
         pcl_viewer->addPointCloud(pc, "cloud");
     }
-    pcl_viewer->resetCamera();
+//    pcl_viewer->resetCamera();
     ui->qvtkWidget->update();
     m_pc = std::move(pc);
 };

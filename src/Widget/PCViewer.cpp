@@ -46,6 +46,6 @@ void PCViewer::initialVtkWidget()
         pcl_viewer->addCoordinateSystem(0.5);
     }
     pcl_viewer->addPointCloud(_pc, "cloud");
-    pcl_viewer->resetCamera();
+//    pcl_viewer->resetCamera();
     ui->qvtkWidget->update();
 }

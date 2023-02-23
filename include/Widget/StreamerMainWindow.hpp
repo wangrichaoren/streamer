@@ -31,8 +31,8 @@
 #include <QVTKWidget.h>
 
 #include "Utils/Utils.hpp"
-#include "Widget/ShapeBaseTrainer.h"
 #include "Widget/PCViewer.h"
+#include "Widget/ShapeBaseTrainer.h"
 
 #include "GeneralModels/AdditionModel.hpp"
 #include "GeneralModels/DivisionModel.hpp"
@@ -54,9 +54,10 @@
 #include "CvModels/CvMedianBlurModel.hpp"
 #include "CvModels/CvMorphModel.hpp"
 #include "CvModels/CvPointCloudLoaderModel.hpp"
+#include "CvModels/CvPointCloudPassThroughModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
-#include "CvModels/CvPointCloudPassThroughModel.hpp"
+#include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -168,7 +169,7 @@ public:
         // 3d模型
         ret->registerModel<CvPointCloudLoaderModel>("3D");
         ret->registerModel<CvPointCloudPassThroughModel>("3D");
-
+        ret->registerModel<CvPointCloudDownSampleVoxelGridModel>("3D");
         return ret;
     }
 
