@@ -63,7 +63,7 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
     QMenu *modelMenu = new QMenu();
     // Add filterbox to the context menu
     auto *txtBox = new QLineEdit(modelMenu);
-    txtBox->setPlaceholderText(QStringLiteral("Filter:分组过滤器"));
+    txtBox->setPlaceholderText(QStringLiteral("分组过滤器"));
     txtBox->setClearButtonEnabled(true);
 
     auto *txtBoxAction = new QWidgetAction(modelMenu);

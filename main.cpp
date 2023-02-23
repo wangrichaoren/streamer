@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     StreamerMainWindow streamer_main_window(nullptr);
     streamer_main_window.show();
     smw = &streamer_main_window;
+
     return QApplication::exec();
 
 }

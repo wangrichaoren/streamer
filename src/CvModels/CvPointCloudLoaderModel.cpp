@@ -76,6 +76,9 @@ unsigned int CvPointCloudLoaderModel::nPorts(PortType portType) const
 bool CvPointCloudLoaderModel::eventFilter(QObject *object, QEvent *event)
 {
     if (object == _box) {
+        if (_pc->empty()){
+            return false;
+        }
         if (event->type() == QEvent::MouseButtonPress) {
             extern StreamerMainWindow *smw;
             smw->updateVTK(_pc);
