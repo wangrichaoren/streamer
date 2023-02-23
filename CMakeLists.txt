@@ -394,6 +394,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudLoaderModel.hpp
         include/CvModels/CvPointCloudPassThroughModel.hpp
         include/CvModels/CvPointCloudDownsampleVoxelGridModel.hpp
+        include/CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp
         )
 
 # 视觉模型源文件
@@ -417,6 +418,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudLoaderModel.cpp
         src/CvModels/CvPointCloudPassThroughModel.cpp
         src/CvModels/CvPointCloudDownsampleVoxelGridModel.cpp
+        src/CvModels/CvPointCloudStatisticalOutlierRemovalModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

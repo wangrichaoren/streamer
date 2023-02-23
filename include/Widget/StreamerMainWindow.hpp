@@ -58,6 +58,7 @@
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
+#include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -170,6 +171,8 @@ public:
         ret->registerModel<CvPointCloudLoaderModel>("3D");
         ret->registerModel<CvPointCloudPassThroughModel>("3D");
         ret->registerModel<CvPointCloudDownSampleVoxelGridModel>("3D");
+        ret->registerModel<CvPointCloudStatisticalOutlierRemovalModel>("3D");
+
         return ret;
     }
 

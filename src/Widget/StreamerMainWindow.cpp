@@ -198,12 +198,16 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
         if (m_pc->empty()) {
             return;
         }
-        auto pc_viewer = new PCViewer(this, m_pc, ui->show_coords_checkBox->isChecked());
+        pcl::visualization::Camera camera{};
+        pcl_viewer->getCameraParameters(camera);
+        auto pc_viewer = new PCViewer(this, camera, m_pc, ui->show_coords_checkBox->isChecked());
         pc_viewer->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         pc_viewer->showNormal();
         pc_viewer->exec();
         pc_viewer->deleteLater();
     });
+
+    connect(ui->exit_action, &QAction::triggered, [=] { this->close(); });
 
     // 默认轴显示
     ui->show_coords_checkBox->setChecked(true);
@@ -234,17 +238,16 @@ bool StreamerMainWindow::eventFilter(QObject *watched, QEvent *event)
 
 void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc)
 {
-    pcl_viewer->removePointCloud("cloud");
+    pcl_viewer->removeAllPointClouds();
     // check xyz or xyzrgb datatype
     auto vec_rgb = pc->points.data()->getRGBVector3i();
     if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(pc, "y");
-        //           pcl::visualization::PointCloudColorHandlerRandom<pcl::PointXYZRGB> rgb(pc);
         pcl_viewer->addPointCloud(pc, rgb, "cloud");
     } else {
         pcl_viewer->addPointCloud(pc, "cloud");
     }
-//    pcl_viewer->resetCamera();
+    pcl_viewer->resetCamera();
     ui->qvtkWidget->update();
     m_pc = std::move(pc);
 };

@@ -76,7 +76,7 @@ unsigned int CvPointCloudLoaderModel::nPorts(PortType portType) const
 bool CvPointCloudLoaderModel::eventFilter(QObject *object, QEvent *event)
 {
     if (object == _box) {
-        if (_pc->empty()){
+        if (_pc->empty()) {
             return false;
         }
         if (event->type() == QEvent::MouseButtonPress) {
@@ -111,17 +111,18 @@ void CvPointCloudLoaderModel::load(const QJsonObject &js)
 
 void CvPointCloudLoaderModel::compute()
 {
+    _pc->clear();
     // check .pcd or .ply
-    auto fileName=path_line->text().toStdString();
-    std::string suffixStr = fileName.substr(fileName.find_last_of('.') + 1);//获取文件后缀
+    auto fileName = path_line->text().toStdString();
+    std::string suffixStr = fileName.substr(fileName.find_last_of('.') + 1); //获取文件后缀
     if (suffixStr == "pcd") {
-           pcl::io::loadPCDFile(path_line->text().toStdString(), *_pc);
-       } else if (suffixStr == "ply") {
-           pcl::io::loadPLYFile(path_line->text().toStdString(), *_pc);
-       }
+        pcl::io::loadPCDFile(path_line->text().toStdString(), *_pc);
+    } else if (suffixStr == "ply") {
+        pcl::io::loadPLYFile(path_line->text().toStdString(), *_pc);
+    }
+
+    Q_EMIT dataUpdated(0);
 
     extern StreamerMainWindow *smw;
     smw->updateVTK(_pc);
-
-    Q_EMIT dataUpdated(0);
 }

@@ -9,8 +9,12 @@
 #include "Widget/ui_PCViewer.h"
 #include <utility>
 
-PCViewer::PCViewer(QWidget *parent, pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, bool is_show_coord)
+PCViewer::PCViewer(QWidget *parent,
+                   pcl::visualization::Camera camera,
+                   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc,
+                   bool is_show_coord)
     : QDialog(parent)
+    , m_camera(camera)
     , ui(new Ui::PCViewer)
     , _pc(std::move(pc))
     , is_show_coord(is_show_coord)
@@ -31,21 +35,26 @@ void PCViewer::initialVtkWidget()
         new pcl::visualization::PCLVisualizer("pcl_viewer", false));
     ui->qvtkWidget->SetRenderWindow(pcl_viewer->getRenderWindow());
     pcl_viewer->setupInteractor(ui->qvtkWidget->GetInteractor(), ui->qvtkWidget->GetRenderWindow());
-    pcl_viewer->removeAllPointClouds();
+
     auto vec_rgb = _pc->points.data()->getRGBVector3i();
     if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
-        std::cout << "not rgb" << std::endl;
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(_pc, "y");
-        //           pcl::visualization::PointCloudColorHandlerRandom<pcl::PointXYZRGB> rgb(_pc);
         pcl_viewer->addPointCloud(_pc, rgb, "cloud");
     } else {
-        std::cout << "is rgb" << std::endl;
         pcl_viewer->addPointCloud(_pc, "cloud");
     }
     if (is_show_coord) {
         pcl_viewer->addCoordinateSystem(0.5);
     }
-    pcl_viewer->addPointCloud(_pc, "cloud");
-//    pcl_viewer->resetCamera();
+
+    pcl_viewer->resetCamera();
+
+    pcl_viewer->setCameraPosition(m_camera.pos[0],
+                                  m_camera.pos[1],
+                                  m_camera.pos[2],
+                                  m_camera.view[0],
+                                  m_camera.view[1],
+                                  m_camera.view[2]);
+
     ui->qvtkWidget->update();
 }

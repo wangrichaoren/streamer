@@ -9,10 +9,9 @@
 #include <pcl/io/ply_io.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
-#include <QDialog>
 #include <vtkRenderWindow.h>
+#include <QDialog>
 #include <QVTKWidget.h>
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,12 +25,15 @@ class PCViewer : public QDialog
 
 public:
     explicit PCViewer(QWidget *parent = nullptr,
-                      pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc = nullptr,bool is_show_coord=true);
+                      pcl::visualization::Camera camera = {},
+                      pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc = nullptr,
+                      bool is_show_coord = true);
     ~PCViewer() override;
 
     void initialVtkWidget();
 
 private:
+    pcl::visualization::Camera m_camera;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _pc;
     Ui::PCViewer *ui;
     bool is_show_coord;
