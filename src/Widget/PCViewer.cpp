@@ -35,7 +35,7 @@ void PCViewer::initialVtkWidget()
         new pcl::visualization::PCLVisualizer("pcl_viewer", false));
     ui->qvtkWidget->SetRenderWindow(pcl_viewer->getRenderWindow());
     pcl_viewer->setupInteractor(ui->qvtkWidget->GetInteractor(), ui->qvtkWidget->GetRenderWindow());
-
+    pcl_viewer->removeAllPointClouds();
     auto vec_rgb = _pc->points.data()->getRGBVector3i();
     if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(_pc, "y");
@@ -46,8 +46,6 @@ void PCViewer::initialVtkWidget()
     if (is_show_coord) {
         pcl_viewer->addCoordinateSystem(0.5);
     }
-
-    pcl_viewer->resetCamera();
 
     pcl_viewer->setCameraPosition(m_camera.pos[0],
                                   m_camera.pos[1],

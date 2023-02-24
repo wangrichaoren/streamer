@@ -59,6 +59,7 @@
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
 #include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
+#include "CvModels/CvPointCloudSampleConsensusModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -172,6 +173,7 @@ public:
         ret->registerModel<CvPointCloudPassThroughModel>("3D");
         ret->registerModel<CvPointCloudDownSampleVoxelGridModel>("3D");
         ret->registerModel<CvPointCloudStatisticalOutlierRemovalModel>("3D");
+        ret->registerModel<CvPointCloudSampleConsensusModel>("3D");
 
         return ret;
     }
