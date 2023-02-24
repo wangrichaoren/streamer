@@ -192,7 +192,8 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
 
     connect(this,
             &StreamerMainWindow::updateVTK,
-            [=](const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc) { VtkRender(std::move(pc)); });
+            [=](const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc,
+                pcl::PointCloud<pcl::Normal>::Ptr normal) { VtkRender(std::move(pc), normal); });
 
     connect(ui->full_pc_pushButton, &QPushButton::clicked, [=] {
         if (m_pc->empty()) {
@@ -200,7 +201,7 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
         }
         pcl::visualization::Camera camera{};
         pcl_viewer->getCameraParameters(camera);
-        auto pc_viewer = new PCViewer(this, camera, m_pc, ui->show_coords_checkBox->isChecked());
+        auto pc_viewer = new PCViewer(this, camera, m_pc, m_normal,ui->show_coords_checkBox->isChecked());
         pc_viewer->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         pc_viewer->showNormal();
         pc_viewer->exec();
@@ -236,7 +237,8 @@ bool StreamerMainWindow::eventFilter(QObject *watched, QEvent *event)
     return false;
 }
 
-void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc)
+void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc,
+                                   pcl::PointCloud<pcl::Normal>::Ptr normal)
 {
     pcl_viewer->removeAllPointClouds();
     // check xyz or xyzrgb datatype
@@ -247,9 +249,16 @@ void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr 
     } else {
         pcl_viewer->addPointCloud(pc, "cloud");
     }
+
+    if (normal != nullptr) {
+//        std::cout << "have normal" << std::endl;
+        pcl_viewer->addPointCloudNormals<pcl::PointXYZRGB, pcl::Normal>(pc, normal, 3, 0.2, "normal");
+    }
+
     pcl_viewer->resetCamera();
     ui->qvtkWidget->update();
     m_pc = std::move(pc);
+    m_normal = std::move(normal);
 };
 
 void StreamerMainWindow::initialVtkWidget()

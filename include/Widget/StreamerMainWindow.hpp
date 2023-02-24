@@ -53,13 +53,14 @@
 #include "CvModels/CvImageShowModel.hpp"
 #include "CvModels/CvMedianBlurModel.hpp"
 #include "CvModels/CvMorphModel.hpp"
+#include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
 #include "CvModels/CvPointCloudLoaderModel.hpp"
+#include "CvModels/CvPointCloudNormalEstimationModel.hpp"
 #include "CvModels/CvPointCloudPassThroughModel.hpp"
+#include "CvModels/CvPointCloudSampleConsensusModel.hpp"
+#include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
-#include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
-#include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
-#include "CvModels/CvPointCloudSampleConsensusModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -174,6 +175,7 @@ public:
         ret->registerModel<CvPointCloudDownSampleVoxelGridModel>("3D");
         ret->registerModel<CvPointCloudStatisticalOutlierRemovalModel>("3D");
         ret->registerModel<CvPointCloudSampleConsensusModel>("3D");
+        ret->registerModel<CvPointCloudNormalEstimationModel>("3D");
 
         return ret;
     }
@@ -183,10 +185,12 @@ public:
     void initialVtkWidget();
 
 signals:
-    void updateVTK(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc);
+    void updateVTK(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc,
+                   pcl::PointCloud<pcl::Normal>::Ptr normal = nullptr);
 
 private slots:
-    void VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc);
+    void VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &pc,
+                   pcl::PointCloud<pcl::Normal>::Ptr normal);
 
 private:
     DataFlowGraphModel *data_flow_graphics_model;
@@ -195,6 +199,7 @@ private:
     QWidget *view_mask;
     pcl::visualization::PCLVisualizer *pcl_viewer;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr m_pc{new pcl::PointCloud<pcl::PointXYZRGB>};
+    pcl::PointCloud<pcl::Normal>::Ptr m_normal{new pcl::PointCloud<pcl::Normal>};
 
     bool _lock_state = false;
     bool _pc_display_state = false;

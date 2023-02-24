@@ -332,6 +332,7 @@ set(HEADLESS_DATA_SOURCE_FILES
         include/DataTypes/ContoursData.hpp
         include/DataTypes/ResultData.hpp
         include/DataTypes/PointCloudData.hpp
+        include/DataTypes/NormalData.hpp
         )
 # ------------------------
 # ------------------------
@@ -396,6 +397,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudDownsampleVoxelGridModel.hpp
         include/CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp
         include/CvModels/CvPointCloudSampleConsensusModel.hpp
+        include/CvModels/CvPointCloudNormalEstimationModel.hpp
         )
 
 # 视觉模型源文件
@@ -421,6 +423,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudDownsampleVoxelGridModel.cpp
         src/CvModels/CvPointCloudStatisticalOutlierRemovalModel.cpp
         src/CvModels/CvPointCloudSampleConsensusModel.cpp
+        src/CvModels/CvPointCloudNormalEstimationModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

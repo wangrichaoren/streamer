@@ -27,6 +27,7 @@ public:
     explicit PCViewer(QWidget *parent = nullptr,
                       pcl::visualization::Camera camera = {},
                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc = nullptr,
+                      pcl::PointCloud<pcl::Normal>::Ptr normal = nullptr,
                       bool is_show_coord = true);
     ~PCViewer() override;
 
@@ -35,6 +36,7 @@ public:
 private:
     pcl::visualization::Camera m_camera;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _pc;
+    pcl::PointCloud<pcl::Normal>::Ptr _normal;
     Ui::PCViewer *ui;
     bool is_show_coord;
 };

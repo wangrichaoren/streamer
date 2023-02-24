@@ -118,6 +118,9 @@ void CvPointCloudDownSampleVoxelGridModel::load(const QJsonObject &js)
 void CvPointCloudDownSampleVoxelGridModel::compute()
 {
     auto d = std::dynamic_pointer_cast<PointCloudData>(_nodeData);
+    if(!d){
+        return;
+    }
     if (d->getData()->empty()) {
         return;
     }
