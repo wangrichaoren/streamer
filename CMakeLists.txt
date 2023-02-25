@@ -89,30 +89,30 @@ add_definitions(${PCL_DEFINITIONS})
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCE_FILES
-        src/AbstractGraphModel.cpp
-        src/AbstractNodeGeometry.cpp
-        src/BasicGraphicsScene.cpp
-        src/ConnectionGraphicsObject.cpp
-        src/ConnectionPainter.cpp
-        src/ConnectionState.cpp
-        src/ConnectionStyle.cpp
-        src/DataFlowGraphModel.cpp
-        src/DataFlowGraphicsScene.cpp
-        src/DefaultHorizontalNodeGeometry.cpp
-        src/DefaultVerticalNodeGeometry.cpp
-        src/Definitions.cpp
-        src/GraphicsView.cpp
-        src/GraphicsViewStyle.cpp
-        src/NodeDelegateModelRegistry.cpp
-        src/NodeConnectionInteraction.cpp
-        src/NodeDelegateModel.cpp
-        src/NodeGraphicsObject.cpp
-        src/DefaultNodePainter.cpp
-        src/NodeState.cpp
-        src/NodeStyle.cpp
-        src/StyleCollection.cpp
-        src/UndoCommands.cpp
-        src/locateNode.cpp
+        src/QtNodes/AbstractGraphModel.cpp
+        src/QtNodes/AbstractNodeGeometry.cpp
+        src/QtNodes/BasicGraphicsScene.cpp
+        src/QtNodes/ConnectionGraphicsObject.cpp
+        src/QtNodes/ConnectionPainter.cpp
+        src/QtNodes/ConnectionState.cpp
+        src/QtNodes/ConnectionStyle.cpp
+        src/QtNodes/DataFlowGraphModel.cpp
+        src/QtNodes/DataFlowGraphicsScene.cpp
+        src/QtNodes/DefaultHorizontalNodeGeometry.cpp
+        src/QtNodes/DefaultVerticalNodeGeometry.cpp
+        src/QtNodes/Definitions.cpp
+        src/QtNodes/GraphicsView.cpp
+        src/QtNodes/GraphicsViewStyle.cpp
+        src/QtNodes/NodeDelegateModelRegistry.cpp
+        src/QtNodes/NodeConnectionInteraction.cpp
+        src/QtNodes/NodeDelegateModel.cpp
+        src/QtNodes/NodeGraphicsObject.cpp
+        src/QtNodes/DefaultNodePainter.cpp
+        src/QtNodes/NodeState.cpp
+        src/QtNodes/NodeStyle.cpp
+        src/QtNodes/StyleCollection.cpp
+        src/QtNodes/UndoCommands.cpp
+        src/QtNodes/locateNode.cpp
         )
 
 set(HPP_HEADER_FILES
@@ -146,11 +146,11 @@ set(HPP_HEADER_FILES
         include/QtNodes/internal/Serializable.hpp
         include/QtNodes/internal/Style.hpp
         include/QtNodes/internal/StyleCollection.hpp
-        src/ConnectionPainter.hpp
-        src/DefaultHorizontalNodeGeometry.hpp
-        src/DefaultVerticalNodeGeometry.hpp
-        src/NodeConnectionInteraction.hpp
-        src/UndoCommands.hpp
+        src/QtNodes/ConnectionPainter.hpp
+        src/QtNodes/DefaultHorizontalNodeGeometry.hpp
+        src/QtNodes/DefaultVerticalNodeGeometry.hpp
+        src/QtNodes/NodeConnectionInteraction.hpp
+        src/QtNodes/UndoCommands.hpp
         )
 
 # If we want to give the option to build a static library,
@@ -398,6 +398,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp
         include/CvModels/CvPointCloudSampleConsensusModel.hpp
         include/CvModels/CvPointCloudNormalEstimationModel.hpp
+        include/CvModels/CvPointCloudApproximateVoxelFilterModel.hpp
         )
 
 # 视觉模型源文件
@@ -424,6 +425,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudStatisticalOutlierRemovalModel.cpp
         src/CvModels/CvPointCloudSampleConsensusModel.cpp
         src/CvModels/CvPointCloudNormalEstimationModel.cpp
+        src/CvModels/CvPointCloudApproximateVoxelFilterModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

@@ -61,6 +61,7 @@
 #include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
+#include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -176,6 +177,7 @@ public:
         ret->registerModel<CvPointCloudStatisticalOutlierRemovalModel>("3D");
         ret->registerModel<CvPointCloudSampleConsensusModel>("3D");
         ret->registerModel<CvPointCloudNormalEstimationModel>("3D");
+        ret->registerModel<CvPointCloudApproximateVoxelFilterModel>("3D");
 
         return ret;
     }

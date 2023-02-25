@@ -251,7 +251,6 @@ void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr 
     }
 
     if (normal != nullptr) {
-//        std::cout << "have normal" << std::endl;
         pcl_viewer->addPointCloudNormals<pcl::PointXYZRGB, pcl::Normal>(pc, normal, 3, 0.2, "normal");
     }
 

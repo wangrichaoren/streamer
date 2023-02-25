@@ -1,6 +1,6 @@
 #include "AbstractGraphModel.hpp"
 
-#include <QtNodes/ConnectionIdUtils>
+#include "QtNodes/ConnectionIdUtils"
 
 namespace QtNodes {
 
