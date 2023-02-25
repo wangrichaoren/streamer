@@ -27,7 +27,7 @@
 #include <pcl/io/ply_io.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/features/normal_3d.h>
+#include <pcl/features/normal_3d_omp.h>
 
 #include "DataTypes/NormalData.hpp"
 #include "DataTypes/PointCloudData.hpp"
@@ -43,26 +43,26 @@ using NodeId = QtNodes::NodeId;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvPointCloudNormalEstimationModel : public NodeDelegateModel
+class CvPointCloudNormalEstimationOMPModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvPointCloudNormalEstimationModel();
+    CvPointCloudNormalEstimationOMPModel();
 
-    ~CvPointCloudNormalEstimationModel() override
+    ~CvPointCloudNormalEstimationOMPModel() override
     {
         delete _box;
-        std::cout << "delete CvPointCloudNormalEstimationModel" << std::endl;
+        std::cout << "delete CvPointCloudNormalEstimationOMPModel" << std::endl;
     };
 
 public:
-    QString caption() const override { return QString("PC NormalEstimationModel"); }
+    QString caption() const override { return QString("PC NormalEstimationOMPModel"); }
 
-    QString name() const override { return QString("NormalEstimationModel:法向量估算"); }
+    QString name() const override { return QString("NormalEstimationOMPModel:法向量估算"); }
 
 public:
-    virtual QString modelName() const { return QString("NormalEstimationModel"); }
+    virtual QString modelName() const { return QString("NormalEstimationOMPModel"); }
 
     unsigned int nPorts(PortType const portType) const override;
 

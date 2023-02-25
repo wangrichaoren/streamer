@@ -167,6 +167,7 @@ void CvPointCloudNDTModel::compute()
         return;
     }
 
+    _outMat4f= {};
     _outRes.clear();
 
     pcl::NormalDistributionsTransform<pcl::PointXYZRGB, pcl::PointXYZRGB> ndt;
@@ -194,20 +195,26 @@ void CvPointCloudNDTModel::compute()
         ndt.align(*_outPc, init_guess);
     }
 
-    auto tm = ndt.getFinalTransformation();
-    pcl::transformPointCloud(*d1->getData(), *_outPc, tm);
-    *_outPc = (*_outPc) + (*d2->getData());
-    _outMat4f = ndt.getFinalTransformation();
-    _outRes = "hasConverged: " + std::to_string(ndt.hasConverged())
-              + "\nscore: " + std::to_string(ndt.getFitnessScore()) + "\nTransformation: \n"
-              + std::to_string(tm(0, 0)) + " " + std::to_string(tm(0, 1)) + " "
-              + std::to_string(tm(0, 2)) + " " + std::to_string(tm(0, 3)) + "\n"
-              + std::to_string(tm(1, 0)) + " " + std::to_string(tm(1, 1)) + " "
-              + std::to_string(tm(1, 2)) + " " + std::to_string(tm(1, 3)) + "\n"
-              + std::to_string(tm(2, 0)) + " " + std::to_string(tm(2, 1)) + " "
-              + std::to_string(tm(2, 2)) + " " + std::to_string(tm(2, 3)) + "\n"
-              + std::to_string(tm(3, 0)) + " " + std::to_string(tm(3, 1)) + " "
-              + std::to_string(tm(3, 2)) + " " + std::to_string(tm(3, 3)) + "\n";
+    if (ndt.hasConverged()) {
+        auto tm = ndt.getFinalTransformation();
+        pcl::transformPointCloud(*d1->getData(), *_outPc, tm);
+        *_outPc = (*_outPc) + (*d2->getData());
+        _outMat4f = ndt.getFinalTransformation();
+        _outRes = "hasConverged: true\nscore: " + std::to_string(ndt.getFitnessScore())
+                  + "\nTransformation: \n" + std::to_string(tm(0, 0)) + " "
+                  + std::to_string(tm(0, 1)) + " " + std::to_string(tm(0, 2)) + " "
+                  + std::to_string(tm(0, 3)) + "\n" + std::to_string(tm(1, 0)) + " "
+                  + std::to_string(tm(1, 1)) + " " + std::to_string(tm(1, 2)) + " "
+                  + std::to_string(tm(1, 3)) + "\n" + std::to_string(tm(2, 0)) + " "
+                  + std::to_string(tm(2, 1)) + " " + std::to_string(tm(2, 2)) + " "
+                  + std::to_string(tm(2, 3)) + "\n" + std::to_string(tm(3, 0)) + " "
+                  + std::to_string(tm(3, 1)) + " " + std::to_string(tm(3, 2)) + " "
+                  + std::to_string(tm(3, 3)) + "\n";
+    } else {
+        _outPc->clear();
+        _outMat4f= {};
+        _outRes = "hasConverged: false";
+    }
 
     extern StreamerMainWindow *smw;
     smw->updateVTK(_outPc);

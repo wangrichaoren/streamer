@@ -56,6 +56,7 @@
 #include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
 #include "CvModels/CvPointCloudLoaderModel.hpp"
 #include "CvModels/CvPointCloudNormalEstimationModel.hpp"
+#include "CvModels/CvPointCloudNormalEstimationOMPModel.hpp"
 #include "CvModels/CvPointCloudPassThroughModel.hpp"
 #include "CvModels/CvPointCloudSampleConsensusModel.hpp"
 #include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
@@ -180,6 +181,7 @@ public:
         ret->registerModel<CvPointCloudNormalEstimationModel>("3D");
         ret->registerModel<CvPointCloudApproximateVoxelFilterModel>("3D");
         ret->registerModel<CvPointCloudNDTModel>("3D");
+        ret->registerModel<CvPointCloudNormalEstimationOMPModel>("3D");
 
         return ret;
     }

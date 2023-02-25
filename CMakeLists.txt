@@ -399,6 +399,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp
         include/CvModels/CvPointCloudSampleConsensusModel.hpp
         include/CvModels/CvPointCloudNormalEstimationModel.hpp
+        include/CvModels/CvPointCloudNormalEstimationOMPModel.hpp
         include/CvModels/CvPointCloudApproximateVoxelFilterModel.hpp
         include/CvModels/CvPointCloudNDTModel.hpp
         )
@@ -427,6 +428,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudStatisticalOutlierRemovalModel.cpp
         src/CvModels/CvPointCloudSampleConsensusModel.cpp
         src/CvModels/CvPointCloudNormalEstimationModel.cpp
+        src/CvModels/CvPointCloudNormalEstimationOMPModel.cpp
         src/CvModels/CvPointCloudApproximateVoxelFilterModel.cpp
         src/CvModels/CvPointCloudNDTModel.cpp
         )
