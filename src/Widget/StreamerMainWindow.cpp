@@ -201,7 +201,11 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
         }
         pcl::visualization::Camera camera{};
         pcl_viewer->getCameraParameters(camera);
-        auto pc_viewer = new PCViewer(this, camera, m_pc, m_normal,ui->show_coords_checkBox->isChecked());
+        auto pc_viewer = new PCViewer(this,
+                                      camera,
+                                      m_pc,
+                                      m_normal,
+                                      ui->show_coords_checkBox->isChecked());
         pc_viewer->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         pc_viewer->showNormal();
         pc_viewer->exec();
@@ -242,13 +246,14 @@ void StreamerMainWindow::VtkRender(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr 
 {
     pcl_viewer->removeAllPointClouds();
     // check xyz or xyzrgb datatype
-    auto vec_rgb = pc->points.data()->getRGBVector3i();
-    if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
-        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(pc, "y");
-        pcl_viewer->addPointCloud(pc, rgb, "cloud");
-    } else {
-        pcl_viewer->addPointCloud(pc, "cloud");
-    }
+    //    auto vec_rgb = pc->points.data()->getRGBVector3i();
+    //    if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
+    //        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(pc, "y");
+    //        pcl_viewer->addPointCloud(pc, rgb, "cloud");
+    //    } else {
+    //        pcl_viewer->addPointCloud(pc, "cloud");
+    //    }
+    pcl_viewer->addPointCloud(pc, "cloud");
 
     if (normal != nullptr) {
         pcl_viewer->addPointCloudNormals<pcl::PointXYZRGB, pcl::Normal>(pc, normal, 3, 0.2, "normal");

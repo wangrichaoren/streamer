@@ -38,20 +38,26 @@ void PCViewer::initialVtkWidget()
     ui->qvtkWidget->SetRenderWindow(pcl_viewer->getRenderWindow());
     pcl_viewer->setupInteractor(ui->qvtkWidget->GetInteractor(), ui->qvtkWidget->GetRenderWindow());
     pcl_viewer->removeAllPointClouds();
-    auto vec_rgb = _pc->points.data()->getRGBVector3i();
-    if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
-        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(_pc, "y");
-        pcl_viewer->addPointCloud(_pc, rgb, "cloud");
-    } else {
-        pcl_viewer->addPointCloud(_pc, "cloud");
-    }
+    //    auto vec_rgb = _pc->points.data()->getRGBVector3i();
+    //    if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
+    //        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZRGB> rgb(_pc, "y");
+    //        pcl_viewer->addPointCloud(_pc, rgb, "cloud");
+    //    } else {
+    //        pcl_viewer->addPointCloud(_pc, "cloud");
+    //    }
+    pcl_viewer->addPointCloud(_pc, "cloud");
+
     if (is_show_coord) {
         pcl_viewer->addCoordinateSystem(0.5);
     }
 
     if (_normal != nullptr) {
-//        std::cout << "have normal" << std::endl;
-        pcl_viewer->addPointCloudNormals<pcl::PointXYZRGB, pcl::Normal>(_pc, _normal, 3, 0.2, "normal");
+        //        std::cout << "have normal" << std::endl;
+        pcl_viewer->addPointCloudNormals<pcl::PointXYZRGB, pcl::Normal>(_pc,
+                                                                        _normal,
+                                                                        3,
+                                                                        0.2,
+                                                                        "normal");
     }
 
     pcl_viewer->setCameraPosition(m_camera.pos[0],

@@ -121,8 +121,20 @@ void CvPointCloudLoaderModel::compute()
         pcl::io::loadPLYFile(path_line->text().toStdString(), *_pc);
     }
 
-    Q_EMIT dataUpdated(0);
+    // if not rgb info, make rgb
+    auto vec_rgb = _pc->points.data()->getRGBVector3i();
+    if ((vec_rgb[0] + vec_rgb[1] + vec_rgb[2]) == 0) {
+        auto r = rand() % 155 + 100;
+        auto g = rand() % 155 + 100;
+        auto b = rand() % 155 + 100;
+        for (int i = 0; i < _pc->points.size(); ++i) {
+            _pc->points[i].r = r;
+            _pc->points[i].g = g;
+            _pc->points[i].b = b;
+        }
+    }
 
     extern StreamerMainWindow *smw;
     smw->updateVTK(_pc);
+    Q_EMIT dataUpdated(0);
 }

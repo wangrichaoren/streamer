@@ -62,6 +62,7 @@
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
+#include "CvModels/CvPointCloudNDTModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -178,6 +179,7 @@ public:
         ret->registerModel<CvPointCloudSampleConsensusModel>("3D");
         ret->registerModel<CvPointCloudNormalEstimationModel>("3D");
         ret->registerModel<CvPointCloudApproximateVoxelFilterModel>("3D");
+        ret->registerModel<CvPointCloudNDTModel>("3D");
 
         return ret;
     }
