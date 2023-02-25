@@ -334,6 +334,7 @@ set(HEADLESS_DATA_SOURCE_FILES
         include/DataTypes/PointCloudData.hpp
         include/DataTypes/NormalData.hpp
         include/DataTypes/Matrix4fData.hpp
+        include/DataTypes/FPFHSignature33Data.hpp
         )
 # ------------------------
 # ------------------------
@@ -402,6 +403,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudNormalEstimationOMPModel.hpp
         include/CvModels/CvPointCloudApproximateVoxelFilterModel.hpp
         include/CvModels/CvPointCloudNDTModel.hpp
+        include/CvModels/CvPointCloudFPFHEstimationOMPModel.hpp
         )
 
 # 视觉模型源文件
@@ -431,6 +433,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudNormalEstimationOMPModel.cpp
         src/CvModels/CvPointCloudApproximateVoxelFilterModel.cpp
         src/CvModels/CvPointCloudNDTModel.cpp
+        src/CvModels/CvPointCloudFPFHEstimationOMPModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

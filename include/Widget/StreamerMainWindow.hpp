@@ -64,6 +64,7 @@
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
 #include "CvModels/CvPointCloudNDTModel.hpp"
+#include "CvModels/CvPointCloudFPFHEstimationOMPModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -182,6 +183,7 @@ public:
         ret->registerModel<CvPointCloudApproximateVoxelFilterModel>("3D");
         ret->registerModel<CvPointCloudNDTModel>("3D");
         ret->registerModel<CvPointCloudNormalEstimationOMPModel>("3D");
+        ret->registerModel<CvPointCloudFPFHEstimationOMPModel>("3D");
 
         return ret;
     }
