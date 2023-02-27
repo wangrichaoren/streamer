@@ -404,6 +404,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudApproximateVoxelFilterModel.hpp
         include/CvModels/CvPointCloudNDTModel.hpp
         include/CvModels/CvPointCloudFPFHEstimationOMPModel.hpp
+        include/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp
         )
 
 # 视觉模型源文件
@@ -434,6 +435,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudApproximateVoxelFilterModel.cpp
         src/CvModels/CvPointCloudNDTModel.cpp
         src/CvModels/CvPointCloudFPFHEstimationOMPModel.cpp
+        src/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.cpp
         )
 # ---------------------------------------
 # ---------------------------------------
@@ -459,6 +461,8 @@ set(WIDGET_UI_HEADER_FILES
         include/Widget/ui_PCViewer.h
         include/Widget/PCViewer.ui
         include/Widget/PCViewer.h
+
+        include/Widget/LoadingDialog.h
         )
 
 set(WIDGET_UI_SOURCE_FILES
@@ -471,6 +475,8 @@ set(WIDGET_UI_SOURCE_FILES
         src/Widget/ShapeBaseTrainer.cpp
 
         src/Widget/PCViewer.cpp
+
+        src/Widget/LoadingDialog.cpp
         )
 # ---------------------------------------
 # ---------------------------------------

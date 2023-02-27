@@ -25,5 +25,6 @@
         <file>pc_dis.png</file>
         <file>pc_undis.png</file>
         <file>xyz.png</file>
+        <file>loading.gif</file>
     </qresource>
 </RCC>

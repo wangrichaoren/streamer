@@ -65,6 +65,7 @@
 #include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
 #include "CvModels/CvPointCloudNDTModel.hpp"
 #include "CvModels/CvPointCloudFPFHEstimationOMPModel.hpp"
+#include "CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -184,6 +185,7 @@ public:
         ret->registerModel<CvPointCloudNDTModel>("3D");
         ret->registerModel<CvPointCloudNormalEstimationOMPModel>("3D");
         ret->registerModel<CvPointCloudFPFHEstimationOMPModel>("3D");
+        ret->registerModel<CvPointCloudSampleConsensusPrerejectiveModel>("3D");
 
         return ret;
     }
