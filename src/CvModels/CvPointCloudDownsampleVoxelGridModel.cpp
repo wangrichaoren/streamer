@@ -118,16 +118,20 @@ void CvPointCloudDownSampleVoxelGridModel::load(const QJsonObject &js)
 void CvPointCloudDownSampleVoxelGridModel::compute()
 {
     auto d = std::dynamic_pointer_cast<PointCloudData>(_nodeData);
-    if(!d){
+    if (!d) {
         return;
     }
     if (d->getData()->empty()) {
         return;
     }
+    _res.clear();
     pcl::VoxelGrid<pcl::PointXYZRGB> sor;
     sor.setInputCloud(d->getData());
+    auto before = d->getData()->size();
     sor.setLeafSize(x->text().toFloat(), y->text().toFloat(), z->text().toFloat());
     sor.filter(*_pc);
+    auto after = _pc->size();
+    _res = "before size: " + to_string(before) + "\nafter size: " + to_string(after);
 
     extern StreamerMainWindow *smw;
     smw->updateVTK(_pc);

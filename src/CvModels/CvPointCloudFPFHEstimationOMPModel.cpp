@@ -120,16 +120,16 @@ void CvPointCloudFPFHEstimationOMPModel::compute()
     fest.setInputNormals(d2->getData());
     fest.compute(*_outFeature);
 
-    if (d1->getData()->points.size() != _outFeature->points.size()) {
-        createMessageBox(nullptr,
-                         ":icons/error.png",
-                         "计算错误",
-                         "输入的点云数量和计算出来的特征数量应该一致,但是实际不一致,"
-                         "请检查输入的数据是否正确,或存在算法bug!",
-                         1,
-                         {"返回"});
-        return;
-    }
+//    if (d1->getData()->points.size() != _outFeature->points.size()) {
+//        createMessageBox(nullptr,
+//                         ":icons/error.png",
+//                         "计算错误",
+//                         "输入的点云数量和计算出来的特征数量应该一致,但是实际不一致,"
+//                         "请检查输入的数据是否正确,或存在算法bug!",
+//                         1,
+//                         {"返回"});
+//        return;
+//    }
 
     // todo 返回原来输入的点云，特征怎么显示？待定
     _outPc = d1->getData();

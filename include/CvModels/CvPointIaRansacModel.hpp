@@ -115,6 +115,7 @@ private:
     std::string _outRes;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _outPc{new pcl::PointCloud<pcl::PointXYZRGB>};
     Eigen::Matrix4f _outMat4f;
+//    Eigen::Matrix4f _outMat4f = Eigen::Matrix4f::Zero();
 
     std::shared_ptr<NodeData> _inNodeData = nullptr;
     std::shared_ptr<NodeData> _inFeature = nullptr;

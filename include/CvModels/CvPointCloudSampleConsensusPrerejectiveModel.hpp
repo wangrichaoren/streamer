@@ -123,6 +123,7 @@ private:
 
     std::string _outRes;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _outPc{new pcl::PointCloud<pcl::PointXYZRGB>};
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr _showPc{new pcl::PointCloud<pcl::PointXYZRGB>};
     Eigen::Matrix4f _outMat4f;
 
     std::shared_ptr<NodeData> _inNodeData = nullptr;

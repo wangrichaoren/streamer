@@ -23,9 +23,9 @@ CvPointCloudIaRansacModel::CvPointCloudIaRansacModel()
     auto mlay = new QVBoxLayout(_box);
     auto mcdlay = new QVBoxLayout(_box);
     auto milay = new QVBoxLayout(_box);
-    m = new QLineEdit("0.05",_box);
-    mcd = new QLineEdit("0.0001",_box);
-    mi = new QLineEdit("0",_box);
+    m = new QLineEdit("0.05", _box);
+    mcd = new QLineEdit("0.0001", _box);
+    mi = new QLineEdit("0", _box);
     mlay->addWidget(m);
     mcdlay->addWidget(mcd);
     milay->addWidget(mi);
@@ -50,7 +50,6 @@ CvPointCloudIaRansacModel::CvPointCloudIaRansacModel()
         loading_dialog->hide();
         loading_dialog->close();
     });
-    std::cout << "init ia-ransac successful!" << std::endl;
 }
 
 unsigned int CvPointCloudIaRansacModel::nPorts(PortType portType) const
@@ -163,12 +162,15 @@ void CvPointCloudIaRansacModel::compute()
 
     loading_dialog->exec();
     t.join();
-
+    std::cout << "1" << std::endl;
     extern StreamerMainWindow *smw;
     smw->updateVTK(_outPc);
+    std::cout << "2" << std::endl;
+
     Q_EMIT dataUpdated(0);
     Q_EMIT dataUpdated(1);
     Q_EMIT dataUpdated(2);
+    std::cout << "3" << std::endl;
 }
 
 void CvPointCloudIaRansacModel::setInData(std::shared_ptr<NodeData> nodeData,
@@ -204,10 +206,11 @@ void CvPointCloudIaRansacModel::setInData(std::shared_ptr<NodeData> nodeData,
         _inTargetFeature = nodeData;
     }
 }
-void CvPointCloudIaRansacModel::calc(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& d1,
-                                     const pcl::PointCloud<pcl::FPFHSignature33>::Ptr& d2,
-                                     const pcl::PointCloud<pcl::PointXYZRGB>::Ptr& d3,
-                                     const pcl::PointCloud<pcl::FPFHSignature33>::Ptr& d4,
+
+void CvPointCloudIaRansacModel::calc(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &d1,
+                                     const pcl::PointCloud<pcl::FPFHSignature33>::Ptr &d2,
+                                     const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &d3,
+                                     const pcl::PointCloud<pcl::FPFHSignature33>::Ptr &d4,
                                      float m_v,
                                      float mcd_v,
                                      int mi_v)
@@ -224,13 +227,14 @@ void CvPointCloudIaRansacModel::calc(const pcl::PointCloud<pcl::PointXYZRGB>::Pt
     if (mi_v != 0) {
         sac_ia_.setMaximumIterations(mi_v);
     }
-
     sac_ia_.align(*_outPc);
 
     auto has_converged = sac_ia_.hasConverged();
     if (has_converged) {
         auto tm = sac_ia_.getFinalTransformation();
+
         *_outPc = (*_outPc) + (*d3);
+
         _outRes = "hasConverged: true\nscore: " + to_string(sac_ia_.getFitnessScore())
                   + "\nTransformation: \n" + std::to_string(tm(0, 0)) + " "
                   + std::to_string(tm(0, 1)) + " " + std::to_string(tm(0, 2)) + " "
@@ -241,7 +245,8 @@ void CvPointCloudIaRansacModel::calc(const pcl::PointCloud<pcl::PointXYZRGB>::Pt
                   + std::to_string(tm(2, 3)) + "\n" + std::to_string(tm(3, 0)) + " "
                   + std::to_string(tm(3, 1)) + " " + std::to_string(tm(3, 2)) + " "
                   + std::to_string(tm(3, 3)) + "\n";
-        _outMat4f = sac_ia_.getFinalTransformation();
+        auto i = sac_ia_.getFinalTransformation();
+        _outMat4f << i;
     } else {
         _outRes = "hasConverged: false";
     }

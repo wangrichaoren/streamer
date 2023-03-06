@@ -99,12 +99,12 @@ unsigned int CvPointCloudSampleConsensusPrerejectiveModel::nPorts(PortType portT
 bool CvPointCloudSampleConsensusPrerejectiveModel::eventFilter(QObject *object, QEvent *event)
 {
     if (object == _box) {
-        if (_outPc->empty()) {
+        if (_showPc->empty()) {
             return false;
         }
         if (event->type() == QEvent::MouseButtonPress) {
             extern StreamerMainWindow *smw;
-            smw->updateVTK(_outPc);
+            smw->updateVTK(_showPc);
             return true;
         }
     }
@@ -212,7 +212,7 @@ void CvPointCloudSampleConsensusPrerejectiveModel::compute()
     t.join();
 
     extern StreamerMainWindow *smw;
-    smw->updateVTK(_outPc);
+    smw->updateVTK(_showPc);
 
     Q_EMIT dataUpdated(0);
     Q_EMIT dataUpdated(1);
@@ -259,11 +259,11 @@ void CvPointCloudSampleConsensusPrerejectiveModel::setInData(std::shared_ptr<Nod
         _inMat4f = nodeData;
     }
 
-//    if ((_inNodeData != nullptr) + (_inFeature != nullptr) + (_inTargetNodeData != nullptr)
-//            + (_inTargetFeature != nullptr)
-//        == 4) {
-//        compute();
-//    }
+    //    if ((_inNodeData != nullptr) + (_inFeature != nullptr) + (_inTargetNodeData != nullptr)
+    //            + (_inTargetFeature != nullptr)
+    //        == 4) {
+    //        compute();
+    //    }
 }
 void CvPointCloudSampleConsensusPrerejectiveModel::calc(
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr d1,
@@ -306,7 +306,8 @@ void CvPointCloudSampleConsensusPrerejectiveModel::calc(
     auto has_converged = scp.hasConverged();
     if (has_converged) {
         auto tm = scp.getFinalTransformation();
-        *_outPc = (*_outPc) + (*d3);
+        _outMat4f << tm;
+        *_showPc = (*_outPc) + (*d3);
         _outRes = "hasConverged: true\nscore: " + to_string(scp.getFitnessScore())
                   + "\nTransformation: \n" + std::to_string(tm(0, 0)) + " "
                   + std::to_string(tm(0, 1)) + " " + std::to_string(tm(0, 2)) + " "
@@ -319,7 +320,6 @@ void CvPointCloudSampleConsensusPrerejectiveModel::calc(
                   + std::to_string(tm(3, 3)) + "\n";
     } else {
         _outRes = "hasConverged: false";
-        return;
     }
     Q_EMIT computingFinished();
 };
