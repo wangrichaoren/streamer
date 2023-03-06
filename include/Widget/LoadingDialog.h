@@ -11,7 +11,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QThread>
-#define USER_CANCEL -1
+//#define USER_CANCEL -1
 class LoadingDialog
     : public QDialog
 {
@@ -22,7 +22,7 @@ public:
     //设置提示文本
     void setTipsText(QString strTipsText);
     //设置是否显示取消等待按钮
-    void setCanCancel(bool bCanCancel);
+//    void setCanCancel(bool bCanCancel);
     //移动到指定窗口中间显示
     void moveToCenter(QWidget *pParent);
 
@@ -44,6 +44,5 @@ private:
     QLabel *m_pMovieLabel;
     QMovie *m_pLoadingMovie;
     QLabel *m_pTipsLabel;
-    QPushButton *m_pCancelBtn;
 };
 #endif //STREAMER_LOADINGDIALOG_H

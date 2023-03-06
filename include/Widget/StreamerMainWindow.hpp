@@ -53,19 +53,20 @@
 #include "CvModels/CvImageShowModel.hpp"
 #include "CvModels/CvMedianBlurModel.hpp"
 #include "CvModels/CvMorphModel.hpp"
+#include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
 #include "CvModels/CvPointCloudDownsampleVoxelGridModel.hpp"
+#include "CvModels/CvPointCloudFPFHEstimationOMPModel.hpp"
 #include "CvModels/CvPointCloudLoaderModel.hpp"
+#include "CvModels/CvPointCloudNDTModel.hpp"
 #include "CvModels/CvPointCloudNormalEstimationModel.hpp"
 #include "CvModels/CvPointCloudNormalEstimationOMPModel.hpp"
 #include "CvModels/CvPointCloudPassThroughModel.hpp"
 #include "CvModels/CvPointCloudSampleConsensusModel.hpp"
+#include "CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp"
 #include "CvModels/CvPointCloudStatisticalOutlierRemovalModel.hpp"
+#include "CvModels/CvPointIaRansacModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
-#include "CvModels/CvPointCloudApproximateVoxelFilterModel.hpp"
-#include "CvModels/CvPointCloudNDTModel.hpp"
-#include "CvModels/CvPointCloudFPFHEstimationOMPModel.hpp"
-#include "CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -186,6 +187,7 @@ public:
         ret->registerModel<CvPointCloudNormalEstimationOMPModel>("3D");
         ret->registerModel<CvPointCloudFPFHEstimationOMPModel>("3D");
         ret->registerModel<CvPointCloudSampleConsensusPrerejectiveModel>("3D");
+        ret->registerModel<CvPointCloudIaRansacModel>("3D");
 
         return ret;
     }

@@ -40,24 +40,6 @@ void LoadingDialog::initUi()
     m_pTipsLabel->setStyleSheet(
         "QLabel#tips{font-family:\"Microsoft YaHei\";font-size: 15px;color: #333333;}");
 
-//    //取消按钮
-//    m_pCancelBtn = new QPushButton(m_pCenterFrame);
-//    m_pCancelBtn->setObjectName("cancelBtn");
-//    m_pCancelBtn->setText("取消等待");
-//    m_pCancelBtn->setStyleSheet("QPushButton#cancelBtn{"
-//                                "background-color: #edeef6;"
-//                                "border-radius: 4px;"
-//                                "font-family: \"Microsoft YaHei\";"
-//                                "font-size: 14px;"
-//                                "color: #333333;"
-//                                "}"
-//                                "QPushButton#cancelBtn::hover{"
-//                                "background:#dcdeea"
-//                                "}");
-//    m_pCancelBtn->setGeometry(25, 180, 180, 35);
-//    m_pCancelBtn->setEnabled(true);
-//    connect(m_pCancelBtn, &QPushButton::clicked, this, &LoadingDialog::cancelBtnClicked);
-
     //实例阴影shadow
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
     shadow->setOffset(0, 0);
@@ -79,10 +61,7 @@ void LoadingDialog::setTipsText(QString strTipsText)
  * @brief LoadingDialog::setCanCancel 设置是够允许用户点击取消等待按钮
  * @param bCanCancel 是够允许
  */
-void LoadingDialog::setCanCancel(bool bCanCancel)
-{
-    m_pCancelBtn->setEnabled(bCanCancel);
-}
+
 
 /**
  * @brief LoadingDialog::moveToCenter 移动对话框到指定窗口中间
@@ -114,7 +93,7 @@ void LoadingDialog::moveToCenter(QWidget *pParent)
 void LoadingDialog::cancelBtnClicked()
 {
     emit cancelWaiting();
-    this->done(USER_CANCEL);
+//    this->done(USER_CANCEL);
 }
 
 void LoadingDialog::loadingShow()
@@ -146,6 +125,5 @@ LoadingDialog::~LoadingDialog()
     delete m_pLoadingMovie;
     delete m_pMovieLabel;
     delete m_pTipsLabel;
-    delete m_pCancelBtn;
     delete m_pCenterFrame;
 }

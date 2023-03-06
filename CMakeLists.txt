@@ -405,6 +405,8 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudNDTModel.hpp
         include/CvModels/CvPointCloudFPFHEstimationOMPModel.hpp
         include/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp
+        include/CvModels/CvPointIaRansacModel.hpp
+
         )
 
 # 视觉模型源文件
@@ -436,6 +438,8 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudNDTModel.cpp
         src/CvModels/CvPointCloudFPFHEstimationOMPModel.cpp
         src/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.cpp
+        src/CvModels/CvPointCloudIaRansacModel.cpp
+
         )
 # ---------------------------------------
 # ---------------------------------------
