@@ -30,4 +30,4 @@
 
 ### Case
 
-![case.png](doc%2Fcase.png)
+![imshow.png](doc%2Fimshow.png)
