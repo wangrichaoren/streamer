@@ -41,6 +41,7 @@
 #include "GeneralModels/NumberSourceDataModel.hpp"
 #include "GeneralModels/ResultShowerModel.hpp"
 #include "GeneralModels/SubtractionModel.hpp"
+#include "GeneralModels/MakeMat4fModel.hpp"
 
 #include "CvModels/CvBinaryModel.hpp"
 #include "CvModels/CvBlurModel.hpp"
@@ -67,6 +68,7 @@
 #include "CvModels/CvPointIaRansacModel.hpp"
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
+#include "CvModels/CvPointCloudTransformModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -159,6 +161,7 @@ public:
         ret->registerModel<MultiplicationModel>("通用");
         ret->registerModel<DivisionModel>("通用");
         ret->registerModel<ResultShowerModel>("通用");
+        ret->registerModel<MakeMat4fModel>("通用");
 
         // 2d模型
         ret->registerModel<CvImageLoaderModel>("2D");
@@ -188,6 +191,7 @@ public:
         ret->registerModel<CvPointCloudFPFHEstimationOMPModel>("3D");
         ret->registerModel<CvPointCloudSampleConsensusPrerejectiveModel>("3D");
         ret->registerModel<CvPointCloudIaRansacModel>("3D");
+        ret->registerModel<CvPointCloudTransformModel>("3D");
 
         return ret;
     }

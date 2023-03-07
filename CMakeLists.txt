@@ -357,6 +357,7 @@ set(GENERAL_MODEL_HEADER_FILES
         include/GeneralModels/ImageLoaderModel.hpp
         include/GeneralModels/ImageShowModel.hpp
         include/GeneralModels/ResultShowerModel.hpp
+        include/GeneralModels/MakeMat4fModel.hpp
         )
 
 # 通用模型源文件
@@ -367,6 +368,7 @@ set(GENERAL_MODEL_SOURCE_FILES
         src/GeneralModels/ImageLoaderModel.cpp
         src/GeneralModels/ImageShowModel.cpp
         src/GeneralModels/ResultShowerModel.cpp
+        src/GeneralModels/MakeMat4fModel.cpp
         )
 # -------------------------------------------
 # -------------------------------------------
@@ -406,6 +408,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudFPFHEstimationOMPModel.hpp
         include/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp
         include/CvModels/CvPointIaRansacModel.hpp
+        include/CvModels/CvPointCloudTransformModel.hpp
 
         )
 
@@ -439,6 +442,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudFPFHEstimationOMPModel.cpp
         src/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.cpp
         src/CvModels/CvPointCloudIaRansacModel.cpp
+        src/CvModels/CvPointCloudTransformModel.cpp
 
         )
 # ---------------------------------------
