@@ -78,7 +78,7 @@ bool CvPointCloudIaRansacModel::eventFilter(QObject *object, QEvent *event)
         }
         if (event->type() == QEvent::MouseButtonPress) {
             extern StreamerMainWindow *smw;
-            smw->updateVTK(_outPc);
+            smw->updateVTK(_showPc);
             return true;
         }
     }
@@ -162,10 +162,8 @@ void CvPointCloudIaRansacModel::compute()
 
     loading_dialog->exec();
     t.join();
-    std::cout << "1" << std::endl;
     extern StreamerMainWindow *smw;
-    smw->updateVTK(_outPc);
-    std::cout << "2" << std::endl;
+    smw->updateVTK(_showPc);
 
     Q_EMIT dataUpdated(0);
     Q_EMIT dataUpdated(1);
@@ -233,7 +231,7 @@ void CvPointCloudIaRansacModel::calc(const pcl::PointCloud<pcl::PointXYZRGB>::Pt
     if (has_converged) {
         auto tm = sac_ia_.getFinalTransformation();
 
-        *_outPc = (*_outPc) + (*d3);
+        *_showPc = (*_outPc) + (*d3);
 
         _outRes = "hasConverged: true\nscore: " + to_string(sac_ia_.getFitnessScore())
                   + "\nTransformation: \n" + std::to_string(tm(0, 0)) + " "

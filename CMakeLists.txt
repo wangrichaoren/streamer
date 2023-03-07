@@ -409,6 +409,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.hpp
         include/CvModels/CvPointIaRansacModel.hpp
         include/CvModels/CvPointCloudTransformModel.hpp
+        include/CvModels/CvPointCloudICPModel.hpp
 
         )
 
@@ -443,6 +444,7 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvPointCloudSampleConsensusPrerejectiveModel.cpp
         src/CvModels/CvPointCloudIaRansacModel.cpp
         src/CvModels/CvPointCloudTransformModel.cpp
+        src/CvModels/CvPointCloudICPModel.cpp
 
         )
 # ---------------------------------------

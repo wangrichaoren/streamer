@@ -157,6 +157,9 @@ void CvPointCloudPassThroughModel::compute()
         return;
     }
     auto d = std::dynamic_pointer_cast<PointCloudData>(_nodeData);
+    if (!d) {
+        return;
+    }
     auto in_pc = d->getData();
     if (in_pc->empty()) {
         return;

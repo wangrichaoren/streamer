@@ -29,7 +29,8 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/point_types.h>
-#include <pcl/registration/ia_ransac.h>
+//#include <pcl/registration/icp.h>
+#include <pcl/registration/gicp.h>
 #include <pcl/registration/ndt.h>
 #include <pcl/registration/sample_consensus_prerejective.h>
 #include <pcl/visualization/pcl_visualizer.h>
@@ -52,27 +53,27 @@ using NodeId = QtNodes::NodeId;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvPointCloudIaRansacModel : public NodeDelegateModel
+class CvPointCloudICPModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvPointCloudIaRansacModel();
+    CvPointCloudICPModel();
 
-    ~CvPointCloudIaRansacModel() override
+    ~CvPointCloudICPModel() override
     {
-        _box->deleteLater();
+        delete _box;
         loading_dialog->deleteLater();
-        std::cout << "delete CvPointCloudIaRansacModel" << std::endl;
+        std::cout << "delete CvPointCloudICPModel" << std::endl;
     };
 
 public:
-    QString caption() const override { return QString("PC IaRansacModel"); }
+    QString caption() const override { return QString("PC PointCloudICP"); }
 
-    QString name() const override { return QString("IaRansacModel:SAC-IA"); }
+    QString name() const override { return QString("PointCloudICP:icp"); }
 
 public:
-    virtual QString modelName() const { return QString("IaRansacModel"); }
+    virtual QString modelName() const { return QString("PointCloudICP"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -92,12 +93,11 @@ public:
 
     void compute();
 
-    void calc(const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &d1,
-              const pcl::PointCloud<pcl::FPFHSignature33>::Ptr &d2,
-              const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &d3,
-              const pcl::PointCloud<pcl::FPFHSignature33>::Ptr &d4,
-              float m_v,
+    void calc(pcl::PointCloud<pcl::PointXYZRGB>::Ptr d1,
+              pcl::PointCloud<pcl::PointXYZRGB>::Ptr d2,
               float mcd_v,
+              float te_v,
+              float ef_v,
               int mi_v);
 
 protected:
@@ -106,8 +106,10 @@ protected:
 private:
     QGroupBox *_box;
     QVBoxLayout *_layout;
-    QLineEdit *m;
+
     QLineEdit *mcd;
+    QLineEdit *te;
+    QLineEdit *ef;
     QLineEdit *mi;
 
     LoadingDialog *loading_dialog;
@@ -116,11 +118,8 @@ private:
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _outPc{new pcl::PointCloud<pcl::PointXYZRGB>};
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _showPc{new pcl::PointCloud<pcl::PointXYZRGB>};
     Eigen::Matrix4f _outMat4f;
-//    Eigen::Matrix4f _outMat4f = Eigen::Matrix4f::Zero();
 
     std::shared_ptr<NodeData> _inNodeData = nullptr;
-    std::shared_ptr<NodeData> _inFeature = nullptr;
 
     std::shared_ptr<NodeData> _inTargetNodeData = nullptr;
-    std::shared_ptr<NodeData> _inTargetFeature = nullptr;
 };

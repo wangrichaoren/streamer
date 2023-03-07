@@ -69,6 +69,7 @@
 #include "CvModels/CvRGB2GrayModel.hpp"
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudTransformModel.hpp"
+#include "CvModels/CvPointCloudICPModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -192,6 +193,7 @@ public:
         ret->registerModel<CvPointCloudSampleConsensusPrerejectiveModel>("3D");
         ret->registerModel<CvPointCloudIaRansacModel>("3D");
         ret->registerModel<CvPointCloudTransformModel>("3D");
+        ret->registerModel<CvPointCloudICPModel>("3D");
 
         return ret;
     }

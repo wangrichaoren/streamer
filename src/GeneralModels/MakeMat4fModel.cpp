@@ -57,14 +57,14 @@ MakeMat4fModel::MakeMat4fModel()
 
     _box->setLayout(_layout);
     _box->resize(200, 200);
-//    _box->installEventFilter(this);
+    //    _box->installEventFilter(this);
 
-    connect(x,&QLineEdit::editingFinished,[=]{compute();});
-    connect(y,&QLineEdit::editingFinished,[=]{compute();});
-    connect(z,&QLineEdit::editingFinished,[=]{compute();});
-    connect(rx,&QLineEdit::editingFinished,[=]{compute();});
-    connect(ry,&QLineEdit::editingFinished,[=]{compute();});
-    connect(rz,&QLineEdit::editingFinished,[=]{compute();});
+    connect(x, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(y, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(z, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(rx, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(ry, &QLineEdit::editingFinished, [=] { compute(); });
+    connect(rz, &QLineEdit::editingFinished, [=] { compute(); });
 }
 
 unsigned int MakeMat4fModel::nPorts(PortType portType) const
@@ -136,6 +136,8 @@ void MakeMat4fModel::load(const QJsonObject &js)
     rx->setText(js["rx"].toString());
     ry->setText(js["ry"].toString());
     rz->setText(js["rz"].toString());
+
+    compute();
 }
 
 void MakeMat4fModel::compute()
