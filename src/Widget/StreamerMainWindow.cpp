@@ -67,6 +67,32 @@ StreamerMainWindow::StreamerMainWindow(QWidget *parent)
 
     ui->frame_2->installEventFilter(this);
 
+    // save btn
+    connect(ui->save_pc_pushButton, &QPushButton::clicked, [=] {
+        bool is_save_pcd_format = false;
+        if (ui->check_pcd_radioButton->isChecked()) {
+            is_save_pcd_format = true;
+        }
+        // current 2 option to save, maybe more then
+        if (m_pc->empty()) {
+            return;
+        }
+
+        QString fileName = QFileDialog::getSaveFileName(nullptr,
+                                                        tr("Save PC"),
+                                                        QDir::homePath(),
+                                                        QString(""));
+        if (fileName.isEmpty()) {
+            return;
+        }
+
+        if (is_save_pcd_format) {
+            pcl::io::savePCDFile((fileName.toStdString() + ".pcd"), *m_pc);
+        } else {
+            pcl::io::savePLYFile((fileName.toStdString() + ".ply"), *m_pc);
+        }
+    });
+
     // check box connect
     connect(ui->show_coords_checkBox, &QCheckBox::clicked, [=](bool f) {
         if (f) {
