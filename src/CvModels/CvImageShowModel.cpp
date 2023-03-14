@@ -9,8 +9,8 @@
 
 CvImageShowModel::CvImageShowModel()
     : _box(new QGroupBox())
-    , _label(new QLabel("Image Visual",_box))
-    , _saveBtn(new QPushButton("保存",_box))
+    , _label(new QLabel("Image Visual", _box))
+    , _saveBtn(new QPushButton("保存", _box))
     , _layout(new QVBoxLayout(_box))
 {
     _box->setStyleSheet("QGroupBox{padding-top:15px; margin-top:-15px;padding-left:15px; "
@@ -121,14 +121,16 @@ void CvImageShowModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex c
         auto d = std::dynamic_pointer_cast<ImageData>(_nodeData);
         if (d->mat().empty()) {
             return;
-        };
-
+        }
         _mat = d->mat();
         int w = _label->width();
         int h = _label->height();
-
-        auto pix = QPixmap::fromImage(cvMat2QImage(d->mat()));
-
+//        if (_mat.channels() == 1) {
+//            cv::cvtColor(_mat, _mat, cv::COLOR_GRAY2RGB);
+//        } else if (_mat.channels() == 4) {
+//            cv::cvtColor(_mat, _mat, cv::COLOR_RGBA2RGB);
+//        }
+        auto pix = QPixmap::fromImage(cvMat2QImage(_mat));
         _label->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
     } else {
         _label->setPixmap(QPixmap());

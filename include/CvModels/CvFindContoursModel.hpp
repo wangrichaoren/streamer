@@ -82,6 +82,9 @@ private:
     QRadioButton *method_chain_approx_tc89_l1;
     QRadioButton *method_chain_approx_tc89_kcos;
 
+//    QLineEdit*area_min_ed;
+//    QLineEdit*area_max_ed;
+
     std::vector<std::vector<cv::Point>> contours = {};
     std::vector<cv::Vec4i> hierachy = {};
 

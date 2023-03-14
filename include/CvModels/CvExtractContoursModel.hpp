@@ -16,6 +16,7 @@
 
 #include "DataTypes/ContoursData.hpp"
 #include "DataTypes/ImageData.hpp"
+#include "DataTypes/ResultData.hpp"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
 
@@ -27,26 +28,26 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvDrawContoursModel : public NodeDelegateModel
+class CvExtractContoursModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvDrawContoursModel();
+    CvExtractContoursModel();
 
-    ~CvDrawContoursModel() override
+    ~CvExtractContoursModel() override
     {
         delete _box;
-        std::cout << "delete CvDrawContoursModel" << std::endl;
+        std::cout << "delete CvExtractContoursModel" << std::endl;
     };
 
 public:
-    QString caption() const override { return QString("DrawContours"); }
+    QString caption() const override { return QString("ExtractContours"); }
 
-    QString name() const override { return QString("DrawContoursModel:轮廓绘制"); }
+    QString name() const override { return QString("ExtractContours:轮廓提取"); }
 
 public:
-    virtual QString modelName() const { return QString("DrawContoursModel"); }
+    virtual QString modelName() const { return QString("ExtractContours"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -67,17 +68,18 @@ public:
     QJsonObject save() const override;
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
+    bool eventFilter(QObject *object, QEvent *event) override{return false;};
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
-    QLineEdit *lines;
+
+    QLineEdit *area_min;
+    QLineEdit *area_max;
+
+    std::vector<std::vector<cv::Point>> contours = {};
+    std::vector<cv::Vec4i> hierachy = {};
+    std::string res;
 
     cv::Mat _mat;
-    QPixmap _q_pix;
-    std::shared_ptr<NodeData> _imageNodeData;
-    std::shared_ptr<NodeData> _contoursNodeData;
-    bool port0_ok = false;
-    bool port1_ok = false;
+    std::shared_ptr<NodeData> _inContoursData;
 };

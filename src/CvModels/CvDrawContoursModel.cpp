@@ -21,14 +21,20 @@ CvDrawContoursModel::CvDrawContoursModel()
     _label->setMinimumSize(200, 200);
     _label->installEventFilter(this);
 
-    // todo
+    auto l_g = new QGroupBox(_box);
+    auto l = new QLabel("线宽", _box);
+    auto llay = new QHBoxLayout(_box);
+    lines = new QLineEdit("1", _box);
+    createLineEditFormCurQObj(llay, l, lines);
+    l_g->setLayout(llay);
 
-    // todo
-    auto all_lay = new QHBoxLayout(_box);
+    auto all_lay = new QVBoxLayout(_box);
     all_lay->addWidget(_label);
+    all_lay->addWidget(l_g);
     _box->setLayout(all_lay);
 
     _box->resize(200, 200);
+    connect(lines, &QLineEdit::textChanged, [=] { compute(); });
 }
 
 unsigned int CvDrawContoursModel::nPorts(PortType portType) const
@@ -158,6 +164,12 @@ void CvDrawContoursModel::compute()
         return;
     }
 
+    bool f;
+    auto val = lines->text().toInt(&f);
+    if (!f) {
+        return;
+    }
+
     // todo ----
     if (d->mat().channels() == 1) {
         cv::cvtColor(d->mat(), _mat, cv::COLOR_GRAY2RGB);
@@ -166,7 +178,7 @@ void CvDrawContoursModel::compute()
         cv::cvtColor(d->mat(), _mat, cv::COLOR_RGBA2RGB);
     }
 
-    cv::drawContours(_mat, c->getData().contours, -1, cv::Scalar(0, 255, 0), 10, cv::LINE_AA);
+    cv::drawContours(_mat, c->getData().contours, -1, cv::Scalar(0, 255, 0), val, cv::LINE_AA);
     // todo ----
 
     int w = _label->width();
@@ -178,11 +190,15 @@ void CvDrawContoursModel::compute()
     Q_EMIT dataUpdated(0);
 }
 
-void CvDrawContoursModel::load(const QJsonObject &s) {}
+void CvDrawContoursModel::load(const QJsonObject &s)
+{
+    lines->setText(s["l"].toString());
+    compute();
+}
 
 QJsonObject CvDrawContoursModel::save() const
 {
     auto s = NodeDelegateModel::save();
-
+    s["l"] = lines->text();
     return s;
 }

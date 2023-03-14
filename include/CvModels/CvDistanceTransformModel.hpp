@@ -16,8 +16,11 @@
 
 #include "DataTypes/ContoursData.hpp"
 #include "DataTypes/ImageData.hpp"
+#include "DataTypes/ResultData.hpp"
 #include "Utils/Utils.hpp"
 #include "Widget/Full2DDialog.h"
+#include <QComboBox>
+
 
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
@@ -27,26 +30,26 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class CvDrawContoursModel : public NodeDelegateModel
+class CvDistanceTransformModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    CvDrawContoursModel();
+    CvDistanceTransformModel();
 
-    ~CvDrawContoursModel() override
+    ~CvDistanceTransformModel() override
     {
         delete _box;
-        std::cout << "delete CvDrawContoursModel" << std::endl;
+        std::cout << "delete CvDistanceTransformModel" << std::endl;
     };
 
 public:
-    QString caption() const override { return QString("DrawContours"); }
+    QString caption() const override { return QString("DistanceTransform"); }
 
-    QString name() const override { return QString("DrawContoursModel:轮廓绘制"); }
+    QString name() const override { return QString("DistanceTransform:距离变换"); }
 
 public:
-    virtual QString modelName() const { return QString("DrawContoursModel"); }
+    virtual QString modelName() const { return QString("DistanceTransform"); }
 
     unsigned int nPorts(PortType const portType) const override;
 
@@ -67,17 +70,22 @@ public:
     QJsonObject save() const override;
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
+    bool eventFilter(QObject *object, QEvent *event) override { return false; };
 
 private:
-    QLabel *_label;
     QGroupBox *_box;
-    QLineEdit *lines;
 
-    cv::Mat _mat;
-    QPixmap _q_pix;
-    std::shared_ptr<NodeData> _imageNodeData;
-    std::shared_ptr<NodeData> _contoursNodeData;
-    bool port0_ok = false;
-    bool port1_ok = false;
+    QRadioButton *l1;
+    QRadioButton *l2;
+    QRadioButton *l3;
+    QRadioButton *l4;
+    QRadioButton *l5;
+    QRadioButton *l6;
+    QRadioButton *l7;
+
+    QComboBox *mask_size_combox;
+
+        cv::Mat _mat;
+    std::string res;
+    std::shared_ptr<NodeData> _nodeData;
 };

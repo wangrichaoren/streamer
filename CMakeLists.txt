@@ -394,6 +394,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvFindContoursModel.hpp
         include/CvModels/CvDrawContoursModel.hpp
         include/CvModels/CvShapeBaseDetectorModel.hpp
+        include/CvModels/CvExtractContoursModel.hpp
 
         # 三维
         include/CvModels/CvPointCloudLoaderModel.hpp
@@ -410,6 +411,7 @@ set(CV_MODEL_HEADER_FILES
         include/CvModels/CvPointIaRansacModel.hpp
         include/CvModels/CvPointCloudTransformModel.hpp
         include/CvModels/CvPointCloudICPModel.hpp
+        include/CvModels/CvDistanceTransformModel.hpp
 
         )
 
@@ -429,6 +431,8 @@ set(CV_MODEL_SOURCE_FILES
         src/CvModels/CvFindContoursModel.cpp
         src/CvModels/CvDrawContoursModel.cpp
         src/CvModels/CvShapeBaseDetectorModel.cpp
+        src/CvModels/CvExtractContoursModel.cpp
+        src/CvModels/CvDistanceTransformModel.cpp
 
         # 三维
         src/CvModels/CvPointCloudLoaderModel.cpp

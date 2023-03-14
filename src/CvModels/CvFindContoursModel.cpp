@@ -2,6 +2,7 @@
 
 #include "../include/DataTypes/ImageData.hpp"
 
+#include <QComboBox>
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtNodes/NodeDelegateModelRegistry>
@@ -40,12 +41,33 @@ CvFindContoursModel::CvFindContoursModel()
     method_group->setLayout(method_vlay);
     method_chain_approx_none->setChecked(true);
 
+//    // 按面积提取
+//    auto extract_group = new QGroupBox("提取", _box);
+//    auto ex_lay = new QVBoxLayout(_box);
+//    auto ex_com = new QComboBox(_box);
+//    ex_lay->addWidget(ex_com);
+//    extract_group->setLayout(ex_lay);
+//    // todo 其他提取方式待添加
+//    QStringList extractList;
+//    extractList << "按面积范围提取";
+//    //                << "按父子关系提取";
+//    ex_com->addItems(extractList);
+//    auto area_group = new QGroupBox(_box);
+//    auto area_lay = new QHBoxLayout(_box);
+//    area_min_ed = new QLineEdit("0", _box);
+//    area_max_ed = new QLineEdit("10000", _box);
+//    auto area_label = new QLabel("~", _box);
+//    area_lay->addWidget(area_min_ed);
+//    area_lay->addWidget(area_label);
+//    area_lay->addWidget(area_max_ed);
+//    area_group->setLayout(area_lay);
+//    ex_lay->addWidget(area_group);
+
     auto all_lay = new QVBoxLayout(_box);
-    //    all_lay->addWidget(_label);
     all_lay->addWidget(mode_group);
     all_lay->addWidget(method_group);
+//    all_lay->addWidget(extract_group);
     _box->setLayout(all_lay);
-    // todo
 
     _box->resize(200, 200);
 
@@ -58,6 +80,10 @@ CvFindContoursModel::CvFindContoursModel()
     connect(method_chain_approx_simple, &QRadioButton::clicked, [=] { compute(); });
     connect(method_chain_approx_tc89_l1, &QRadioButton::clicked, [=] { compute(); });
     connect(method_chain_approx_tc89_kcos, &QRadioButton::clicked, [=] { compute(); });
+
+//    connect(ex_com, &QComboBox::currentTextChanged, [=] {
+//        //       std::cout<<ex_com->currentText().toStdString()<<std::endl;
+//    });
 }
 
 unsigned int CvFindContoursModel::nPorts(PortType portType) const
@@ -78,7 +104,6 @@ unsigned int CvFindContoursModel::nPorts(PortType portType) const
 
     return result;
 }
-
 
 NodeDataType CvFindContoursModel::dataType(PortType const portType, PortIndex const portIndex) const
 {
@@ -170,7 +195,6 @@ void CvFindContoursModel::compute()
     //        //        //        _mat.
     //        //        cv::circle(_mat, center, radius, cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
     //    }
-
 
     Q_EMIT dataUpdated(0);
 }

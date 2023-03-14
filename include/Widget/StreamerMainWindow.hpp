@@ -70,6 +70,8 @@
 #include "CvModels/CvShapeBaseDetectorModel.hpp"
 #include "CvModels/CvPointCloudTransformModel.hpp"
 #include "CvModels/CvPointCloudICPModel.hpp"
+#include "CvModels/CvExtractContoursModel.hpp"
+#include "CvModels/CvDistanceTransformModel.hpp"
 
 using QtNodes::ConnectionStyle;
 using QtNodes::DataFlowGraphicsScene;
@@ -178,6 +180,8 @@ public:
         ret->registerModel<CvFindContoursModel>("2D");
         ret->registerModel<CvDrawContoursModel>("2D");
         ret->registerModel<CvShapeBaseDetectorModel>("2D");
+        ret->registerModel<CvExtractContoursModel>("2D");
+        ret->registerModel<CvDistanceTransformModel>("2D");
 
         // 3d模型
         ret->registerModel<CvPointCloudLoaderModel>("3D");
